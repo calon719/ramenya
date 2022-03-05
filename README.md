@@ -1,24 +1,34 @@
-# week7
+# week7 完成後台頁面
+- 登入 / 登出功能
+## 後台頁面
+- 後台帳號驗證
+- 資料更新狀態 Toast 提示視窗
 
-## Project setup
-```
-npm install
-```
+## 產品頁面
+- 取得產品資料
+- 新增產品資料
+- 更新產品資料
+- 刪除產品資料
+- 更新產品啟用狀態
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 優惠券頁面
+- 取得優惠券資料
+- 新增優惠券資料
+- 更新優惠券資料
+  - 轉換日期儲存格式
+- 刪除優惠券資料
+- 更新優惠券啟用狀態
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## 訂單頁面
+- 取得訂單資料
+- 更新訂單資料
+- 刪除訂單資料
+- 更新訂單付款、送達狀態
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 使用插件
+- bootstrap
+- 串接 API：axios
+- 彈出視窗：sweetalert2
+- 選擇日期日曆：v-calendar
+- 表單驗證：vee-validate
+- Vue eventbus: mitt
