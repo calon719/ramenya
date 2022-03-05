@@ -2,9 +2,7 @@
   <nav
     class="navbar navbar-expand-md navbar-light bg-warning sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="/">
-        <h1 class="fs-5 logo-ff mb-0">樂和屋</h1>
-      </a>
+      <h1 class="navbar-brand fs-5 logo-ff mb-0">樂和屋</h1>
       <button class="navbar-toggler"
         type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarNavAltMarkup"

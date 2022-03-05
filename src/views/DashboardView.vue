@@ -2,9 +2,9 @@
   <nav
     class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="/">
+      <router-link class="navbar-brand" to="/">
         <h1 class="fs-5 logo-ff mb-0">樂和屋</h1>
-      </a>
+      </router-link>
       <button class="navbar-toggler"
         type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarNavAltMarkup"
