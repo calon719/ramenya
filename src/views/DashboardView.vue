@@ -100,10 +100,7 @@ export default {
     },
   },
   mounted() {
-    const token = document.cookie.replace(
-      /(?:(?:^|.*;\s*)rakuwaya\s*\=\s*([^;]*).*$)|^.*$/, // eslint-disable-line
-      '$1',
-    );
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)rakuwaya\s*=\s*([^;]*).*$)|^.*$/, '$1');
 
     this.$http.defaults.headers.common.Authorization = token;
     this.checkLogin(token);
