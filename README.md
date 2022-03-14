@@ -1,10 +1,4 @@
 # 開發中小紀錄
-## 目錄
-- [使用的 plugin](#使用 plugin)
-- [lucky wheel 元件](#lucky wheel 元件)
-- 遇到的問題
-  - [UserProduct.vue 使用 router-link 前往其他商品畫面時資料有進來卻沒有渲染](#使用 router-link 前往其他商品畫面時資料有進來卻沒有渲染)
-
 ## 使用的 plugin
 - Bootstrapa 5
 - Axios
