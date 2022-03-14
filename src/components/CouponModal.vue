@@ -33,7 +33,7 @@
                   <span class="text-danger">*</span>
                 </label>
                 <DatePicker
-                  v-model="data.due_date"
+                  v-model="formatDate"
                   :min-date="new Date()">
                   <template v-slot="{ inputValue, inputEvents }">
                     <input
@@ -67,7 +67,7 @@
             <div class="d-flex justify-content-end">
               <div class="form-check form-switch">
                 <input type="checkbox" role="switch"
-                  id="is_enabled" class="form-check-input"
+                  id="is_enabled" class="form-check-input rounded-pill"
                   :true-value="1" :false-value="0"
                   v-model="data.is_enabled" />
                 <label class="form-check-label" for="is_enabled">是否啟用</label>
@@ -92,15 +92,17 @@
 </template>
 
 <script>
-import modalMixin from '@/mixins/modalMixin';
 import { DatePicker } from 'v-calendar';
 import 'v-calendar/dist/style.css';
+import modalMixin from '@/mixins/modalMixin';
 
 export default {
   data() {
     return {
       modal: {},
+      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       data: this.coupon,
+      formatDate: '',
       status: this.methodStatus,
       isBtnLoading: false,
     };
@@ -110,6 +112,7 @@ export default {
     coupon: {
       handler(newVal) {
         this.data = newVal;
+        this.formatDate = newVal.due_date * 1000;
       },
       deep: true,
     },
@@ -121,8 +124,9 @@ export default {
   inject: ['pushToastMessage'],
   methods: {
     updateCoupon() {
+      this.data.due_date = this.formatDate;
       let method = '';
-      let url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupon`;
+      let url = `${this.apiBase}/admin/coupon`;
       let timestamp = '';
 
       // 判斷是不是 Unix 格式
@@ -143,7 +147,7 @@ export default {
           break;
         case 'edit':
           method = 'put';
-          url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupon/${this.data.id}`;
+          url = `${this.apiBase}/admin/coupon/${this.data.id}`;
           break;
         default:
           break;
@@ -152,12 +156,11 @@ export default {
       this.isBtnLoading = true;
       this.$http[method](url, { data: this.data })
         .then((res) => {
-          this.pushToastMessage(res.data.success, '優惠券更新');
+          this.pushToastMessage('admin', res.data.success, '優惠券更新');
           this.hideModal();
           this.$emit('update');
         }).catch((err) => {
-          console.dir(err);
-          this.pushToastMessage(err.response.data.success, '優惠券更新');
+          this.pushToastMessage('admin', err.response.data.success, '優惠券更新');
         }).then(() => {
           this.isBtnLoading = false;
         });

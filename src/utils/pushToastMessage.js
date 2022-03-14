@@ -1,10 +1,10 @@
 import emitter from './emitter';
 
 // 傳資料進去 toast
-export default (res, msg = '更新') => {
+export default (fromPage, res, msg = '更新') => {
   emitter.emit('pushMessage', {
+    fromPage,
     msg,
     res,
-    status: true,
   });
 };

@@ -89,7 +89,7 @@
                       aria-describedby="otherImgBtn"
                       v-model="imgUrl" />
                     <button type="button"
-                      class="btn btn-outline-secondary" id="otherImgBtn"
+                      class="btn btn-secondary" id="otherImgBtn"
                       @click="pushImg">新增</button>
                   </div>
                 </div>
@@ -100,7 +100,7 @@
                       aria-label="欲上傳產品圖片" aria-describedby="button-deleteImgUrl"
                       :value="image" readonly />
                     <button type="button"
-                      class="btn btn-danger"
+                      class="btn btn-outline-danger"
                       id="button-deleteImgUrl"
                       @click="item.imagesUrl.splice(i, 1)">刪除</button>
                   </div>
@@ -199,9 +199,16 @@
                   </select>
                 </div>
                 <div class="d-flex justify-content-end">
+                  <div class="form-check me-2">
+                    <input class="form-check-input" type="checkbox" id="is_alcohol"
+                      v-model="item.is_alcohol" />
+                    <label class="form-check-label" for="is_alcohol">
+                      是否為酒精飲品
+                    </label>
+                  </div>
                   <div class="form-check form-switch">
                     <input type="checkbox" role="switch"
-                      id="is_enabled" class="form-check-input"
+                      id="is_enabled" class="form-check-input rounded-pill"
                       :true-value="1" :false-value="0"
                       v-model="item.is_enabled" />
                     <label class="form-check-label" for="is_enabled">是否啟用</label>
@@ -234,6 +241,7 @@ export default {
   data() {
     return {
       modal: {},
+      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       item: this.product,
       imgBtn: {
         main: '',
@@ -259,29 +267,32 @@ export default {
       const formData = new FormData();
       formData.append('file-to-upload', imgFile);
 
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/upload`;
+      const api = `${this.apiBase}/admin/upload`;
       this.isUploading = true;
       this.$http.post(api, formData)
         .then((res) => {
-          this.pushToastMessage(res.data.success, '圖片上傳');
+          this.pushToastMessage('admin', res.data.success, '圖片上傳');
           const imgUrl = res.data.imageUrl;
 
-          switch (status) {
-            case 'mainImg':
-              this.item.imageUrl = imgUrl;
-              break;
-            case 'otherImg':
-              if (!this.item.imagesUrl) {
-                this.item.imagesUrl = [];
-                this.item.imagesUrl.push(imgUrl);
-              } else {
-                this.item.imagesUrl.push(imgUrl);
-              }
-              break;
-            default:
-              break;
+          if (res.data.success) {
+            switch (status) {
+              case 'mainImg':
+                this.item.imageUrl = imgUrl;
+                break;
+              case 'otherImg':
+                if (!this.item.imagesUrl) {
+                  this.item.imagesUrl = [];
+                  this.item.imagesUrl.push(imgUrl);
+                } else {
+                  this.item.imagesUrl.push(imgUrl);
+                }
+                break;
+              default:
+                break;
+            }
           }
         }).catch((err) => {
+          this.pushToastMessage('admin', err.data?.success, '圖片上傳');
           console.dir(err);
         }).then(() => {
           this.isUploading = false;
@@ -302,7 +313,8 @@ export default {
     },
     updateProduct() {
       let method = '';
-      let url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
+      let url = `${this.apiBase}/admin/product`;
+      this.item.tag = parseInt(this.item.tag, 10);
 
       switch (this.status) {
         case 'add':
@@ -310,7 +322,7 @@ export default {
           break;
         case 'edit':
           method = 'put';
-          url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${this.item.id}`;
+          url = `${this.apiBase}/admin/product/${this.item.id}`;
           break;
         default:
           break;
@@ -320,11 +332,11 @@ export default {
       this.$http[method](url, { data: this.item })
         .then((res) => {
           this.modal.hide();
-          this.pushToastMessage(res.data.success, '產品更新');
+          this.pushToastMessage('admin', res.data.success, '產品更新');
           this.$emit('update', true);
         }).catch((err) => {
           console.dir(err);
-          this.pushToastMessage(err.response.data.success, '產品更新');
+          this.pushToastMessage('admin', err.response.data.success, '產品更新');
         }).then(() => {
           this.isBtnLoading = false;
         });

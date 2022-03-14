@@ -1,11 +1,20 @@
 <template>
-  <router-view/>
+  <div id="app">
+    <router-view/>
+    <toastMessage></toastMessage>
+  </div>
 </template>
 
-<style lang="scss">
-@import 'bootstrap';
+<script>
+import toastMessage from '@/components/ToastMessage.vue';
+import emitter from '@/utils/emitter';
 
-.logo-ff{
-  font-family: 'Potta One', cursive;
-}
-</style>
+export default {
+  provide: {
+    emitter,
+  },
+  components: {
+    toastMessage,
+  },
+};
+</script>

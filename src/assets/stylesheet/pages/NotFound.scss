@@ -1,0 +1,12 @@
+.notFound {
+  height: 100vh;
+  background-color: $primary;
+  padding-top: 10rem;
+  .content{
+    color: #fff;
+    &-title {
+      font-size: 20vmin;
+      text-shadow: $primary 3px 3px, $white 4px 4px;
+    }
+  }
+}

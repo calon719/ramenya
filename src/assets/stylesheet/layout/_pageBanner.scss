@@ -1,0 +1,28 @@
+.page-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  background-color: $light;
+  &-title {
+    position: relative;
+    font-weight: $font-weight-bold;
+    letter-spacing: .5rem;
+    padding-bottom: .25rem;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: -0.25rem;
+      height: .4rem;
+      width: 100%;
+      border-top: 2px solid #A49486;
+      border-bottom: 2px solid #A49486;
+    }
+  }
+}
+@include media-breakpoint-up(md) {
+  .page-banner {
+    height: 200px;
+  }
+}

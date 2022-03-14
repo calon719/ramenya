@@ -1,0 +1,42 @@
+.cart-btn {
+  color: $primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  background-color: #fff;
+  border-radius: 50%;
+  z-index: 50;
+  box-shadow: 5px 5px 8px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid $gray-100;
+  transition: all .3s ease-in-out;
+  &:hover {
+    color: #fff;
+    background-color: $primary;
+    border-color: $primary;
+  }
+}
+.cart-badge {
+  vertical-align: middle;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: .85rem;
+}
+@include media-breakpoint-up(md) {
+  .cart-btn {
+    width: 80px;
+    height: 80px;
+    bottom: 3rem;
+    right: 2rem;
+    font-size: 2.5rem;
+  }
+  .cart-badge {
+    font-size: 1rem;
+  }
+}

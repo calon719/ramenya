@@ -1,91 +1,93 @@
 <template>
-  <h2>訂單管理列表</h2>
-  <div class="table-responsive">
-    <table class="table table-striped text-center text-nowrap">
-      <thead>
-        <tr>
-          <th scope="col">下單時間</th>
-          <th scope="col" class="text-start">客戶資料</th>
-          <th scope="col" class="text-start">訂購商品</th>
-          <th scope="col" class="text-end">應賦金額</th>
-          <th scope="col">交貨狀態</th>
-          <th scope="col">付款狀態</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody class="align-middle">
-        <tr v-if="!ordersData.length">
-          <td colspan="7" class="py-5">尚未有任何訂單</td>
-        </tr>
-        <tr v-else v-for="order in ordersData" :key="order.id">
-          <td>
-            {{ new Date(order.create_at * 1000).toLocaleString('zh-TW', dateOptions) }}
-            <br>
-            {{ new Date(order.create_at * 1000).toLocaleString('zh-TW', timeOptions) }}
-          </td>
-          <td>
-            <ul class="text-start list-unstyled mb-0">
-              <li>姓名：{{ order.user.name }}</li>
-              <li>電話：{{ order.user.tel }}</li>
-              <li>地址：{{ order.user.address }}</li>
-            </ul>
-          </td>
-          <td>
-            <ul class="text-start list-unstyled mb-0">
-              <li v-for="data in order.products" :key="data">
-                {{ data.product?.title }}*{{ data.qty }}
-              </li>
-            </ul>
-          </td>
-          <td class="text-end">{{ order.total.toLocaleString('zh-TW', currencyOptions) }}</td>
-          <td
-            :class="[{'text-success': order.is_delivered}, {'text-muted': !order.is_delivered}]">
-            <div class="d-flex justify-content-center align-items-center">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch"
-                  :id="`is_delivered${order.id}`" v-model="order.is_delivered"
-                  @change="updateOrder(order)" />
-                <label class="form-check-label" :for="`is_delivered${order.id}`">
-                  {{ order.is_delivered ? '已送達' : '未送達' }}
-                </label>
+  <div class="adminOrder">
+    <h2>訂單管理列表</h2>
+    <div class="table-responsive">
+      <table class="table table-striped text-center text-nowrap">
+        <thead>
+          <tr>
+            <th scope="col">下單時間</th>
+            <th scope="col" class="text-start">客戶資料</th>
+            <th scope="col" class="text-start">訂購商品</th>
+            <th scope="col" class="text-end">應賦金額</th>
+            <th scope="col">交貨狀態</th>
+            <th scope="col">付款狀態</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody class="align-middle">
+          <tr v-if="!ordersData.length">
+            <td colspan="7" class="py-5">尚未有任何訂單</td>
+          </tr>
+          <tr v-else v-for="order in ordersData" :key="order.id">
+            <td>
+              {{ new Date(order.create_at * 1000).toLocaleString('zh-TW', dateOptions) }}
+              <br>
+              {{ new Date(order.create_at * 1000).toLocaleString('zh-TW', timeOptions) }}
+            </td>
+            <td>
+              <ul class="text-start list-unstyled mb-0">
+                <li>姓名：{{ order.user.name }}</li>
+                <li>信箱：{{ order.user.email }}</li>
+                <li>電話：{{ order.user.tel }}</li>
+                <li>地址：{{ order.user.address }}</li>
+              </ul>
+            </td>
+            <td>
+              <ul class="text-start list-unstyled mb-0">
+                <li v-for="data in order.products" :key="data">
+                  {{ data.product?.title }}*{{ data.qty }}
+                </li>
+              </ul>
+            </td>
+            <td class="text-end">NTD {{ order.total.toLocaleString() }}</td>
+            <td
+              :class="[{'text-success': order.is_delivered}, {'text-muted': !order.is_delivered}]">
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="form-check form-switch">
+                  <input class="form-check-input rounded-pill" type="checkbox" role="switch"
+                    :id="`is_delivered${order.id}`" v-model="order.is_delivered"
+                    @change="updateOrder(order)" />
+                  <label class="form-check-label" :for="`is_delivered${order.id}`">
+                    {{ order.is_delivered ? '已送達' : '未送達' }}
+                  </label>
+                </div>
               </div>
-            </div>
-          </td>
-          <td
-            :class="[{'text-success': order.is_paid}, {'text-muted': !order.is_paid}]">
-            <div class="d-flex justify-content-center align-items-center">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch"
-                  :id="`is_paid${order.is_paid}`" v-model="order.is_paid"
-                  @change="updateOrder(order)" />
-                <label class="form-check-label" :for="`is_paid${order.is_paid}`">
-                  {{ order.is_paid ? '已付款' : '未付款' }}
-                </label>
+            </td>
+            <td
+              :class="[{'text-success': order.is_paid}, {'text-muted': !order.is_paid}]">
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="form-check form-switch">
+                  <input class="form-check-input rounded-pill" type="checkbox" role="switch"
+                    :id="`is_paid${order.is_paid}`" v-model="order.is_paid"
+                    @change="updateOrder(order)" />
+                  <label class="form-check-label" :for="`is_paid${order.is_paid}`">
+                    {{ order.is_paid ? '已付款' : '未付款' }}
+                  </label>
+                </div>
               </div>
-            </div>
-          </td>
-          <td>
-            <div class="btn-group" role="group" aria-label="edit order">
-              <button type="button" class="btn btn-outline-secondary"
-                @click="showModal('edit', order)">檢視</button>
-              <button type="button"
-                class="btn btn-outline-danger"
-                @click="showModal('delete', order)"
-              >刪除</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+            </td>
+            <td>
+              <div class="btn-group" role="group" aria-label="edit order">
+                <button type="button" class="btn btn-outline-secondary"
+                  @click="showModal('edit', order)">檢視</button>
+                <button type="button"
+                  class="btn btn-outline-danger"
+                  @click="showModal('delete', order)"
+                >刪除</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <pagination :pages="paginationData" @page="getOrders"></pagination>
+    <pagination :pages="paginationData" @page="getOrders"></pagination>
 
-  <orderModal ref="orderModalOuter" :order="modalTemp"></orderModal>
+    <orderModal ref="orderModalOuter" :order="modalTemp"></orderModal>
 
-  <delModal ref="delModalOuter"
-    :item="modalTemp" view="order" @update="getOrders">
-    <template #modal-text>
+    <delModal ref="delModalOuter"
+      :item="modalTemp" view="order" @update="getOrders">
+      <template #modal-text>
         <table class="table">
           <tbody>
             <tr>
@@ -133,9 +135,10 @@
             </tr>
           </tbody>
         </table>
-    </template>
-  </delModal>
-  <loadingText :isLoading="isLoading"></loadingText>
+      </template>
+    </delModal>
+    <loadingText :isLoading="isLoading"></loadingText>
+  </div>
 </template>
 
 <script>
@@ -148,6 +151,7 @@ import pushToastMessage from '@/utils/pushToastMessage';
 export default {
   data() {
     return {
+      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       ordersData: [],
       paginationData: {},
       modalTemp: {
@@ -164,18 +168,13 @@ export default {
         second: '2-digit',
         hour12: false,
       },
-      currencyOptions: {
-        style: 'currency',
-        currency: 'TWD',
-        minimumFractionDigits: 0,
-      },
       isLoading: false,
       isBtnLoading: false,
     };
   },
   methods: {
     getOrders(page = this.paginationData?.current_page || 1) {
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/orders?page=${page}`;
+      const api = `${this.apiBase}/admin/orders?page=${page}`;
       this.isLoading = true;
       this.$http.get(api)
         .then((res) => {
@@ -202,15 +201,15 @@ export default {
     },
     updateOrder(order) {
       this.isLoading = true;
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/order/${order.id}`;
+      const api = `${this.apiBase}/admin/order/${order.id}`;
       this.$http.put(api, { data: order })
         .then((res) => {
           this.isLoading = false;
-          pushToastMessage(res.data.success, '訂單更新');
+          pushToastMessage('admin', res.data.success, '訂單更新');
           this.getOrders();
         }).catch((err) => {
           this.isLoading = false;
-          pushToastMessage(err.response.data.success, '訂單更新');
+          pushToastMessage('admin', err.response.data.success, '訂單更新');
         });
     },
   },

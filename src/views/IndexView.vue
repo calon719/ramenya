@@ -1,38 +1,56 @@
 <template>
-  <nav
-    class="navbar navbar-expand-md navbar-light bg-warning sticky-top">
-    <div class="container">
-      <h1 class="navbar-brand fs-5 logo-ff mb-0">樂和屋</h1>
-      <button class="navbar-toggler"
-        type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <ul class="navbar-nav w-100">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/">首頁</router-link>
-          </li>
-          <li class="nav-item ms-auto">
-            <router-link
-              class="nav-link d-flex align-items-center" to="/login">
-              <span class="material-icons">
-               settings
-              </span>
-              後台登入
+  <div class="index">
+    <nav
+      class="navbar navbar-expand-md navbar-light bg-primary sticky-top">
+      <div class="container">
+        <router-link class="navbar-brand custom-navbar-brand" to="/">
+          <h1 class="logo">拉麵屋</h1>
+        </router-link>
+        <button class="navbar-toggler ms-auto"
+          type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup" ref="navbar">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/products">美味菜單</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/anniversary">優惠活動</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/contact">聯絡我們</router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <router-view />
+
+    <footer class="bg-dark py-4">
+      <div class="container">
+        <ul class="list-unstyled d-flex justify-content-center mb-0 fs-5">
+          <li>
+            <router-link class="text-white d-block px-2 py-1" to="/login">
+              <i class="bi bi-wrench-adjustable-circle-fill"></i>
             </router-link>
           </li>
+          <li>
+            <a class="text-white d-block px-2 py-1" href="https://github.com/calon719/ramenya" target="_blank">
+              <i class="bi bi-github"></i>
+            </a>
+          </li>
         </ul>
+        <p class="text-center text-white mb-0">
+          僅個人練習使用．不做商業用途
+          <br>
+          Copyright © 2022 made by Calon
+        </p>
       </div>
-    </div>
-  </nav>
-
-  <router-view />
-
-  <footer class="bg-dark py-3 py-md-4 py-lg-5">
-    <p class="text-center text-white mb-0">僅個人練習使用．不做商業用途</p>
-  </footer>
-
+    </footer>
+  </div>
 </template>

@@ -1,0 +1,59 @@
+.userProducts {
+  .card-tag {
+    color: #fff;
+    position: absolute;
+    top: -0.5rem;
+    left: -0.5rem;
+    z-index: 10;
+    padding: .5rem .5rem ;
+    opacity: .85;
+    -webkit-writing-mode: vertical-rl;
+    writing-mode: vertical-rl;
+  }
+  .card {
+    &:hover {
+      box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+      transition: box-shadow .3s linear;
+      & .custom-card-img {
+        transform: scale(1.2);
+        transition: transform .3s linear;
+      }
+      .card-cover {
+        background-color: rgba(0, 0, 0, .6);
+        &-text {
+          color: #fff;
+        }
+      }
+    }
+    &-coverLink {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 15;
+    }
+    &-cover{
+      bottom: 0;
+      right: 0;
+      background-color: transparent;
+      z-index: 5;
+      transition: background-color .3s linear;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &-text {
+        color: transparent;
+        transition: color .3s linear;
+      }
+    }
+    &-cartBtn {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1rem;
+      z-index: 20;
+    }
+  }
+
+}

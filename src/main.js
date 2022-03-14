@@ -3,25 +3,34 @@ import { createApp } from 'vue';
 // plugin start
 import 'bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import {
   Field, Form, ErrorMessage, defineRule, configure,
 } from 'vee-validate';
 import {
-  required, email, min, min_value, numeric // eslint-disable-line
+  required, email, min, max, min_value, numeric // eslint-disable-line
 } from '@vee-validate/rules';
 import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 // plugin end
 
+import './assets/stylesheet/all.scss';
 import loadingText from '@/components/LoadingText.vue';
 import App from './App.vue';
 import router from './router';
 
+// plugin init start
+AOS.init({
+  once: true,
+});
+
 defineRule('required', required);
 defineRule('email', email);
 defineRule('min', min);
+defineRule('max', max);
 defineRule('min_value', min_value);
 defineRule('numeric', numeric);
 
@@ -33,6 +42,7 @@ configure({
 
 // 設定預設語系
 setLocale('zh_TW');
+// plugin init end
 
 const app = createApp(App);
 

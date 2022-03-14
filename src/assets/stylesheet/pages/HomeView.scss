@@ -1,0 +1,231 @@
+.home {
+  .banner {
+    min-height: calc(100vh - 56px);
+    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/calon/1647157125742.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=NF%2FHZwZWrOtX5YHzjr52DvyF%2FnO7nrcOi8eFQGloZn5oEZqQOOqERJqI9WuopqnHVTKr%2FuprgthWugE1Q7jfYq210UBsGQjpRcKAV9eO3IDXo8XBGW4IS%2Fdf4Zd9cB52GsJ4Ql9uHIsSUqlZ7YVYi%2FbWAvsz1C3cdiGbFTJyso6BVLo24LsZNdlUkwec2L50aByvT6kpKEqlTIqN14N0dS6OqG05k8%2B3KqTDoLQ%2BzV87NvILe8H4EmTiOIpN0t7o87k7GjineWd%2FoD0XIcTy2eqxUmMaCzuiTUsNRF%2BiXaaxqt7k0uLvzKAYY1debUDnQX0e%2FQpv9h2UBKWpPuZx9A%3D%3D');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 1vw;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    &-content {
+      position: absolute;
+      right: 1vw;
+      top: 3vh;
+      padding: 2rem;
+      margin-left: auto;
+      margin-right: 7vw;
+      background-color: rgba(0, 0, 0, .25);
+      color: #fff;
+      -webkit-writing-mode: vertical-rl;
+      writing-mode: vertical-rl;
+    }
+    &-title {
+      font-weight: bold;
+      font-size: 7.75vh;
+      text-indent: 6vmin;
+      margin: 0 .5rem 0 0 ;
+      position: relative;
+      z-index: 1;
+      &::before {
+        display: block;
+        content: '';
+        width: 5vmin;
+        background-color: #dc3545;
+        position: absolute;
+        top: 9vmin;
+        bottom: -1.5vmin;
+        right: 0;
+        transform: skew(0, 20deg);
+        z-index: -1;
+      }
+    }
+    &-chevrons {
+      position: absolute;
+      left: 0; 
+      right: 0;
+      bottom: 6.5rem;
+      display: flex;
+      justify-content: center;
+      .chevron {
+        position: absolute;
+        width: 0.6rem * 3.5;
+        height: .6rem * 0.8;
+        transform: scale(0.3);
+        animation: move-chevron 3s ease-out infinite;
+        &:first-child {
+          animation: move-chevron 3s ease-out 1s infinite;
+        }
+        &:nth-child(2) {
+          animation: move-chevron 3s ease-out 2s infinite;
+        }
+        &:before,
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          height: 100%;
+          width: 50%;
+          background: rgba(255, 255, 255, .75);
+        }
+        &:before {
+          left: 0;
+          transform: skewY(30deg);
+        }
+        &:after {
+          right: 0;
+          width: 50%;
+          transform: skewY(-30deg);
+        }
+      }
+    }
+  }
+  @keyframes move-chevron {
+    25% {
+      opacity: 1;
+    }
+    33.3% {
+      opacity: 1;
+      transform: translateY(0.6rem 3.8);
+    }
+    66.6% {
+      opacity: 1;
+      transform: translateY(0.6rem * 5.2);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(0.6rem * 8) scale(0.5);
+    }
+  }
+  .anniversary {
+    &-title {
+      position: relative;
+      &::after {
+        content: '';
+        height: 5px;
+        width: calc(100% + 1vw);
+        border-top: 2px solid $danger;
+        border-bottom: 2px solid $danger;
+        position: absolute;
+        bottom: -5px;
+        left: -0.5vw;
+        opacity: .75;
+      }
+    }
+  }
+  .newArrial {
+      &-title {
+        margin-bottom: 2.5rem;
+      }
+    .product {
+      margin-bottom: 3rem;
+      &-img-front {
+        z-index: 1;
+      }
+      &-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(252, 169, 65, .2);
+        padding: 1.5rem;
+      }
+      &-link {
+        display: block;
+        padding: .25rem 1rem;
+        text-decoration: none;
+        color: $dark;
+        width: 100%;
+        &:hover {
+          opacity: .75;
+          text-decoration: underline;
+        }
+      }
+    }
+    @include media-breakpoint-up(md) {
+      &-title {
+        margin-bottom: 6rem;
+      }
+      .product {
+        margin-bottom: 5.5rem;
+        &-img-back {
+          transform: translateX(2rem);
+          z-index: 1;
+          &::after {
+            border: 2px solid #FCA941;
+            content: '';
+            position: absolute;
+            top: -3.5vmin;
+            left: -1.5rem;
+            height: 100%;
+            width: calc(100% - 30px);
+            z-index: -1;
+          }
+        }
+        &-content {
+          height: 100%;
+          width: 100%;
+          padding-left: 3rem;
+          padding-right: 1.5rem;
+          transform: translate(-2rem, 2rem);
+          z-index: -1;
+        }
+      }
+    }
+    @include media-breakpoint-up(lg) {
+      .product-content {
+        padding-left: 4rem;
+        padding-right: 2rem;
+      }
+    }
+  }
+  .subscription {
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    height: 250px;
+    &-content {
+      width: 90%;
+      padding: 1.5rem 2rem;
+    }
+    &-bg {
+      height: 700px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-size: cover ;
+      background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/calon/1647182036028.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Q0SEb2OrIW7KaiBVoeATDdrb0aPb%2BxGMwPEBJtYIDHvrEqZ0BuaR0vY3PTbi0Ezl2bIycPrMF6pTPJxLWeIOkG3HOWCehDnTqRKXQqIiTvomcMui17ne01vBJ4sGu67LKjy0hOnG0Oaid%2FuVT6isFDv0Ke1XvvYkpzlx0OxKSgt9XqTsziq5eJHIvl4dI97Zv6XJLW26%2BxLPGRVpix48IeuVPzYgCgeGMzsc73DC8XOriMddZzmdl5H1xdnW682jU13IbxTHYE0XtacXn56EW8hYlHVzh1iiJrKKBvTAuD%2BESbnmfhcvtrploIAovAzBk%2B8ASybl8887IpVDIo4Dmw%3D%3D');
+      z-index: -1;
+    }
+    @include media-breakpoint-up(sm) {
+      & {
+        height: 350px;
+      }
+      &-content {
+        width: 80%;
+      }
+      &-bg {
+        height: 800px;
+      }
+    }
+    @include media-breakpoint-up(md) {
+      & {
+        height: 400px;
+      }
+      &-content {
+        width: 60%;
+        padding: 2.5rem 4rem;
+      }
+      &-bg {
+        height: 1000px;
+      }
+    }
+    @include media-breakpoint-up(lg) {
+      &-content {
+        width: 50%;
+      }
+    }
+  }
+}

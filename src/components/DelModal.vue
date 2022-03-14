@@ -9,7 +9,7 @@
           <button type="button" class="btn-close"
             data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body p-5">
+        <div class="modal-body">
           <p>
             確定要刪除以下資料嗎？
           </p>
@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       modal: {},
+      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       data: this.item,
       isLoading: false,
     };
@@ -59,7 +60,7 @@ export default {
   mixins: [modalMixin],
   methods: {
     delData() {
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/${this.view}/${this.data.id}`;
+      const api = `${this.apiBase}/admin/${this.view}/${this.data.id}`;
       let msg = '';
 
       switch (this.view) {
@@ -79,11 +80,11 @@ export default {
       this.isLoading = true;
       this.$http.delete(api)
         .then((res) => {
-          pushToastMessage(res.data.success, msg);
+          pushToastMessage('admin', res.data.success, msg);
           this.hideModal();
           this.$emit('update');
         }).catch((err) => {
-          pushToastMessage(err.response.data.success, msg);
+          pushToastMessage('admin', err.response.data.success, msg);
         }).then(() => {
           this.isLoading = false;
         });

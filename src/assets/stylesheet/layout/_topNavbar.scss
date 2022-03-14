@@ -1,0 +1,15 @@
+.custom-navbar-brand {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  transform: translateX(-50%);
+}
+.logo {
+  font-family: 'RocknRoll One', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0;
+}
+.navbar a{
+  transition: .3s ease-in-out;
+}
+

@@ -1,0 +1,55 @@
+.anniversary {
+  .banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/calon/1647261577972.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=ipca2KGfUXRw9X%2BaGmMa6%2BIbpILTSdVglOWRG03teuH1Z3CbgUDs0KTqi58Sc5k6MZEONeku798xIrw8%2FDR4sPOie6%2FepjwS6DQ2%2FDghUhCzw9dJQvcuhPetngpZwJw78rEQYX9U2TnBxgDXZ5wmzJydCJoNCymY5XH%2BuVpHzgHhPDOmIKn%2Bgi5nA8OCR5hQ8PplYnYP%2Fw1z8u1SBhWDv8lz3ylsfkTjiuocuNsQlg4Xq1gmnyNO3jQEq%2BoSK2iClVTYW3Wrekh4rhwwptTM6YiMs7L%2Ffz7sKB9LXU0sb%2BcYEqpNEm3DiTagtntO%2FfFf3K8BNUz1e1UQ6AwOkCZQiw%3D%3D');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    &-title {
+      color: $white;
+      position: relative;
+      font-weight: $font-weight-bold;
+      letter-spacing: .5rem;
+      padding-bottom: .25rem;
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: -0.25rem;
+        height: .4rem;
+        width: 100%;
+        border-top: 2px solid $white;
+        border-bottom: 2px solid $white;
+      }
+    }
+  }
+  .content {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    &-text {
+      margin: 0 auto 0 auto;
+      text-indent: 2.5rem;
+    }
+  }
+  @include media-breakpoint-up(md) {
+    .banner {
+      height: 200px;
+    }
+    .content {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+      &-text {
+      width: 80%;
+      margin-bottom: 4rem;
+      }
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    &-text {
+      width: 60%;
+    }
+  }
+}

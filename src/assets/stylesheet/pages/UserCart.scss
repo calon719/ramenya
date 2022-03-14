@@ -1,0 +1,23 @@
+.cart {
+  @include media-breakpoint-up(md) {
+    .footer-btn-group {
+      margin-right: 0.75rem !important;
+    }
+  }
+  .btn-custom {
+    color: #D25303;
+    padding-top: .75rem;
+    &:hover {
+      color: #D25303;
+      opacity: .75;
+    }
+  }
+  .cart-total {
+    p {
+      margin-bottom: .5rem;
+    }
+  }
+  .link-hover:not(.disable):hover {
+    opacity: .75;
+  }
+}
