@@ -39,7 +39,7 @@
                 </li>
               </ul>
             </td>
-            <td class="text-end">NTD {{ order.total.toLocaleString() }}</td>
+            <td class="text-end">NTD {{ Math.ceil(order.total).toLocaleString() }}</td>
             <td
               :class="[{'text-success': order.is_delivered}, {'text-muted': !order.is_delivered}]">
               <div class="d-flex justify-content-center align-items-center">
