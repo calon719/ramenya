@@ -92,7 +92,7 @@
         <div class="row justify-content-between">
           <div class="col-5 col-md-4 col-lg-3 col-xl-2">
             <button class="btn btn-outline-secondary w-100"
-            @click="goPrePage">
+              @click="goPrePage">
               <i class="bi bi-arrow-left"></i>
               返回上一頁
             </button>
@@ -106,7 +106,15 @@
         </div>
       </div>
     </main>
-    <loadingText :isLoading="isLoading"></loadingText>
+    <VueLoading v-model:active="isLoading"
+      :color="`#fff`"
+      :background-color="`#000`"
+      :opacity="0.75"
+      :z-index="3000">
+      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
+          <div></div><div></div><div></div><div></div><div></div>
+      </div></div>
+    </VueLoading>
   </div>
 </template>
 

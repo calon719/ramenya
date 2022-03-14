@@ -7,6 +7,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import VueLoading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import {
   Field, Form, ErrorMessage, defineRule, configure,
 } from 'vee-validate';
@@ -18,14 +20,11 @@ import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 // plugin end
 
 import './assets/stylesheet/all.scss';
-import loadingText from '@/components/LoadingText.vue';
 import App from './App.vue';
 import router from './router';
 
 // plugin init start
-AOS.init({
-  once: true,
-});
+AOS.init();
 
 defineRule('required', required);
 defineRule('email', email);
@@ -49,7 +48,7 @@ const app = createApp(App);
 app.component('Form', Form);
 app.component('Field', Field);
 app.component('ErrorMessage', ErrorMessage);
-app.component('loadingText', loadingText);
+app.component('VueLoading', VueLoading);
 
 app.use(VueAxios, axios);
 app.use(router);

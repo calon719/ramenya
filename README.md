@@ -6,6 +6,7 @@
 - V-Calendar
 - VeeValidate
 - mitt
+- vue-loading-overlay
 
 ## lucky wheel 元件
 參考資料：
