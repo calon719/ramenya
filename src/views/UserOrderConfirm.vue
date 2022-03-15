@@ -91,11 +91,11 @@
 
         <div class="row justify-content-between">
           <div class="col-5 col-md-4 col-lg-3 col-xl-2">
-            <button class="btn btn-outline-secondary w-100"
-              @click="goPrePage">
+            <a class="btn btn-outline-secondary w-100"
+              @click.prevent="goPrePage">
               <i class="bi bi-arrow-left"></i>
               返回上一頁
-            </button>
+            </a>
           </div>
           <div class="col-5 col-md-4 col-lg-3 col-xl-2">
             <button class="btn btn-primary w-100" @click="sendOrder">

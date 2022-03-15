@@ -70,11 +70,11 @@
           </div>
           <div class="row">
             <div class="col-5 col-md-4 col-lg-3 col-xl-2 me-auto">
-              <button class="btn btn-outline-secondary w-100" type="button"
-                @click="backPrePage">
+              <a class="btn btn-outline-secondary w-100" type="button"
+                @click.prevent="backPrePage">
                 <i class="bi bi-arrow-left"></i>
                 返回上一頁
-              </button>
+              </a>
             </div>
             <div class="col-5 col-md-4 col-lg-3 col-xl-2">
               <button type="submit" class="btn btn-primary w-100"
