@@ -59,7 +59,7 @@
                 </label>
                 <Field id="percent" class="form-control" type="number" min="0"
                   name="折扣" placeholder="以 % 為單位，ex. 8 折就輸入 80"
-                  rules="required|min_value:0|numeric" v-model.number="data.percent"
+                  rules="required|min_value:0|max_value:100|numeric" v-model.number="data.percent"
                   :class="{ 'is-invalid': errors['折扣'] }" />
                 <ErrorMessage name="折扣" class="invalid-feedback"></ErrorMessage>
               </div>

@@ -22,9 +22,11 @@
                     <label class="form-label" for="imgFile">產品主要圖片</label>
                     <div class="btn-group w-100 mb-1" role="group"
                       aria-label="Upload image button group">
-                      <button type="button" class="btn btn-outline-secondary"
+                      <button type="button" class="btn"
+                      :class="imgBtn.main === 'upload' ? 'btn-secondary' : 'btn-outline-secondary'"
                         @click="imgBtn.main = 'upload'">上傳圖片</button>
-                      <button type="button" class="btn btn-outline-secondary"
+                      <button type="button" class="btn"
+                        :class="imgBtn.main === 'url' ? 'btn-secondary' : 'btn-outline-secondary'"
                         @click="imgBtn.main = 'url'">輸入網址</button>
                     </div>
                     <div v-show="imgBtn.main === 'upload'">
@@ -61,9 +63,11 @@
                   <label class="form-label" for="otherImgFile">產品其他圖片</label>
                   <div class="btn-group w-100 mb-1" role="group"
                     aria-label="Upload image button group">
-                    <button type="button" class="btn btn-outline-secondary"
+                    <button type="button" class="btn"
+                      :class="imgBtn.other === 'upload' ? 'btn-secondary' : 'btn-outline-secondary'"
                       @click="imgBtn.other = 'upload'">上傳圖片</button>
-                    <button type="button" class="btn btn-outline-secondary"
+                    <button type="button" class="btn"
+                      :class="imgBtn.other === 'url' ? 'btn-secondary' : 'btn-outline-secondary'"
                       @click="imgBtn.other = 'url'">輸入網址</button>
                   </div>
                   <div v-show="imgBtn.other === 'upload'">
@@ -89,7 +93,7 @@
                       aria-describedby="otherImgBtn"
                       v-model="imgUrl" />
                     <button type="button"
-                      class="btn btn-secondary" id="otherImgBtn"
+                      class="btn btn-primary" id="otherImgBtn"
                       @click="pushImg">新增</button>
                   </div>
                 </div>
@@ -244,8 +248,8 @@ export default {
       apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       item: this.product,
       imgBtn: {
-        main: '',
-        other: '',
+        main: 'url',
+        other: 'url',
       },
       imgUrl: '',
       resetStr: '',
@@ -256,6 +260,7 @@ export default {
   props: ['product', 'status'],
   watch: {
     product() {
+      this.$refs.form.resetForm();
       this.item = this.product;
     },
   },

@@ -17,7 +17,7 @@
           ref="navbar">
           <ul class="navbar-nav w-100">
             <li class="nav-item">
-              <router-link class="nav-link" to="/admin/products">產品</router-link>
+              <router-link class="nav-link" to="/admin/">產品</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/admin/coupons">優惠券</router-link>

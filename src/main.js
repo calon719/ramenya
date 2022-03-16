@@ -13,7 +13,7 @@ import {
   Field, Form, ErrorMessage, defineRule, configure,
 } from 'vee-validate';
 import {
-  required, email, min, max, min_value, numeric // eslint-disable-line
+  required, email, min, max, min_value, max_value, numeric // eslint-disable-line
 } from '@vee-validate/rules';
 import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
@@ -31,6 +31,7 @@ defineRule('email', email);
 defineRule('min', min);
 defineRule('max', max);
 defineRule('min_value', min_value);
+defineRule('max_value', max_value);
 defineRule('numeric', numeric);
 
 // 設定 vee-validate 全域規則
