@@ -2,8 +2,14 @@
   min-height: calc(100vh - 134px - 56px);
 }
 .main-footer-bottom {
-  min-height: calc(100vh - 134px - 56px - 200px);
+  min-height: calc(100vh - 134px - 56px - 150px);
 }
 .login-footer-bottom {
   min-height: calc(100vh - 134px - 41px - 2rem);
+}
+
+@include media-breakpoint-up(md) {
+  .main-footer-bottom {
+    min-height: calc(100vh - 134px - 56px - 200px);
+  }
 }

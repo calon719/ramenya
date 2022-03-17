@@ -1,6 +1,6 @@
 <template>
+  <cartDropdown ref="cartDropdown"></cartDropdown>
   <div class="userProducts">
-    <cartDropdown ref="cartDropdown"></cartDropdown>
       <header class="page-banner">
         <h2 class="page-banner-title fs-1">美味菜單</h2>
       </header>

@@ -15,7 +15,7 @@
 
         <div class="px-sm-3 px-xl-5 mb-5">
           <h3 class="ps-3 pb-2 mb-4 border-bottom border-2">訂單確認</h3>
-          <div class="row justify-content-center g-5">
+          <div class="row justify-content-center  gy-5 g-md-5">
             <div class="col-12 col-md-5 order-2 order-md-1">
               <table class="table">
                 <tbody>

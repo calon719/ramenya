@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <cartDropdown ref="cartDropdown"></cartDropdown>
+  <cartDropdown ref="cartDropdown"></cartDropdown>
     <header class="banner">
       <div class="banner-content my-auto">
         <span class="fs-3">不去日本也能享受</span>
@@ -29,20 +29,20 @@
 
       <section class="feature bg-light py-5">
         <div class="container py-md-5">
-          <div class="row row-cols-1 row-cols-md-2 g-4 g-md-5 align-items-center">
+          <div class="row row-cols-1 row-cols-md-2 gy-4 g-md-5 align-items-center">
             <div class="col order-1">
               <div class="ratio ratio-16x9 overflow-hidden">
                 <img class="img-cover" src="https://storage.googleapis.com/vue-course-api.appspot.com/calon/1647160618460.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=V5a1ViqgcZ6y6%2B18WPG2fPRfboC%2F0ufla2hDi9ppokoYHpeEZThgPbwZJcPeLXWBo4fGMXKt7j7xnG9tZPiILErOUDyPuVzL88X4fzuB5aqRVw703s%2Bzb3vuqFT3PK%2FhWDK48U9dggjXyoC80NKSWFPQmtYe8L8SIgQkUIFEM2xmgOUA1I1m9txmEQKmT1PE2xoyuNUtg3uifY0hGvLVwZZi5QlnqtOhL6k%2BrYkLMosAIQXsQM8HoZ2U3%2FKmVRq9FtyuJCEpYzvVx35DrqDAh3TyD9EGkRPGEF8%2F%2FImgoaabcPPCWSPI1eKEyHzePInQkwGvLFP88sPKPg5EKHdVog%3D%3D" alt="">
               </div>
             </div>
-            <div class="col order-2" data-aos="fade-left">
+            <div class="col order-2" data-aos="fade-top">
               <h3 class="fw-bold">日本師父，傳統技術</h3>
               <p class="mb-0 text-muted text-indent-2">
                 拉麵屋的師父為了推廣日本拉麵的美味，帶著實戰十年的拉麵技術來到台灣開店，
                 繼承了日本職人的精神，堅決只端給客人最好最道地的拉麵，在拉麵的味道上絕不容許一絲妥協。
               </p>
             </div>
-            <div class="col order-4 order-md-3" data-aos="fade-right">
+            <div class="col order-4 order-md-3" data-aos="fade-top">
               <h3 class="text-start text-md-end fw-bold">手工製麵，堅決品質</h3>
               <p class="mb-0 text-muted text-indent-2">
                 為了拉麵的品質，拉麵屋的師父獨自研發適合自家拉麵風味的比例，

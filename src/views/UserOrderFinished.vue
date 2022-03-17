@@ -1,15 +1,14 @@
 <template>
   <div class="userOrderFinished">
-    <main class="main-footer-bottom">
-      <main class="main-footer-bottom bg-light pb-5">
-        <div class="container bg-white mb-5 p-md-5">
+      <main class="main-footer-bottom bg-light py-5">
+        <div class="container bg-white mb-5 py-4 p-md-5">
             <h3 class="fs-1 text-center my-5">
               <i class="bi bi-check-circle text-success"></i>
               交易成功
             </h3>
 
             <div class="px-sm-3 px-xl-5 mb-5">
-              <div class="row justify-content-center g-5">
+              <div class="row justify-content-center gy-5 g-md-5">
                 <div class="col-12 col-md-5 order-2 order-md-1">
                   <table class="table">
                     <tbody>
@@ -82,7 +81,6 @@
           </div>
         </div>
       </main>
-    </main>
     <VueLoading v-model:active="isLoading"
       :color="`#fff`"
       :background-color="`#000`"
@@ -114,8 +112,16 @@ export default {
       this.isLoading = true;
       this.$http.get(`${this.apiBase}/order/${id}`)
         .then((res) => {
-          console.log(res);
-          this.orderData = res.data.order;
+          const { order } = res.data;
+          if (order) {
+            this.orderData = order;
+          } else {
+            Swal.fire({
+              icon: 'error',
+              text: '訂單編號好像出錯囉！',
+            });
+            this.$router.replace('/');
+          }
           this.isLoading = false;
         }).catch((err) => {
           this.isLoading = false;

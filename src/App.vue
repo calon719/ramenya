@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <router-view/>
-    <toastMessage></toastMessage>
   </div>
+  <toastMessage></toastMessage>
 </template>
 
 <script>
