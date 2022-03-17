@@ -2,7 +2,7 @@
   <div class="home">
   <cartDropdown ref="cartDropdown"></cartDropdown>
     <header class="banner">
-      <div class="banner-content my-auto">
+      <div class="banner-content">
         <span class="fs-3">不去日本也能享受</span>
         <h2 class="banner-title">道地的濃郁滋味</h2>
       </div>

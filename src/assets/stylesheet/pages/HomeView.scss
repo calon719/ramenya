@@ -7,19 +7,19 @@
     background-size: cover;
     padding: 1vw;
     display: flex;
-    justify-content: flex-end;
-    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     &-content {
-      position: absolute;
-      right: 1vw;
-      top: 3vh;
-      padding: 2rem;
+      margin-top: 2vh; 
+      margin-right: 3vw;  
       margin-left: auto;
-      margin-right: 7vw;
+      padding: 2.5vh 2vw 4vh;
       background-color: rgba(0, 0, 0, .25);
       color: #fff;
       -webkit-writing-mode: vertical-rl;
       writing-mode: vertical-rl;
+      z-index: 1;
     }
     &-title {
       font-weight: bold;
@@ -27,7 +27,6 @@
       text-indent: 6vmin;
       margin: 0 .5rem 0 0 ;
       position: relative;
-      z-index: 1;
       &::before {
         display: block;
         content: '';
@@ -35,9 +34,9 @@
         background-color: #dc3545;
         position: absolute;
         top: 9vmin;
-        bottom: -1.5vmin;
+        bottom: -1vmin;
         right: 0;
-        transform: skew(0, 20deg);
+        transform: skew(0, 15deg);
         z-index: -1;
       }
     }

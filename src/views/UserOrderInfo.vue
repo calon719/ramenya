@@ -70,7 +70,7 @@
           </div>
           <div class="row">
             <div class="col-5 col-md-4 col-lg-3 col-xl-2 me-auto">
-              <a class="btn btn-outline-secondary w-100" type="button"
+              <a class="btn btn-outline-secondary w-100"
                 @click.prevent="backPrePage">
                 <i class="bi bi-arrow-left"></i>
                 返回上一頁
