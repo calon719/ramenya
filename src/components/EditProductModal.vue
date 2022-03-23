@@ -260,7 +260,6 @@ export default {
   props: ['product', 'status'],
   watch: {
     product() {
-      this.$refs.form.resetForm();
       this.item = this.product;
     },
   },
@@ -338,7 +337,8 @@ export default {
         .then((res) => {
           this.modal.hide();
           this.pushToastMessage('admin', res.data.success, '產品更新');
-          this.$emit('update', true);
+          this.$emit('update');
+          this.$refs.form.resetForm();
         }).catch((err) => {
           console.dir(err);
           this.pushToastMessage('admin', err.response.data.success, '產品更新');

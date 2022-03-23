@@ -144,7 +144,7 @@ export default {
     pushToastMessage,
   },
   methods: {
-    getProducts(page = this.paginationData?.current_page || 1) {
+    getProducts(page = this.paginationData?.current_page ?? 1) {
       const api = `${this.apiBase}/admin/products?page=${page}`;
       this.isLoading = true;
       this.$http.get(api)
