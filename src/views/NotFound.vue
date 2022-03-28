@@ -8,7 +8,7 @@
         我應該能幫助你，讓我試試！
       </p>
       <div class="d-flex justify-content-center">
-        <a class="btn btn-outline-white btn-lg me-5"
+        <a href="#" class="btn btn-outline-white btn-lg me-5"
         @click.prevent="goBack">回上一頁</a>
         <router-link to="/" class="btn btn-outline-white btn-lg">回首頁</router-link>
       </div>

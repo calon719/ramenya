@@ -41,7 +41,9 @@
                 <del>NTD {{ product.origin_price }}</del>
               </small>
             </div>
-            <small class="text-danger mb-1" v-html="inputErrMsg"></small>
+            <small class="text-danger mb-1" v-if="num < 1">
+              <i class="bi bi-exclamation-circle me-1"></i>數量不可以小於 1
+            </small>
             <div class="row gy-3 mb-3">
               <div class="col-12 col-sm-7">
                 <div class="input-group">
@@ -131,7 +133,7 @@
                   <p class="card-cover-text">查看詳細內容</p>
                 </div>
                 <img class="custom-card-img img-cover"
-                  :src="product.imageUrl" :alt="`${product.title}`">
+                  :src="product.imageUrl" :alt="product.title">
               </div>
               <div class="card-body">
                 <h3 class="card-title fs-4">{{ product.title }}</h3>
@@ -161,21 +163,11 @@
         </div>
       </section>
     </main>
-
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-      <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
   </div>
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import sweetAlert from 'sweetalert2';
 import pushToastMessage from '@/utils/pushToastMessage';
 import cartDropdown from '@/components/CartDropdown.vue';
 
@@ -188,24 +180,15 @@ export default {
       filteredProducts: [],
       cart: [],
       num: 1,
-      isLoading: false,
       isBtnLoading: false,
       itemId: '',
       isAddedCart: false,
       isAlcohol: false,
     };
   },
-  computed: {
-    inputErrMsg() {
-      if (this.num < 1) {
-        return '<i class="bi bi-exclamation-circle me-1"></i>數量不可以小於 1';
-      }
-      return '';
-    },
-  },
   methods: {
     getProduct(id = this.$route.params.id) {
-      this.isLoading = true;
+      this.$emit('loadingStatus', true);
       this.$http.get(`${this.apiBase}/product/${id}`)
         .then((res) => {
           const { product } = res.data;
@@ -221,23 +204,23 @@ export default {
           this.isAlcohol = product.is_alcohol;
         }).catch((err) => {
           const msg = err.response.data.message;
-          Swal.fire({
+          sweetAlert.fire({
             icon: 'error',
             text: msg,
           });
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         });
     },
     getProducts() {
       this.$http.get(`${this.apiBase}/products/all`)
         .then((res) => {
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
           this.products = res.data.products;
           this.filterProducts();
         }).catch((err) => {
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
           const msg = err.response.data.message;
-          Swal.fire({
+          sweetAlert.fire({
             icon: 'error',
             text: msg,
           });
@@ -249,7 +232,7 @@ export default {
           this.cart = res.data.data.carts;
         }).catch((err) => {
           const msg = err.response.data.message;
-          Swal.fire({
+          sweetAlert.fire({
             icon: 'error',
             text: msg,
           });
@@ -258,20 +241,21 @@ export default {
     filterProducts() {
       this.filteredProducts = JSON.parse(JSON.stringify(this.products));
       const { id } = this.$route.params;
-      const index = this.filteredProducts.findIndex((product) => product.id === id); // 找出當下頁面產品的索引值
-      this.filteredProducts.splice(index, 1); // 刪除當下頁面的產品資料
+      const index = this.filteredProducts.findIndex((product) => product.id === id);
+      this.filteredProducts.splice(index, 1);
 
       const len = this.filteredProducts.length;
       const ranNumAry = [];
 
-      const times = len >= 4 ? 4 : len; // 防止當商品數量不到四個的時候產生無限迴圈
+      const times = len >= 4 ? 4 : len;
       for (let i = 0; i < times; i += 1) {
-        const ranNum = Math.floor(Math.random() * len); // 取得 0 ~ (this.products.length - 1) 之間的亂數
-        const check = i === 0 || !ranNumAry.some((num) => num === ranNum); // 檢查數字有沒有重複
+        const ranNum = Math.floor(Math.random() * len);
+        // 檢查數字有沒有重複
+        const check = i === 0 || !ranNumAry.some((num) => num === ranNum);
         if (check) {
           ranNumAry.push(ranNum);
         } else {
-          i -= 1; // 重複就重新在一次
+          i -= 1;
         }
       }
 

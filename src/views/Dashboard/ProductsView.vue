@@ -1,7 +1,7 @@
 <template>
   <div class="adminProducts">
     <h2>產品資料管理列表</h2>
-    <button class="btn btn-primary px-4 d-flex ms-auto mb-3"
+    <button type="button" class="btn btn-primary px-4 d-flex ms-auto mb-3"
       @click="showModal('add')">
       <span class="material-icons-outlined">
         add
@@ -89,21 +89,11 @@
         </p>
       </template>
     </delModal>
-
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-          <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
   </div>
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import sweetAlert from 'sweetalert2';
 import pagination from '@/components/PaginationComponent.vue';
 import productModal from '@/components/EditProductModal.vue';
 import delModal from '@/components/DelModal.vue';
@@ -137,7 +127,6 @@ export default {
           className: 'text-success',
         },
       },
-      isLoading: false,
     };
   },
   provide: {
@@ -146,18 +135,18 @@ export default {
   methods: {
     getProducts(page = this.paginationData?.current_page ?? 1) {
       const api = `${this.apiBase}/admin/products?page=${page}`;
-      this.isLoading = true;
+      this.$emit('loadingStatus', true);
       this.$http.get(api)
         .then((res) => {
           this.productsData = res.data.products;
           this.paginationData = res.data.pagination;
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         }).catch((err) => {
-          Swal.fire({
+          sweetAlert.fire({
             icon: 'error',
             text: err.data.response.message,
           });
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         });
     },
     showModal(status, product) {
@@ -187,15 +176,15 @@ export default {
     },
     changeEnable(product) {
       const api = `${this.apiBase}/admin/product/${product.id}`;
-      this.isLoading = true;
+      this.$emit('loadingStatus', true);
       this.$http.put(api, { data: product })
         .then((res) => {
           this.getProducts();
           pushToastMessage('admin', res.data.success, '產品更新');
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         }).catch((err) => {
           pushToastMessage('admin', err.response.data.success, '產品更新');
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         });
     },
   },

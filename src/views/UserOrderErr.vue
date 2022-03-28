@@ -1,8 +1,8 @@
 <template>
-  <main class="main-footer-bottom bg-light p-3">
+  <main class="main-footer-bottom p-3">
     <div class="container bg-white mb-5">
       <div class="d-flex flex-column align-items-center justify-content-center p-5">
-        <h3 class="fs-1">
+        <h3 class="fs-1 mb-5">
           <i class="bi bi-x-circle-fill text-danger"></i>
           交易失敗！
         </h3>

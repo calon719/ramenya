@@ -1,7 +1,7 @@
 <template>
   <div class="adminCoupons">
     <h2>優惠券管理列表</h2>
-    <button class="btn btn-primary px-4 d-flex ms-auto mb-3"
+    <button type="button" class="btn btn-primary px-4 d-flex ms-auto mb-3"
       @click="showModal('add')">
       <span class="material-icons-outlined">
         add
@@ -86,21 +86,11 @@
         </p>
       </template>
     </delModal>
-
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-          <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
   </div>
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import sweetAlert from 'sweetalert2';
 import pagination from '@/components/PaginationComponent.vue';
 import couponModal from '@/components/CouponModal.vue';
 import delModal from '@/components/DelModal.vue';
@@ -121,7 +111,6 @@ export default {
         month: '2-digit',
         day: '2-digit',
       },
-      isLoading: false,
     };
   },
   provide: {
@@ -131,22 +120,22 @@ export default {
     getCoupons(page = this.paginationData?.current_page || 1) {
       const api = `${this.apiBase}/admin/coupons?page=${page}`;
 
-      this.isLoading = true;
+      this.$emit('loadingStatus', true);
       this.$http.get(api)
         .then((res) => {
           this.couponsData = res.data.coupons;
           this.paginationData = res.data.pagination;
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
           this.checkExpiredCoupone();
         }).catch((err) => {
-          Swal.fire({
+          sweetAlert.fire({
             icon: 'warning',
             text: err.response.data.message,
           });
           this.$router.replace({
             name: 'Login',
           });
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         });
     },
     showModal(status, coupon) {
@@ -174,19 +163,19 @@ export default {
     },
     changeEnable(coupon) {
       const api = `${this.apiBase}/admin/coupon/${coupon.id}`;
-      this.isLoading = true;
+      this.$emit('loadingStatus', true);
       this.$http.put(api, { data: coupon })
         .then((res) => {
           pushToastMessage('admin', res.data.success, '更新優惠券');
           this.getCoupons();
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         }).catch((err) => {
-          Swal.fire({
+          sweetAlert.fire({
             icon: 'error',
             text: err.data.response.message,
           });
           pushToastMessage('admin', err.response.data.success, '更新優惠券');
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         });
     },
     checkExpiredCoupone() {
@@ -197,7 +186,7 @@ export default {
 
       const len = expiredCoupons.length;
       if (len) {
-        Swal.fire({
+        sweetAlert.fire({
           icon: 'warning',
           text: `有 ${len} 筆啟用中的優惠券過期囉！`,
         });

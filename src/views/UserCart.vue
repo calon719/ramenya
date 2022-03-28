@@ -4,7 +4,7 @@
       <h2 class="page-banner-title fs-1">購物清單</h2>
     </header>
 
-    <main class="bg-light pb-5">
+    <main class="footer-bottom">
       <div class="container bg-white mb-5 py-5 px-md-4">
         <div class="row justify-content-center">
           <div class="col-12 col-md-8 col-lg-7">
@@ -31,7 +31,7 @@
 
         <div v-else>
           <div class="text-end mb-3 me-md-3 pe-1">
-            <button class="btn btn-outline-danger me-md-3"
+            <button type="button" class="btn btn-outline-danger me-md-3"
               @click="clearCart">清空購物車</button>
           </div>
           <div class="px-3 px-md-5">
@@ -55,7 +55,7 @@
                     :src="item.product.imageUrl" :alt="item.product.title">
                 </div>
               </li>
-              <li class="col-5 col-sm-9">
+              <li class="col-5 col-md-9">
                 <ul class="row gy-3 list-unstyled">
                   <li
                     class="col-12 col-md-4 d-flex align-items-center
@@ -147,38 +147,29 @@
                 </i>總金額未滿 300 元不得外送
               </p>
             </div>
-            <div class="col-5 col-md-3 col-lg-2 me-auto">
+            <div class="col-5 col-md-3 col-lg-2 ms-md-4 me-auto">
               <router-link to="/products" class="btn btn-outline-secondary w-100">
                 <i class="bi bi-arrow-left"></i>
                 還想逛逛
               </router-link>
             </div>
             <div class="col-5 col-md-3 col-lg-2">
-              <router-link to="/order/info" class="btn btn-primary link-hover w-100"
-                :class="cartData.total >= 300 ? '' : 'disabled'">
+              <a href="#" class="btn btn-primary link-hover w-100"
+                :class="cartData.total >= 300 ? '' : 'disabled'"
+                @click.prevent="goToInfo">
                 我要結帳
                 <i class="bi bi-arrow-right"></i>
-              </router-link>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </main>
-
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-          <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
   </div>
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import sweetAlert from 'sweetalert2';
 import pushToastMessage from '@/utils/pushToastMessage';
 import emitter from '@/utils/emitter';
 
@@ -191,7 +182,6 @@ export default {
       couponCode: '',
       amount: 0,
       itemId: '',
-      isLoading: false,
       isBtnLoading: false,
       couponRes: {
         isErr: false,
@@ -220,19 +210,19 @@ export default {
   },
   methods: {
     getCart() {
-      if (this.cartData.length) {
-        this.isLoading = true;
+      if (this.cartData.length === 0) {
+        this.$emit('loadingStatus', true);
       }
       this.$http.get(`${this.apiBase}/cart`)
         .then((res) => {
           this.cartData = res.data.data;
           this.isBtnLoading = false;
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         }).catch((err) => {
           this.isBtnLoading = false;
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
           const msg = err.response.data.message;
-          Swal.fire({
+          sweetAlert.fire({
             icon: 'error',
             text: msg,
           });
@@ -272,15 +262,16 @@ export default {
         });
     },
     clearCart() {
-      this.isLoading = true;
+      this.$emit('loadingStatus', true);
       this.$http.delete(`${this.apiBase}/carts`)
         .then((res) => {
           pushToastMessage('user', res.data.success, '清空購物車');
           this.getCart();
           emitter.emit('updateCart');
+          this.$emit('loadingStatus', false);
         }).catch((err) => {
           pushToastMessage('user', err.response.data.success, '清空購物車');
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         });
     },
     matchCoupon() {
@@ -309,9 +300,21 @@ export default {
           this.couponCode = '';
         });
     },
+    goToInfo() {
+      const data = JSON.stringify(this.cartData);
+      localStorage.setItem('carts', data);
+      this.$router.push({
+        name: 'UserOrderInfo',
+      });
+    },
   },
   created() {
     this.getCart();
+
+    const localData = localStorage.getItem('carts');
+    if (localData) {
+      localStorage.removeItem('carts');
+    }
   },
 };
 </script>

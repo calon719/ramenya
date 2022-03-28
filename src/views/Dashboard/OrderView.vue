@@ -137,20 +137,11 @@
         </table>
       </template>
     </delModal>
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-          <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
   </div>
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import sweetAlert from 'sweetalert2';
 import pagination from '@/components/PaginationComponent.vue';
 import delModal from '@/components/DelModal.vue';
 import orderModal from '@/components/OrderModal.vue';
@@ -176,22 +167,21 @@ export default {
         second: '2-digit',
         hour12: false,
       },
-      isLoading: false,
       isBtnLoading: false,
     };
   },
   methods: {
     getOrders(page = this.paginationData?.current_page || 1) {
       const api = `${this.apiBase}/admin/orders?page=${page}`;
-      this.isLoading = true;
+      this.$emit('loadingStatus', true);
       this.$http.get(api)
         .then((res) => {
           this.ordersData = res.data.orders;
           this.paginationData = res.data.pagination;
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         }).catch((err) => {
-          this.isLoading = false;
-          Swal.fire({
+          this.$emit('loadingStatus', false);
+          sweetAlert.fire({
             icon: 'error',
             text: err.data.response.message,
           });
@@ -207,15 +197,15 @@ export default {
       }
     },
     updateOrder(order) {
-      this.isLoading = true;
+      this.$emit('loadingStatus', true);
       const api = `${this.apiBase}/admin/order/${order.id}`;
       this.$http.put(api, { data: order })
         .then((res) => {
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
           pushToastMessage('admin', res.data.success, '訂單更新');
           this.getOrders();
         }).catch((err) => {
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
           pushToastMessage('admin', err.response.data.success, '訂單更新');
         });
     },

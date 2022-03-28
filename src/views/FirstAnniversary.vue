@@ -1,6 +1,6 @@
 <template>
-  <cartDropdown></cartDropdown>
   <div class="anniversary footer-bottom">
+    <cartDropdown></cartDropdown>
     <header class="banner">
       <h2 class="banner-title fs-1">歡慶一週年</h2>
     </header>

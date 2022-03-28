@@ -140,9 +140,8 @@ export default {
         case 'add':
           method = 'post';
           if (!this.data.code) {
-            this.data.code = Math.random().toString(36).substring(2); // 隨機字串
-            // 36 是進位方式，如果使用36進位就是等於 10 碼數字 + 26 英文
-            // substring() 從指定位置取得含指定位置之後的字串
+            // 產生 11 碼隨機字串
+            this.data.code = Math.random().toString(36).substring(2);
           }
           break;
         case 'edit':

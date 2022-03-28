@@ -38,15 +38,6 @@
   </div>
 </template>
 
-<style>
-.toast-container {
-  z-index: 2500;
-}
-.user-toast-container {
-  top: 56px;
-}
-</style>
-
 <script>
 export default {
   data() {
@@ -60,7 +51,6 @@ export default {
   methods: {
     hideToast() {
       setTimeout(() => {
-        // 刪除第一個訊息
         this.adminMessages.shift();
         this.userMessages.shift();
       }, 3500);
@@ -72,7 +62,6 @@ export default {
       this.fromPage = fromPage;
       const ary = `${fromPage}Messages`;
       this[ary].push(message);
-      // 每一個訊息進來就會觸發一次
       this.hideToast();
     });
   },
@@ -81,3 +70,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.toast-container {
+  z-index: 2500;
+}
+.user-toast-container {
+  top: 56px;
+}
+</style>

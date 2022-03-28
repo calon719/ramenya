@@ -120,20 +120,11 @@
         <div class="subscription-bg"></div>
       </section>
     </main>
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-          <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
   </div>
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import sweetAlert from 'sweetalert2';
 import cartDropdown from '@/components/CartDropdown.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
 
@@ -142,26 +133,24 @@ export default {
     return {
       apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       newArrials: [],
-      isLoading: false,
       addCartLoading: {
         id: '',
-        isLoading: false,
       },
       isBtnLoading: false,
     };
   },
   methods: {
     getProducts() {
-      this.isLoading = true;
+      this.$emit('loadingStatus', true);
       this.$http.get(`${this.apiBase}/products/all`)
         .then((res) => {
           const data = res.data.products;
           this.newArrials = data.filter((product) => product.tag === 2);
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
         }).catch((err) => {
-          this.isLoading = false;
+          this.$emit('loadingStatus', false);
           const msg = err.response.data.message;
-          Swal.fire({
+          sweetAlert.fire({
             icon: 'error',
             text: msg,
           });

@@ -1,8 +1,8 @@
 <template>
   <div class="userOrderInfo">
-    <main class="bg-light pb-5">
+    <main class="footer-bottom">
       <div class="container bg-white mb-5 py-5 px-md-5">
-        <div class="row justify-content-center mb-5 pb-md-5">
+        <div class="row justify-content-center mb-5">
           <div class="col-12 col-md-8 col-lg-7">
             <ul class="multi-steps steps-one">
               <li>確認品項</li>
@@ -70,7 +70,7 @@
           </div>
           <div class="row">
             <div class="col-5 col-md-4 col-lg-3 col-xl-2 me-auto">
-              <a class="btn btn-outline-secondary w-100"
+              <a href="#" class="btn btn-outline-secondary w-100"
                 @click.prevent="backPrePage">
                 <i class="bi bi-arrow-left"></i>
                 返回上一頁
@@ -87,67 +87,43 @@
         </Form>
       </div>
     </main>
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-          <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
   </div>
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import sweetAlert from 'sweetalert2';
 
 export default {
   data() {
     return {
-      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       userData: {
         user: {},
         message: '',
       },
-      isLoading: false,
     };
   },
   methods: {
     checkCart() {
-      this.isLoading = true;
-      this.$http.get(`${this.apiBase}/cart`)
-        .then((res) => {
-          this.isLoading = false;
-          const cartLen = res.data.data.carts.length;
-
-          if (!cartLen) {
-            Swal.fire({
-              icon: 'error',
-              text: '購物車沒有商品！',
-            });
-            this.$router.replace({
-              name: 'UserCart',
-            });
-          }
-        }).catch((err) => {
-          this.isLoading = false;
-          const msg = err.response.data.message;
-          Swal.fire({
-            icon: 'error',
-            text: msg,
-          });
+      const cartData = JSON.parse(localStorage.getItem('carts'));
+      if (!cartData || !cartData.carts?.length) {
+        sweetAlert.fire({
+          icon: 'error',
+          text: '購物車沒有商品！',
         });
+        this.$router.replace({
+          name: 'UserCart',
+        });
+      }
     },
     goOrderConfirm() {
-      const val = JSON.stringify(this.userData);
+      const data = JSON.stringify(this.userData);
 
       const check = localStorage.getItem('orderData');
       if (check) {
         localStorage.removeItem('orderData');
       }
 
-      localStorage.setItem('orderData', val);
+      localStorage.setItem('orderData', data);
       this.$router.push({
         name: 'UserOrderConfirm',
       });

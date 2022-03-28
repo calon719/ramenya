@@ -48,8 +48,7 @@ export default {
   },
   methods: {
     drawFans(index) {
-      // 計算每個扇形面積
-      this.deg = 360 / this.prizes.length;
+      this.deg = 360 / this.prizes.length; // 計算每個扇形面積
       const titls = -this.deg / 2; // 第一個角度介於 0 - deg / 2 和 deg / 2 之間，故 deg 要為負數
       const skewY = this.deg - 90; // 90 為四角形其中一角的角度，相減求得要變形的角度
 
@@ -74,15 +73,13 @@ export default {
         const randomNum = Math.floor(Math.random() * this.prizes.length);
         this.prize = this.prizes[randomNum];
 
-        // 總共要轉的角度：設定圈數 + 獎項所在的扇形中間的角度
+        // 總共要轉的角度
         let rotate = this.rotateTimes * 360 + randomNum * this.deg;
 
         // 前一次角度 + 這次角度並扣除上次停留的角度（角度歸 0 後加上這次獎項所在的角度）
         rotate -= (this.stopDeg % 360);
         this.stopDeg += rotate;
 
-        // 轉動指針為正數
-        // 轉動轉盤為負數
         this.innerEl.style.transform = `rotate(${-this.stopDeg}deg)`;
 
         this.prizesEl.forEach((el) => {
@@ -115,7 +112,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './../assets/stylesheet/all';
 
 .luckyWheel {

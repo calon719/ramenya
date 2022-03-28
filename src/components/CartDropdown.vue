@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import sweetAlert from 'sweetalert2';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -90,7 +90,7 @@ export default {
         }).catch((err) => {
           this.isBtnLoading = false;
           const msg = err.response.data.message;
-          Swal.fire({
+          sweetAlert.fire({
             icon: 'error',
             text: msg,
           });

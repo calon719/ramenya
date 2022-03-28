@@ -10,6 +10,11 @@
 
 <br>
 
+## 11 碼隨機英數字
+使用 `Math.random()` 隨機挑選一個數字後，使用 `toStrong()` 轉成 36 進位並 `substring()` 取小數點後面 11 碼。
+
+<br>
+
 ## 首頁底部視覺動差設計
 一開始使用 `scrollY` 發現 `section.subscription` 太下面觸及不到，改成計算 `body` 底部到可視視窗底部的距離。
 

@@ -76,19 +76,13 @@
       </div>
     </footer>
 
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-          <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
+    <loading :isLoading="isLoading"></loading>
   </div>
 </template>
 
 <script>
+import loading from '@/components/LoadingComponent.vue';
+
 export default {
   data() {
     return {
@@ -141,6 +135,9 @@ export default {
   mounted() {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)rakuwaya\s*=\s*([^;]*).*$)|^.*$/, '$1');
     this.checkLogin(token);
+  },
+  components: {
+    loading,
   },
 };
 </script>

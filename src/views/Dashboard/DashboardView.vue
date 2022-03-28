@@ -40,30 +40,31 @@
     </nav>
 
     <div class="container py-5">
-      <router-view v-if="isLogin" />
+      <router-view @loadingStatus="changeLoadingStatus" v-if="isLogin" />
     </div>
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-          <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
+
+    <loading :isLoading="isLoading"></loading>
   </div>
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import { Collapse } from 'bootstrap';
+import sweetAlert from 'sweetalert2';
+import loading from '@/components/LoadingComponent.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
   data() {
     return {
+      navbar: {},
       isLogin: false,
       isLoading: false,
     };
+  },
+  watch: {
+    $route() {
+      this.navbar.hide();
+    },
   },
   methods: {
     checkLogin(token) {
@@ -77,7 +78,7 @@ export default {
             this.isLoading = false;
           }).catch((err) => {
             this.isLogin = err.response.data.success;
-            Swal.fire({
+            sweetAlert.fire({
               icon: 'error',
               text: err.response.data.message,
             });
@@ -87,7 +88,7 @@ export default {
             this.isLoading = false;
           });
       } else {
-        Swal.fire({
+        sweetAlert.fire({
           icon: 'error',
           title: '請登入帳號',
         });
@@ -104,12 +105,22 @@ export default {
         name: 'Login',
       });
     },
+    changeLoadingStatus(status) {
+      this.isLoading = status;
+    },
   },
   mounted() {
+    this.navbar = new Collapse(this.$refs.navbar, {
+      toggle: false,
+    });
+
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)rakuwaya\s*=\s*([^;]*).*$)|^.*$/, '$1');
 
     this.$http.defaults.headers.common.Authorization = token;
     this.checkLogin(token);
+  },
+  components: {
+    loading,
   },
 };
 </script>

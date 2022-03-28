@@ -10,7 +10,7 @@
       </li>
       <li class="page-item"
         :class="{'active': pages.current_page === page}"
-        v-for="page in pages?.total_pages" :key="page + '_' + pages?.total_pages">
+        v-for="page in pages?.total_pages" :key="`${page}_${pages?.total_pages}`">
         <a class="page-link" href="#"
           :class="{'cursor-default': pages.current_page === page}"
           @click.prevent="changePage(page)"

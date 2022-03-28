@@ -1,6 +1,6 @@
 <template>
-  <cartDropdown></cartDropdown>
   <div class="contact footer-bottom">
+    <cartDropdown></cartDropdown>
     <header class="page-banner">
       <h2 class="page-banner-title fs-1">聯絡我們</h2>
     </header>
