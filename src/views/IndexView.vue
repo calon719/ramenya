@@ -54,3 +54,25 @@
     </footer>
   </div>
 </template>
+
+<script>
+import { Collapse } from 'bootstrap';
+
+export default {
+  data() {
+    return {
+      navbar: {},
+    };
+  },
+  watch: {
+    $route() {
+      this.navbar.hide();
+    },
+  },
+  mounted() {
+    this.navbar = new Collapse(this.$refs.navbar, {
+      toggle: false,
+    });
+  },
+};
+</script>

@@ -1,6 +1,4 @@
-<template>
-  <div class="luckyWheel">
-    <div class="luckyWheel-indicator">
+<template> <div class="luckyWheel"> <div class="luckyWheel-indicator">
       <div class="luckyWheel-indicator-wrap">
         <div class="luckyWheel-indicator-shadow"></div>
         <button class="luckyWheel-btn" type="button"
@@ -16,6 +14,106 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      innerEl: {},
+      prizesEl: [],
+      prize: '',
+      prizes: [
+        '1stANNIV90',
+        '1stANNIV85',
+        '1stANNIV80',
+        '1stANNIV75',
+        '1stANNIV65',
+        '1stANNIV50',
+      ],
+      prizesName: [],
+      transitionTime: 6,
+      rotateTimes: 5,
+      deg: 0,
+      stopDeg: 0,
+      isClicked: false,
+      bgColors: [
+        '#16a085',
+        '#2980b9',
+        '#34495e',
+        '#f39c12',
+        '#d35400',
+        '#c0392b',
+      ],
+    };
+  },
+  methods: {
+    drawFans(index) {
+      // 計算每個扇形面積
+      this.deg = 360 / this.prizes.length;
+      const titls = -this.deg / 2; // 第一個角度介於 0 - deg / 2 和 deg / 2 之間，故 deg 要為負數
+      const skewY = this.deg - 90; // 90 為四角形其中一角的角度，相減求得要變形的角度
+
+      return `rotate(${titls + this.deg * index}deg) skewY(${skewY}deg)`;
+    },
+    drawBgColor(index) {
+      let color = '';
+      if (this.bgColors[index]) {
+        color = this.bgColors[index];
+      } else {
+        const len = this.bgColors.length;
+        color = this.bgColors[index - len];
+      }
+      return color;
+    },
+    drawLottery() {
+      if (!this.isClicked) {
+        this.prize = '';
+        this.$emit('getPrize', this.prize);
+        this.isClicked = true;
+
+        const randomNum = Math.floor(Math.random() * this.prizes.length);
+        this.prize = this.prizes[randomNum];
+
+        // 總共要轉的角度：設定圈數 + 獎項所在的扇形中間的角度
+        let rotate = this.rotateTimes * 360 + randomNum * this.deg;
+
+        // 前一次角度 + 這次角度並扣除上次停留的角度（角度歸 0 後加上這次獎項所在的角度）
+        rotate -= (this.stopDeg % 360);
+        this.stopDeg += rotate;
+
+        // 轉動指針為正數
+        // 轉動轉盤為負數
+        this.innerEl.style.transform = `rotate(${-this.stopDeg}deg)`;
+
+        this.prizesEl.forEach((el) => {
+          el.classList.remove('active');
+        });
+        setTimeout(() => {
+          this.$emit('getPrize', this.prize);
+          this.prizesEl[randomNum].classList.add('active');
+          this.isClicked = false;
+        }, this.transitionTime * 1000);
+      }
+    },
+  },
+  mounted() {
+    this.innerEl = document.querySelector('.luckyWheel-inner');
+    this.prizesEl = document.querySelectorAll('.luckyWheel-sector');
+    this.prizesEl = [...this.prizesEl];
+    this.prizesName = this.prizes.map((prize) => {
+      let str = prize;
+      str = prize.split('');
+      const len = str.length;
+      if (str[len - 1] > 0) {
+        str = str.splice(-2, 2);
+      } else {
+        str = str.splice(-2, 1);
+      }
+      return `${str.join('')} 折`;
+    });
+  },
+};
+</script>
 
 <style lang="scss">
 @import './../assets/stylesheet/all';
@@ -141,103 +239,3 @@
   }
 }
 </style>
-
-<script>
-export default {
-  data() {
-    return {
-      innerEl: {},
-      prizesEl: [],
-      prize: '',
-      prizes: [
-        '1stANNIV90',
-        '1stANNIV85',
-        '1stANNIV80',
-        '1stANNIV75',
-        '1stANNIV65',
-        '1stANNIV50',
-      ],
-      prizesName: [],
-      transitionTime: 6,
-      rotateTimes: 5,
-      deg: 0,
-      stopDeg: 0,
-      isClicked: false,
-      bgColors: [
-        '#16a085',
-        '#2980b9',
-        '#34495e',
-        '#f39c12',
-        '#d35400',
-        '#c0392b',
-      ],
-    };
-  },
-  methods: {
-    drawFans(index) {
-      // 計算每個扇形面積
-      this.deg = 360 / this.prizes.length;
-      const titls = -this.deg / 2; // 第一個角度介於 0 - deg / 2 和 deg / 2 之間，故 deg 要為負數
-      const skewY = this.deg - 90; // 90 為四角形其中一角的角度，相減求得要變形的角度
-
-      return `rotate(${titls + this.deg * index}deg) skewY(${skewY}deg)`;
-    },
-    drawBgColor(index) {
-      let color = '';
-      if (this.bgColors[index]) {
-        color = this.bgColors[index];
-      } else {
-        const len = this.bgColors.length;
-        color = this.bgColors[index - len];
-      }
-      return color;
-    },
-    drawLottery() {
-      if (!this.isClicked) {
-        this.prize = '';
-        this.$emit('getPrize', this.prize);
-        this.isClicked = true;
-
-        const randomNum = Math.floor(Math.random() * this.prizes.length);
-        this.prize = this.prizes[randomNum];
-
-        // 總共要轉的角度：設定圈數 + 獎項所在的扇形中間的角度
-        let rotate = this.rotateTimes * 360 + randomNum * this.deg;
-
-        // 前一次角度 + 這次角度並扣除上次停留的角度（角度歸 0 後加上這次獎項所在的角度）
-        rotate -= (this.stopDeg % 360);
-        this.stopDeg += rotate;
-
-        // 轉動指針為正數
-        // 轉動轉盤為負數
-        this.innerEl.style.transform = `rotate(${-this.stopDeg}deg)`;
-
-        this.prizesEl.forEach((el) => {
-          el.classList.remove('active');
-        });
-        setTimeout(() => {
-          this.$emit('getPrize', this.prize);
-          this.prizesEl[randomNum].classList.add('active');
-          this.isClicked = false;
-        }, this.transitionTime * 1000);
-      }
-    },
-  },
-  mounted() {
-    this.innerEl = document.querySelector('.luckyWheel-inner');
-    this.prizesEl = document.querySelectorAll('.luckyWheel-sector');
-    this.prizesEl = [...this.prizesEl];
-    this.prizesName = this.prizes.map((prize) => {
-      let str = prize;
-      str = prize.split('');
-      const len = str.length;
-      if (str[len - 1] > 0) {
-        str = str.splice(-2, 2);
-      } else {
-        str = str.splice(-2, 1);
-      }
-      return `${str.join('')} 折`;
-    });
-  },
-};
-</script>

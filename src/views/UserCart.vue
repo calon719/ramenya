@@ -30,11 +30,11 @@
         </div>
 
         <div v-else>
-          <div class="text-end mb-2">
-            <button class="btn btn-outline-danger"
+          <div class="text-end mb-3 me-md-3 pe-1">
+            <button class="btn btn-outline-danger me-md-3"
               @click="clearCart">清空購物車</button>
           </div>
-          <div class="p-3 px-md-5">
+          <div class="px-3 px-md-5">
             <ul class="row border-bottom border-top list-unstyled py-2">
               <li class="col-12 col-md-5">
                 <h3 class="m-0 py-2 fs-6 fw-bold text-center">商品</h3>
@@ -55,7 +55,7 @@
                     :src="item.product.imageUrl" :alt="item.product.title">
                 </div>
               </li>
-              <li class="col-6 col-md-9">
+              <li class="col-5 col-sm-9">
                 <ul class="row gy-3 list-unstyled">
                   <li
                     class="col-12 col-md-4 d-flex align-items-center
@@ -65,7 +65,11 @@
                     </h4>
                   </li>
                   <li class="col-12 col-md-5">
-                    <div class="input-group">
+                    <div v-if="isBtnLoading && itemId === item.product_id"
+                      class="d-flex justify-content-center">
+                      <div class="spinner-border"></div>
+                    </div>
+                    <div v-else class="input-group">
                       <button class="btn btn-custom" type="button" :disabled="item.qty <= 1"
                         @click="updateCart(item.id, item.product_id, (item.qty - 1))">
                         <span class="material-icons-outlined">
@@ -89,8 +93,11 @@
                   </li>
                 </ul>
               </li>
-              <li class="col-1 text-center">
-                <button type="button" class="btn-close" @click="deleteProduct(item.id)"></button>
+              <li class="col-2 col-sm-1 text-center">
+                <div v-if="isBtnLoading && itemId === item.id"
+                  class="spinner-border spinner-border-sm"></div>
+                <button v-else
+                  type="button" class="btn-close" @click="deleteProduct(item.id)"></button>
               </li>
             </ul>
           </div>
@@ -105,11 +112,12 @@
                 <input type="text" class="form-control" placeholder="請輸入優惠券號碼"
                   v-model="couponCode" />
                 <button class="btn btn-outline-success" type="button"
-                  :disabled="!couponCode || isBtnLoading" @click="matchCoupon">
+                  :disabled="!couponCode || (isBtnLoading && itemId === 'coupon')"
+                  @click="matchCoupon">
                   <div class="spinner-border spinner-border-sm" role="status"
-                    v-show="isBtnLoading">
+                    v-if="isBtnLoading && itemId === 'coupon'">
                   </div>
-                  <span v-show="!isBtnLoading">使用</span>
+                  <span v-else>使用</span>
                 </button>
               </div>
             </li>
@@ -182,6 +190,7 @@ export default {
       deliveryFee: 30,
       couponCode: '',
       amount: 0,
+      itemId: '',
       isLoading: false,
       isBtnLoading: false,
       couponRes: {
@@ -211,12 +220,16 @@ export default {
   },
   methods: {
     getCart() {
-      this.isLoading = true;
+      if (this.cartData.length) {
+        this.isLoading = true;
+      }
       this.$http.get(`${this.apiBase}/cart`)
         .then((res) => {
           this.cartData = res.data.data;
+          this.isBtnLoading = false;
           this.isLoading = false;
         }).catch((err) => {
+          this.isBtnLoading = false;
           this.isLoading = false;
           const msg = err.response.data.message;
           Swal.fire({
@@ -228,32 +241,33 @@ export default {
     updateCart(cartId, productId, qty) {
       const check = qty.toString().match(/\d$/);
       if (qty > 0 && check) {
+        this.itemId = productId;
         const data = {
           product_id: productId,
           qty,
         };
-        this.isLoading = true;
+        this.isBtnLoading = true;
         this.$http.put(`${this.apiBase}/cart/${cartId}`, { data })
           .then((res) => {
-            this.isLoading = false;
             pushToastMessage('user', res.data.success, '更新購物車');
             emitter.emit('updateCart');
             this.getCart();
           }).catch((err) => {
-            this.isLoading = false;
+            this.isBtnLoading = false;
             pushToastMessage('user', err.response.data.success, '更新購物車');
           });
       }
     },
     deleteProduct(id) {
-      this.isLoading = true;
+      this.itemId = id;
+      this.isBtnLoading = true;
       this.$http.delete(`${this.apiBase}/cart/${id}`)
         .then((res) => {
           pushToastMessage('user', res.data.success, '刪除商品');
           emitter.emit('updateCart');
           this.getCart();
         }).catch((err) => {
-          this.isLoading = false;
+          this.isBtnLoading = false;
           pushToastMessage('user', err.response.data.success, '刪除商品');
         });
     },
@@ -273,6 +287,7 @@ export default {
       const data = {
         code: this.couponCode,
       };
+      this.itemId = 'coupon';
       this.isBtnLoading = true;
       this.$http.post(`${this.apiBase}/coupon`, { data })
         .then((res) => {

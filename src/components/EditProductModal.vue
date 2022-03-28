@@ -304,15 +304,13 @@ export default {
         });
     },
     pushImg() {
-      if (this.imgUrl === '') {
-        return; // eslint-disable-line
-      }
-
-      if (!this.item.imagesUrl) {
-        this.item.imagesUrl = [];
-        this.item.imagesUrl.push(this.imgUrl);
-      } else {
-        this.item.imagesUrl.push(this.imgUrl);
+      if (this.imgUrl !== '') {
+        if (!this.item.imagesUrl) {
+          this.item.imagesUrl = [];
+          this.item.imagesUrl.push(this.imgUrl);
+        } else {
+          this.item.imagesUrl.push(this.imgUrl);
+        }
       }
     },
     updateProduct() {

@@ -37,7 +37,7 @@
           <div
             class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mb-5">
             <div class="col" v-for="product in productsData" :key="product.id">
-              <div class="card position-relative">
+              <div class="card card-custom position-relative">
                 <a class="card-coverLink" href="#"
                   :class="{'cursor-default': addCartLoading.isLoading}"
                   @click.prevent="goProduct(product.id)"></a>

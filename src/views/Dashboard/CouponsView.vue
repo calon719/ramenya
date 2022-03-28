@@ -139,7 +139,10 @@ export default {
           this.isLoading = false;
           this.checkExpiredCoupone();
         }).catch((err) => {
-          alert(err.response.data.message); // eslint-disable-line
+          Swal.fire({
+            icon: 'warning',
+            text: err.response.data.message,
+          });
           this.$router.replace({
             name: 'Login',
           });

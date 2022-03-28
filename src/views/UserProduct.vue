@@ -17,7 +17,7 @@
         </div>
       </nav>
 
-      <section class="pt-3 pb-5 container">
+      <section class="pb-5 container">
         <div class="row row-cols-1 row-cols-md-2 gy-4 gy-md-0 gx-md-4 gx-lg-5">
           <div class="col">
             <div class="ratio ratio-4x3">
@@ -25,67 +25,64 @@
             </div>
           </div>
           <div class="col">
-            <div class="h-100 d-flex flex-column justify-content-center">
-              <h2 class="border-bottom border-3 pb-2 px-2 mb-3">{{ product.title }}</h2>
-              <p class="text-indent-2 text-muted lh-lg px-3">{{ product.description }}</p>
-              <hr>
-              <div class="px-3">
-                <p class="text-muted">產品原料：{{ product.content }}</p>
-                <p class="text-danger"
-                  :class="{'invisible': !isAlcohol}">※ 未滿十八歲者，禁止飲酒</p>
-              </div>
-              <div class="d-flex justify-content-end align-items-center">
-                <h3 class="text-end px-3">
-                  <span v-show="product.origin_price">特價</span>
-                  NTD {{ product.price }}
-                </h3>
-                <small class="text-muted"
-                  v-show="product.origin_price">
-                  <del>NTD {{ product.origin_price }}</del>
-                </small>
-              </div>
-              <small class="text-danger mb-1" v-html="inputErrMsg"></small>
-              <div class="row gy-3 mb-4">
-                <div class="col-12 col-sm-7">
-                  <div class="input-group">
-                    <button class="btn btn-dark" type="button" :disabled="num <= 1"
-                      @click="num -= 1">
-                      <i class="bi bi-dash"></i>
-                    </button>
-                    <input class="form-control text-end" type="number" min="1"
-                      v-model.number="num" />
-                    <button class="btn btn-dark" type="button"
-                      @click="num += 1">
-                      <i class="bi bi-plus"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="col-12 col-sm-5">
-                  <button class="w-100 btn btn-primary" type="button"
-                    @click="addCart" :disabled="isBtnLoading || num < 1">
-                    <div class="spinner-border spinner-border-sm text-light"
-                      v-show="isBtnLoading"></div>
-                    <span v-show="!isBtnLoading">
-                      <i class="bi bi-cart-fill"></i>
-                      加入購物車
-                    </span>
+            <h2 class="border-bottom border-3 pb-2 mb-3">{{ product.title }}</h2>
+            <p class="text-muted lh-lg">{{ product.description }}</p>
+            <hr>
+            <p class="text-muted">產品原料：{{ product.content }}</p>
+            <p class="text-danger"
+              :class="{'invisible': !isAlcohol}">※ 未滿十八歲者，禁止飲酒</p>
+            <div class="d-flex justify-content-end align-items-center">
+              <h3 class="text-end">
+                <span v-show="product.origin_price">特價</span>
+                NTD {{ product.price }}
+              </h3>
+              <small class="text-muted"
+                v-show="product.origin_price">
+                <del>NTD {{ product.origin_price }}</del>
+              </small>
+            </div>
+            <small class="text-danger mb-1" v-html="inputErrMsg"></small>
+            <div class="row gy-3 mb-3">
+              <div class="col-12 col-sm-7">
+                <div class="input-group">
+                  <button class="btn btn-dark" type="button" :disabled="num <= 1"
+                    @click="num -= 1">
+                    <i class="bi bi-dash"></i>
+                  </button>
+                  <input class="form-control text-end" type="number" min="1"
+                    v-model.number="num" />
+                  <button class="btn btn-dark" type="button"
+                    @click="num += 1">
+                    <i class="bi bi-plus"></i>
                   </button>
                 </div>
               </div>
-              <div class="row justify-content-end g-3"
-                :class="{'invisible': !isAddedCart}">
-                <div class="col-5 me-auto me-md-0">
-                  <router-link class="w-100 btn btn-outline-dark" to="/products">
-                    <i class="bi bi-arrow-left"></i>
-                    繼續購物
-                  </router-link>
-                </div>
-                <div class="col-5">
-                  <router-link class="w-100 btn btn-danger" to="/cart">
-                    結帳去
-                    <i class="bi bi-arrow-right"></i>
-                  </router-link>
-                </div>
+              <div class="col-12 col-sm-5">
+                <button class="w-100 btn btn-primary" type="button"
+                  @click="addCart(product.id)"
+                  :disabled="(itemId === product.id && isBtnLoading) || num < 1">
+                  <div class="spinner-border spinner-border-sm text-light"
+                    v-show="isBtnLoading && itemId === product.id"></div>
+                  <span v-show="!isBtnLoading">
+                    <i class="bi bi-cart-fill"></i>
+                    加入購物車
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="row justify-content-end g-4"
+              :class="{'invisible': !isAddedCart}">
+              <div class="col-5 me-auto me-md-0">
+                <router-link class="w-100 btn btn-outline-dark" to="/products">
+                  <i class="bi bi-arrow-left"></i>
+                  繼續購物
+                </router-link>
+              </div>
+              <div class="col-5">
+                <router-link class="w-100 btn btn-danger" to="/cart">
+                  結帳去
+                  <i class="bi bi-arrow-right"></i>
+                </router-link>
               </div>
             </div>
           </div>
@@ -120,10 +117,10 @@
       </section>
 
       <section class="container my-3 py-5">
-        <h3 class="mb-4 mb-md-5">您可能也感興趣⋯⋯</h3>
+        <h3 class="mb-3 mb-md-4">您可能也感興趣⋯⋯</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 gy-5">
           <div class="col" v-for="product in filteredProducts" :key="product.id">
-            <div class="card position-relative">
+            <div class="card card-custom position-relative">
               <a class="card-coverLink" href="#" @click.prevent="getProduct(product.id)"></a>
               <div v-show="product.tag" class="card-tag"
                 :class="product.tag === 1 ? 'bg-danger' : 'bg-success'">
@@ -148,6 +145,15 @@
                     </small>
                     NTD {{ product.price }}
                   </p>
+                  <button type="button" class="card-cartBtn btn btn-lg btn-primary rounded"
+                    :disabled="isBtnLoading && itemId === product.id"
+                    @click="addCart(product.id)">
+                    <div class="spinner-border spinner-border-sm" role="status"
+                      v-if="isBtnLoading && itemId === product.id"></div>
+                    <span v-else>
+                      <i class="bi bi-cart-fill"></i>
+                    </span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -184,6 +190,7 @@ export default {
       num: 1,
       isLoading: false,
       isBtnLoading: false,
+      itemId: '',
       isAddedCart: false,
       isAlcohol: false,
     };
@@ -204,10 +211,7 @@ export default {
           const { product } = res.data;
           this.product = product;
 
-          // 判斷上一頁是否也是 product 頁面
           if (JSON.stringify(this.product) !== '{}') {
-          // 在取得資料後再轉往所點選的商品頁面
-          // 否則先進到畫面時資料還沒更新，畫面也不會更新
             this.num = 1;
             this.isAddedCart = false;
             this.$router.push(`/product/${id}`);
@@ -281,24 +285,24 @@ export default {
       });
       this.filteredProducts = result;
     },
-    addCart() {
-      if (this.num >= 1) {
-        const { id } = this.$route.params;
-        let method = 'post';
-        let productId = this.product.id;
+    addCart(productId) {
+      const { id } = this.$route.params;
+      this.itemId = productId;
+      let api = `${this.apiBase}/cart`;
+      let method = 'post';
+
+      if (productId === id && this.num >= 1) {
         let qty = this.num;
-        let api = `${this.apiBase}/cart`;
         const product = this.cart.filter((item) => item.product_id === id);
 
         if (product.length) {
           method = 'put';
           api = `${api}/${product[0].id}`;
-          productId = product[0].product_id;
           qty = product[0].qty + this.num;
         }
 
         const data = {
-          product_id: productId,
+          product_id: id,
           qty,
         };
 
@@ -308,6 +312,26 @@ export default {
             this.getCart();
             this.isAddedCart = true;
             pushToastMessage('user', res.data.success, '加入購物車');
+            this.num = 1;
+            this.$refs.cartDropdown.getCart();
+            this.isBtnLoading = false;
+          }).catch((err) => {
+            pushToastMessage('user', err.response.data.success, '加入購物車');
+            this.isBtnLoading = false;
+          });
+      } else if (productId !== id) {
+        const data = {
+          product_id: productId,
+          qty: 1,
+        };
+
+        this.isBtnLoading = true;
+        this.$http[method](api, { data })
+          .then((res) => {
+            this.getCart();
+            this.isAddedCart = true;
+            pushToastMessage('user', res.data.success, '加入購物車');
+            this.num = 1;
             this.$refs.cartDropdown.getCart();
             this.isBtnLoading = false;
           }).catch((err) => {

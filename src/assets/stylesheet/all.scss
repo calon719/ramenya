@@ -5,11 +5,11 @@
 
 @import './utils/cursor';
 @import './utils/image';
-@import './utils/typography';
 @import './utils/footerBottom';
 
 @import './components/loading';
 @import './components/cartBtn';
+@import './components/card';
 @import './components/breadcrumb';
 @import './components/multiStepsBar';
 
@@ -22,8 +22,6 @@
 @import './pages/UserOrderInfo';
 @import './pages/UserOrderConfirm';
 @import './pages/UserOrderFinished';
-@import './pages/UserProducts';
-@import './pages/UserProduct';
 @import './pages/FirstAnniversary';
 @import './pages/ContactUs';
 @import './pages/NotFound';

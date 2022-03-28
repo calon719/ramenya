@@ -1,6 +1,7 @@
 <template>
   <div class="dropdown">
     <button type="button" class="cart-btn"
+      data-bs-auto-close="outside"
       data-bs-toggle="dropdown">
       <span class="cart-badge badge rounded-pill bg-danger">
         {{ cart.length ? cart.length : 0 }}
@@ -38,7 +39,7 @@
                   <img class="img-cover" :src="item.product.imageUrl" :alt="item.product.title">
                 </div>
               </td>
-              <td class="text-center">
+              <td>
                 <p class="mb-1">{{ item.product.title }}</p>
                 <p class="mb-0">
                   NTD {{ item.product.price }}
@@ -47,7 +48,9 @@
                 </p>
               </td>
               <td class="text-end" @click="deleteProduct(item.id)">
-                <button class="btn-close"></button>
+                <div v-if="isBtnLoading && itemId === item.id"
+                  class="spinner-border spinner-border-sm"></div>
+                <button v-else type="button" class="btn-close"></button>
               </td>
             </tr>
           </tbody>
@@ -61,16 +64,6 @@
         </table>
       </div>
     </div>
-
-    <VueLoading v-model:active="isLoading"
-      :color="`#fff`"
-      :background-color="`#000`"
-      :opacity="0.75"
-      :z-index="3000">
-      <div class="loadingio-spinner-ellipsis-66suo52scoo"><div class="ldio-i8bc824azn">
-          <div></div><div></div><div></div><div></div><div></div>
-      </div></div>
-    </VueLoading>
   </div>
 </template>
 
@@ -84,7 +77,8 @@ export default {
       apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       dropdown: {},
       cart: [],
-      isLoading: false,
+      itemId: '',
+      isBtnLoading: false,
     };
   },
   methods: {
@@ -94,7 +88,7 @@ export default {
           this.cart = res.data.data.carts;
           this.isLoading = false;
         }).catch((err) => {
-          this.isLoading = false;
+          this.isBtnLoading = false;
           const msg = err.response.data.message;
           Swal.fire({
             icon: 'error',
@@ -103,14 +97,14 @@ export default {
         });
     },
     deleteProduct(id) {
-      console.log('click');
-      this.isLoading = true;
+      this.isBtnLoading = true;
+      this.itemId = id;
       this.$http.delete(`${this.apiBase}/cart/${id}`)
         .then((res) => {
           pushToastMessage('user', res.data.success, '刪除商品');
           this.getCart();
         }).catch((err) => {
-          this.isLoading = false;
+          this.isBtnLoading = false;
           pushToastMessage('user', err.response.data.success, '刪除商品');
         });
     },

@@ -29,27 +29,27 @@
 
       <section class="feature bg-light py-5">
         <div class="container py-md-5">
-          <div class="row row-cols-1 row-cols-md-2 gy-4 g-md-5 align-items-center">
-            <div class="col order-1">
+          <div class="row gy-4 g-md-5 align-items-center">
+            <div class="col-12 col-md-7 order-1">
               <div class="ratio ratio-16x9 overflow-hidden">
                 <img class="img-cover" src="https://storage.googleapis.com/vue-course-api.appspot.com/calon/1648019866210.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=aI3MbOktzETvUqUNnpKVZ%2B3YGlbnym1IXb4iRm49qsLUkKBYSsxQ2G8oxiDjseaaKpajl2IBGHPccM6gXu7ZaeIEwxeuRWNFbf5ct5fPo846AHwf59tMyUiC0VIiSTTzWRucD8ato%2FoAtHJsTzmoS90XhpVY79OQ4WcuaEJ0CV%2FC99ffbAEqtySMFHllZviz08AvXun2oHvLUz1OjP1xj6jEfHs96Hw3a88%2FaiiJuNL1sYxGV8%2BMAsRbyMjDzZ%2BPS3PgNAzvjJcKiNLSJQVNncdO8wVZddPphWrDURiJ3h50T5ZxbNR0nYFDt7X58wQO98PdZDGbZE0TBbFw4t6nNA%3D%3D" alt="">
               </div>
             </div>
-            <div class="col order-2" data-aos="fade-top">
+            <div class="col-12 col-md-5 order-2" data-aos="fade-top">
               <h3 class="fw-bold">日本師父，傳統技術</h3>
               <p class="mb-0 text-muted text-indent-2">
                 拉麵屋的師父為了推廣日本拉麵的美味，帶著實戰十年的拉麵技術來到台灣開店，
                 繼承了日本職人的精神，堅決只端給客人最好最道地的拉麵，在拉麵的味道上絕不容許一絲妥協。
               </p>
             </div>
-            <div class="col order-4 order-md-3" data-aos="fade-top">
+            <div class="col-12 col-md-5 order-4 order-md-3" data-aos="fade-top">
               <h3 class="text-start text-md-end fw-bold">手工製麵，堅決品質</h3>
               <p class="mb-0 text-muted text-indent-2">
                 為了拉麵的品質，拉麵屋的師父獨自研發適合自家拉麵風味的比例，
                 並且每天純手工製作自行把關品質，雖然這作法導致每天拉麵的產量不多，
                 但能保證客人吃的每碗品質都是最好的。</p>
             </div>
-            <div class="col order-3 order-md-4">
+            <div class="col-12 col-md-7 order-3 order-md-4">
               <div class="ratio ratio-16x9 overflow-hidden">
                 <img class="img-cover" src="https://storage.googleapis.com/vue-course-api.appspot.com/calon/1648020007631.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=HtXei%2BPtsz7byb%2B5Z1wtqm79PHrQLCBu%2F8bcDYF2Wd7HNSu5N6rDolnjqgIsDYZzhUw84LUS158FP3uA0%2BRl67nVJ0yHRODzWedD0kot%2B%2FMDdnaNX3EHPaIhh4SpVgvC9B5GkVF6zovOljdW0WKR0Cw1sFoBa15M5XNtzNylL%2BKQkKLSqQWyS8ERarVwlzUqexNp3b2rJYGpKvPzT2RdjPvVrUvu5kF8ls6xjmlod5IWToCce%2F6U9RW6g5uq20QhxenlIviBH1d4c3gj1kvm8fCKleIhzHFZwvrYsbYTqAKV6uToVn3vYCMevItjE25UIOQItrMMNoGkJEQzQE2dwQ%3D%3D" alt="">
               </div>
@@ -70,16 +70,18 @@
             </div>
             <div class="col">
               <div class="product-content">
-                <h4 class="fs-3">{{ product.title }}</h4>
-                <p class="ms-4 me-2 fs-3 fw-bold">
+                <h4 class="fs-3 mb-4">{{ product.title }}</h4>
+                <p class="d-none d-xl-block">{{ product.description }}</p>
+                <p class="text-truncate d-xl-none w-100">{{ product.description }}</p>
+                <p class="fs-3 fw-bold">
                   NTD {{ product.price }}
-                  <span class="fs-6 text-muted">
+                  <span class="fs-6 text-muted fw-normal">
                     <del>NTD {{ product.origin_price }}</del>
                   </span>
                 </p>
                 <ul class="list-unstyled d-flex flex-wrap justify-content-center mb-0">
                   <li>
-                    <a class="product-link fs-5" href="#"
+                    <a class="product-link" href="#"
                       @click.prevent="goProduct(product.id)">
                       <i class="bi bi-journal-text"></i>
                       查看詳細
@@ -90,7 +92,7 @@
                       class="py-1">
                       <div class="spinner-border spinner-border-sm" role="status"></div>
                     </div>
-                    <a v-else class="product-link fs-5"
+                    <a v-else class="product-link"
                       href="#" @click.prevent="addCart(product.id)">
                       <i class="bi bi-bag-plus"></i>
                       加入購物車

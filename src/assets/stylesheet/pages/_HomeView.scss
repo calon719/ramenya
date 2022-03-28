@@ -131,8 +131,9 @@
         padding: 1.5rem;
       }
       &-link {
+        font-size: 1.25rem;
         display: block;
-        padding: .25rem 1rem;
+        padding: .25rem .5rem;
         text-decoration: none;
         color: $dark;
         width: 100%;
@@ -165,24 +166,32 @@
         &-content {
           height: 100%;
           width: 100%;
-          padding-left: 3rem;
-          padding-right: 1.5rem;
-          transform: translate(-2rem, 2rem);
+          padding: 1rem;
+          padding-left: 3.5rem;
+          transform: translate(-2rem, 1.75rem);
           z-index: -1;
         }
       }
     }
+    @include media-breakpoint-up(md) {
+      .product-link {
+        font-size: 1rem;
+      }
+    }
     @include media-breakpoint-up(lg) {
       .product-content {
-        padding-left: 4rem;
+        padding-left: 4.4rem;
         padding-right: 2rem;
+      }
+      .product-link {
+        font-size: 1.25rem;
       }
     }
   }
   .subscription {
     position: relative;
     overflow: hidden;
-    background-color: transparent;
+    background: linear-gradient(#000, transparent);
     height: 250px;
     &-content {
       width: 90%;
