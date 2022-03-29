@@ -209,7 +209,7 @@
     }
     @include media-breakpoint-up(sm) {
       & {
-        height: 350px;
+        height: 300px;
       }
       &-content {
         width: 80%;
@@ -220,7 +220,7 @@
     }
     @include media-breakpoint-up(md) {
       & {
-        height: 400px;
+        height: 350px;
       }
       &-content {
         width: 60%;

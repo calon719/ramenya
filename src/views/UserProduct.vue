@@ -30,7 +30,7 @@
             <hr>
             <p class="text-muted">產品原料：{{ product.content }}</p>
             <p class="text-danger"
-              :class="{'invisible': !isAlcohol}">※ 未滿十八歲者，禁止飲酒</p>
+              :class="{'d-none': !isAlcohol}">※ 未滿十八歲者，禁止飲酒</p>
             <div class="d-flex justify-content-end align-items-center">
               <h3 class="text-end">
                 <span v-show="product.origin_price">特價</span>

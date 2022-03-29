@@ -1,4 +1,15 @@
 .contact {
+  .info {
+    #map {
+      height: 500px;
+    }
+  }
+  .feedback {
+    margin-top: 5rem;
+    @include media-breakpoint-up(md) {
+      margin-top: 9rem;
+    }
+  }
   .badge-custom {
     border-radius: 3px;
     padding-top: 0.6em;
