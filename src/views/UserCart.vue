@@ -4,7 +4,7 @@
       <h2 class="page-banner-title fs-1">購物清單</h2>
     </header>
 
-    <main class="footer-bottom">
+    <main class="main-footer-bottom">
       <div class="container bg-white mb-5 py-5 px-md-4">
         <div class="row justify-content-center">
           <div class="col-12 col-md-8 col-lg-7">
