@@ -7,6 +7,7 @@
 - VeeValidate
 - mitt
 - vue-loading-overlay
+- Mapbox
 
 <br>
 
