@@ -9,9 +9,15 @@
               <router-link to="/" class="breadcrumb-link">首頁</router-link>
             </li>
             <li class="breadcrumb-item">
-              <router-link to="/products" class="breadcrumb-link">美味菜單</router-link>
+              <router-link :to="{ path: '/products', query: { category: '拉麵' } }"
+                class="breadcrumb-link">美味菜單</router-link>
             </li>
-            <li class="breadcrumb-item">{{ product.category }}</li>
+            <li class="breadcrumb-item">
+              <router-link class="breadcrumb-link"
+                :to="{ path: '/products', query: { category: product.category } }">
+                {{ product.category }}
+              </router-link>
+            </li>
             <li class="breadcrumb-item">{{ product.title }}</li>
           </ol>
         </div>
@@ -75,7 +81,8 @@
             <div class="row justify-content-end g-4"
               :class="{'invisible': !isAddedCart}">
               <div class="col-5 me-auto me-md-0">
-                <router-link class="w-100 btn btn-outline-dark" to="/products">
+                <router-link class="w-100 btn btn-outline-dark"
+                  :to="{ path: '/products', query: { category: product.category } }">
                   <i class="bi bi-arrow-left"></i>
                   繼續購物
                 </router-link>

@@ -12,3 +12,12 @@
     </div>
   </main>
 </template>
+
+<script>
+export default {
+  created() {
+    localStorage.removeItem('carts');
+    localStorage.removeItem('orderData');
+  },
+};
+</script>

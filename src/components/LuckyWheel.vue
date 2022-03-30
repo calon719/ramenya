@@ -76,7 +76,7 @@ export default {
         // 總共要轉的角度
         let rotate = this.rotateTimes * 360 + randomNum * this.deg;
 
-        // 前一次角度 + 這次角度並扣除上次停留的角度（角度歸 0 後加上這次獎項所在的角度）
+        // 前一次角度 + 這次角度並扣除上次停留的角度
         rotate -= (this.stopDeg % 360);
         this.stopDeg += rotate;
 
@@ -87,6 +87,7 @@ export default {
         });
         setTimeout(() => {
           this.$emit('getPrize', this.prize);
+          localStorage.setItem('coupon', this.prize);
           this.prizesEl[randomNum].classList.add('active');
           this.isClicked = false;
         }, this.transitionTime * 1000);

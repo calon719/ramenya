@@ -27,7 +27,7 @@
               <td class="py-4 text-center text-muted">
                 購物車內沒東西
                 <br>
-                <router-link to="/products"
+                <router-link :to="{ path: '/products', query: { category: '拉麵' } }"
                   class="btn btn-primary mt-2">去逛逛</router-link>
               </td>
             </tr>
@@ -86,6 +86,10 @@ export default {
       this.$http.get(`${this.apiBase}/cart`)
         .then((res) => {
           this.cart = res.data.data.carts;
+
+          if (this.$route.name === 'Anniversary') {
+            this.$emit('cartData', this.cart);
+          }
           this.isLoading = false;
         }).catch((err) => {
           this.isBtnLoading = false;

@@ -23,7 +23,8 @@
             <br>
             購物車目前沒任何商品喔！
           </p>
-          <router-link to="/products" class="btn btn-primary btn-lg mb-5">
+          <router-link :to="{ path: '/products', query: { category: '拉麵' } }"
+            class="btn btn-primary btn-lg mb-5">
             <i class="bi bi-arrow-right"></i>
             去逛逛
           </router-link>
@@ -148,7 +149,8 @@
               </p>
             </div>
             <div class="col-5 col-md-3 col-lg-2 ms-md-4 me-auto">
-              <router-link to="/products" class="btn btn-outline-secondary w-100">
+              <router-link :to="{ path: '/products', query: { category: '拉麵' } }"
+                class="btn btn-outline-secondary w-100">
                 <i class="bi bi-arrow-left"></i>
                 還想逛逛
               </router-link>
@@ -216,6 +218,15 @@ export default {
       this.$http.get(`${this.apiBase}/cart`)
         .then((res) => {
           this.cartData = res.data.data;
+
+          const { coupon } = this.cartData.carts[0];
+          if (coupon) {
+            this.couponRes.msg = `已套用優惠券:${coupon.code}`;
+            this.couponRes.isErr = false;
+            this.couponRes.className['text-danger'] = false;
+            this.couponRes.className['text-success'] = true;
+          }
+
           this.isBtnLoading = false;
           this.$emit('loadingStatus', false);
         }).catch((err) => {
@@ -289,6 +300,8 @@ export default {
           this.couponRes.className['text-success'] = success;
           this.amount = Math.ceil(res.data.data.final_total);
           this.isBtnLoading = false;
+          localStorage.removeItem('coupon');
+          this.getCart();
         }).catch((err) => {
           const { success } = err.response.data;
           this.isBtnLoading = false;
@@ -310,6 +323,11 @@ export default {
   },
   created() {
     this.getCart();
+
+    const coupon = localStorage.getItem('coupon');
+    if (coupon) {
+      this.couponCode = coupon;
+    }
 
     const localData = localStorage.getItem('carts');
     if (localData) {

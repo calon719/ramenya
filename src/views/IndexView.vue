@@ -16,7 +16,8 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup" ref="navbar">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <router-link class="nav-link" to="/products">美味菜單</router-link>
+              <router-link class="nav-link"
+                :to="{ path: '/products', query: { category: '拉麵' } }">美味菜單</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/anniversary">優惠活動</router-link>

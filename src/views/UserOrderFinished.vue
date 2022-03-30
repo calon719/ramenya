@@ -126,5 +126,9 @@ export default {
   created() {
     this.getOrder();
   },
+  mounted() {
+    localStorage.removeItem('carts');
+    localStorage.removeItem('orderData');
+  },
 };
 </script>

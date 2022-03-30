@@ -7,8 +7,8 @@
 
     <div class="container py-5 my-5">
       <div class="info mb-5 row row-cols-1 row-cols-md-2 align-items-center gy-4 gx-3 g-md-5">
-        <div class="col order-2 order-md-1">
-          <ul class="lh-lg">
+        <div class="col order-2 order-md-1 d-flex justify-content-center">
+          <ul class="lh-lg d-flex flex-column align-item-center">
             <li>營業時間：每週一到週六，11:00 ~ 14:00 與 17:00 ~ 20:30</li>
             <li>地址：高雄市三民區看得順眼的那條路</li>
             <li>電話：<a href="tel:073456789">07-3456789</a></li>
@@ -103,7 +103,7 @@ export default {
       zoom: 18,
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://cors-anywhere.herokuapp.com/https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
 

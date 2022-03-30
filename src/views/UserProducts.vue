@@ -12,30 +12,38 @@
             <router-link to="/" class="breadcrumb-link">首頁</router-link>
           </li>
           <li class="breadcrumb-item">美味菜單</li>
-          <li class="breadcrumb-item">{{ selectedCategory }}</li>
+          <li class="breadcrumb-item">{{ isSearching ? '搜尋結果' : selectedCategory }}</li>
         </ol>
       </nav>
 
-      <ul class="nav nav-tabs">
+      <productsSearch :addCartLoading="addCartLoading" :status="isSearching"
+        @addCart="addCart" @goProduct="goProduct" @isSearching="toggleProducts"></productsSearch>
+
+      <div v-show="!isSearching">
+        <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link"
-            :class="{ 'active': selectedCategory === '拉麵' }"
-            href="#" @click.prevent="getProducts(1, '拉麵')">拉麵</a>
+          <router-link class="nav-link"
+            :to="{ path: '/products', query: { category: '拉麵' } }"
+            :active-class="$route.query.category === '拉麵' ? 'active' : ''"
+            >拉麵</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link"
-            :class="{ 'active': selectedCategory === '配菜' }"
-            href="#" @click.prevent="getProducts(1, '配菜')">配菜</a>
+          <router-link class="nav-link"
+            :to="{ path: '/products', query: { category: '配菜' } }"
+            :active-class="$route.query.category === '配菜' ? 'active' : ''"
+            >配菜</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link"
-            :class="{ 'active': selectedCategory === '飲品' }"
-            href="#" @click.prevent="getProducts(1, '飲品')">飲品</a>
+          <router-link class="nav-link"
+            :to="{ path: '/products', query: { category: '飲品' } }"
+            :active-class="$route.query.category === '飲品' ? 'active' : ''"
+            data-category="飲品"
+            >飲品</router-link>
         </li>
       </ul>
+
       <div class="bg-white py-5 px-3 px-sm-5">
-        <div
-          class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mb-5">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mb-5">
           <div class="col" v-for="product in productsData" :key="product.id">
             <div class="card card-custom position-relative">
               <a class="card-coverLink" href="#"
@@ -51,35 +59,35 @@
                 </div>
                 <img class="custom-card-img img-cover"
                   :src="product.imageUrl" :alt="product.title">
-              </div>
-              <div class="card-body">
-                <h3 class="card-title fs-4">{{ product.title }}</h3>
-                <div class="d-flex">
-                  <p v-show="!product.origin_price" class="fs-5">
-                    NTD {{ product.price }}
-                  </p>
-                  <p v-show="product.origin_price" class="fs-5">
-                    <small>
-                      <del class="text-muted">NTD {{ product.origin_price }}</del>
-                    </small>
-                    NTD {{ product.price }}
-                  </p>
-                  <button type="button" class="card-cartBtn btn btn-lg btn-primary rounded"
-                    :disabled="addCartLoading.isLoading && addCartLoading.id === product.id"
-                    @click="addCart(product.id)">
-                    <div class="spinner-border spinner-border-sm" role="status"
-                    v-if="addCartLoading.isLoading && addCartLoading.id === product.id"></div>
-                    <span v-else>
-                      <i class="bi bi-cart-fill"></i>
-                    </span>
-                  </button>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title fs-4">{{ product.title }}</h3>
+                  <div class="d-flex">
+                    <p v-show="!product.origin_price" class="fs-5">
+                      NTD {{ product.price }}
+                    </p>
+                    <p v-show="product.origin_price" class="fs-5">
+                      <small>
+                        <del class="text-muted">NTD {{ product.origin_price }}</del>
+                      </small>
+                      NTD {{ product.price }}
+                    </p>
+                    <button type="button" class="card-cartBtn btn btn-lg btn-primary rounded"
+                      :disabled="addCartLoading.isLoading && addCartLoading.id === product.id"
+                      @click="addCart(product.id)">
+                      <div class="spinner-border spinner-border-sm" role="status"
+                        v-if="addCartLoading.isLoading && addCartLoading.id === product.id"></div>
+                      <span v-else>
+                        <i class="bi bi-cart-fill"></i>
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <pagination :pages="paginationData" @page="getProducts"></pagination>
         </div>
-
-        <pagination :pages="paginationData" @page="getProducts"></pagination>
       </div>
     </main>
   </div>
@@ -90,6 +98,7 @@ import sweetAlert from 'sweetalert2';
 import pagination from '@/components/PaginationComponent.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
 import cartDropdown from '@/components/CartDropdown.vue';
+import productsSearch from '@/components/ProductsSearch.vue';
 
 export default {
   data() {
@@ -103,10 +112,17 @@ export default {
         id: '',
         isLoading: false,
       },
+      isSearching: false,
     };
   },
+  watch: {
+    $route() {
+      this.getProducts();
+    },
+  },
   methods: {
-    getProducts(page = 1, category = '拉麵') {
+    getProducts(page = 1) {
+      const { category } = this.$route.query;
       this.selectedCategory = category;
       this.$emit('loadingStatus', true);
       const api = `${this.apiBase}/products?page=${page}&category=${this.selectedCategory}`;
@@ -146,6 +162,9 @@ export default {
         this.$router.push(`/product/${id}`);
       }
     },
+    toggleProducts(status) {
+      this.isSearching = status;
+    },
   },
   created() {
     this.getProducts();
@@ -153,6 +172,7 @@ export default {
   components: {
     cartDropdown,
     pagination,
+    productsSearch,
   },
 };
 </script>
