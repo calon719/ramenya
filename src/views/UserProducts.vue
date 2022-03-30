@@ -21,44 +21,43 @@
 
       <div v-show="!isSearching">
         <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <router-link class="nav-link"
-            :to="{ path: '/products', query: { category: '拉麵' } }"
-            :active-class="$route.query.category === '拉麵' ? 'active' : ''"
+          <li class="nav-item">
+            <router-link class="nav-link"
+              :to="{ path: '/products', query: { category: '拉麵' } }"
+              :active-class="$route.query.category === '拉麵' ? 'active' : ''"
             >拉麵</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link"
-            :to="{ path: '/products', query: { category: '配菜' } }"
-            :active-class="$route.query.category === '配菜' ? 'active' : ''"
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link"
+              :to="{ path: '/products', query: { category: '配菜' } }"
+              :active-class="$route.query.category === '配菜' ? 'active' : ''"
             >配菜</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link"
-            :to="{ path: '/products', query: { category: '飲品' } }"
-            :active-class="$route.query.category === '飲品' ? 'active' : ''"
-            data-category="飲品"
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link"
+              :to="{ path: '/products', query: { category: '飲品' } }"
+              :active-class="$route.query.category === '飲品' ? 'active' : ''"
             >飲品</router-link>
-        </li>
-      </ul>
+          </li>
+        </ul>
 
-      <div class="bg-white py-5 px-3 px-sm-5">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mb-5">
-          <div class="col" v-for="product in productsData" :key="product.id">
-            <div class="card card-custom position-relative">
-              <a class="card-coverLink" href="#"
-                :class="{'cursor-default': addCartLoading.isLoading}"
-                @click.prevent="goProduct(product.id)"></a>
-              <div v-show="product.tag" class="card-tag"
-                :class="product.tag === 1 ? 'bg-danger' : 'bg-success'">
-                {{ product.tag === 1 ? '人氣精選' : '新品上市' }}
-              </div>
-              <div class="ratio ratio-4x3 overflow-hidden">
-                <div class="card-cover">
-                  <p class="card-cover-text">查看詳細內容</p>
+        <div class="bg-white py-5 px-3 px-sm-5">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mb-5">
+            <div class="col" v-for="product in productsData" :key="product.id">
+              <div class="card card-custom position-relative">
+                <a class="card-coverLink" href="#"
+                  :class="{'cursor-default': addCartLoading.isLoading}"
+                  @click.prevent="goProduct(product.id)"></a>
+                <div v-show="product.tag" class="card-tag"
+                  :class="product.tag === 1 ? 'bg-danger' : 'bg-success'">
+                  {{ product.tag === 1 ? '人氣精選' : '新品上市' }}
                 </div>
-                <img class="custom-card-img img-cover"
-                  :src="product.imageUrl" :alt="product.title">
+                <div class="ratio ratio-4x3 overflow-hidden">
+                  <div class="card-cover">
+                    <p class="card-cover-text">查看詳細內容</p>
+                  </div>
+                  <img class="custom-card-img img-cover"
+                    :src="product.imageUrl" :alt="product.title">
                 </div>
                 <div class="card-body">
                   <h3 class="card-title fs-4">{{ product.title }}</h3>

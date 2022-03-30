@@ -5,17 +5,17 @@
       <h2 class="page-banner-title fs-1">聯絡我們</h2>
     </header>
 
-    <div class="container py-5 my-5">
-      <div class="info mb-5 row row-cols-1 row-cols-md-2 align-items-center gy-4 gx-3 g-md-5">
-        <div class="col order-2 order-md-1 d-flex justify-content-center">
+    <div class="container py-3 py-md-5 mb-5 mt-4 mt-sm-5">
+      <div class="info mb-5 row align-items-center gy-4">
+        <div class="col-12 col-md-6 col-lg-5 order-2 order-md-1 d-flex justify-content-center">
           <ul class="lh-lg d-flex flex-column align-item-center">
             <li>營業時間：每週一到週六，11:00 ~ 14:00 與 17:00 ~ 20:30</li>
             <li>地址：高雄市三民區看得順眼的那條路</li>
             <li>電話：<a href="tel:073456789">07-3456789</a></li>
           </ul>
         </div>
-        <div class="col order-1 order-md-2 h-100 overflow-hidden">
-          <div id="map" class="w-100"></div>
+        <div class="col-12 col-md-6 col-lg-7 order-1 order-md-2 h-100 overflow-hidden">
+          <mapComponent class="w-100"></mapComponent>
         </div>
       </div>
 
@@ -32,8 +32,7 @@
                 </label>
                 <Field id="name" class="form-control" type="text"
                   name="姓名" placeholder="請輸入姓名"
-                  rules="required"
-                  :class="{ 'is-invalid': errors['姓名'] }" />
+                  rules="required" :class="{ 'is-invalid': errors['姓名'] }" />
                 <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
               </div>
               <div class="mb-3">
@@ -43,8 +42,7 @@
                 </label>
                 <Field id="email" class="form-control" type="email"
                   name="Email" placeholder="請輸入 Email"
-                  rules="required|email"
-                  :class="{ 'is-invalid': errors['Email'] }" />
+                  rules="required|email" :class="{ 'is-invalid': errors['Email'] }" />
                 <ErrorMessage name="Email" class="invalid-feedback"></ErrorMessage>
               </div>
               <div class="mb-3">
@@ -52,8 +50,7 @@
                 <span class="badge badge-custom bg-danger ms-1">必要</span>
                 <Field as="textarea" class="p-3 form-control"
                   name="留言" id="message" style="height: 250px;"
-                  rules="required"
-                  :class="{ 'is-invalid': errors['留言'] }"
+                  rules="required" :class="{ 'is-invalid': errors['留言'] }"
                   placeholder="請輸入留言"></Field>
                 <ErrorMessage name="留言" class="invalid-feedback"></ErrorMessage>
               </div>
@@ -74,9 +71,9 @@
 </template>
 
 <script>
-/* global L */
 import cartDropdown from '@/components/CartDropdown.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
+import mapComponent from '@/components/MapComponent.vue';
 
 export default {
   data() {
@@ -96,25 +93,9 @@ export default {
   },
   components: {
     cartDropdown,
+    mapComponent,
   },
   mounted() {
-    const map = L.map('map', {
-      center: [22.6511202, 120.3231787, 19],
-      zoom: 18,
-    });
-
-    L.tileLayer('https://cors-anywhere.herokuapp.com/https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(map);
-
-    const redIcon = new L.Icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      shadowSize: [0, 0],
-    });
-
-    L.marker([22.6511202, 120.3231787, 19], { icon: redIcon }).addTo(map);
   },
 };
 </script>

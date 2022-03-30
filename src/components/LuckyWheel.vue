@@ -1,4 +1,6 @@
-<template> <div class="luckyWheel"> <div class="luckyWheel-indicator">
+<template> 
+  <div class="luckyWheel"> 
+    <div class="luckyWheel-indicator">
       <div class="luckyWheel-indicator-wrap">
         <div class="luckyWheel-indicator-shadow"></div>
         <button class="luckyWheel-btn" type="button"

@@ -1,6 +1,6 @@
 <template>
   <div class="toast-container position-fixed p-3 end-0"
-  :class="fromPage === 'admin' ? 'bottom-0' : 'user-toast-container'">
+    :class="fromPage === 'admin' ? 'bottom-0' : 'user-toast-container'">
     <div class="toast fade show"
       role="alert" aria-live="assertive" aria-atomic="true"
       v-for="(item, key) in adminMessages" :key="item.msg+key">

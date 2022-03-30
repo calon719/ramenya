@@ -23,7 +23,7 @@
                     <div class="btn-group w-100 mb-1" role="group"
                       aria-label="Upload image button group">
                       <button type="button" class="btn"
-                      :class="imgBtn.main === 'upload' ? 'btn-secondary' : 'btn-outline-secondary'"
+                        :class="imgBtn.main === 'upload' ? 'btn-secondary' : 'btn-outline-secondary'"
                         @click="imgBtn.main = 'upload'">上傳圖片</button>
                       <button type="button" class="btn"
                         :class="imgBtn.main === 'url' ? 'btn-secondary' : 'btn-outline-secondary'"
@@ -79,10 +79,7 @@
                       @change="uploadImg($event, 'otherImg')" />
                     <div v-else
                       class="d-flex justify-content-center opacity-50 py-2">
-                      <div class="spinner-border text-dark"
-                        role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
+                      <div class="spinner-border text-dark" role="status"></div>
                     </div>
                   </div>
                   <div class="input-group mb-3"

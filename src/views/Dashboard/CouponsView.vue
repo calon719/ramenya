@@ -34,8 +34,7 @@
             <td>{{ coupon.code }}</td>
             <td>{{ coupon.title }}</td>
             <td>{{ coupon.percent }} %</td>
-            <td
-              :class="coupon.is_enabled ? 'text-success' : 'text-muted'">
+            <td :class="coupon.is_enabled ? 'text-success' : 'text-muted'">
               <div class="d-flex justify-content-center align-items-center">
                 <div class="form-check form-switch">
                   <input class="form-check-input rounded-pill" type="checkbox" role="switch"
