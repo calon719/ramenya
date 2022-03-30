@@ -6,13 +6,8 @@
 /* global mapboxgl */
 
 export default {
-  data() {
-    return {
-      accessToken: 'pk.eyJ1IjoiY2Fsb243MTkiLCJhIjoiY2wxZGxlcG5lMGlzMDNwbnhnMmpobHU1NCJ9.JAz76_HD3rIXxl_UMfqyRQ',
-    };
-  },
   mounted() {
-    mapboxgl.accessToken = this.accessToken;
+    mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_TOKEN;
 
     const map = new mapboxgl.Map({
       container: 'map',
@@ -21,9 +16,11 @@ export default {
       zoom: 18,
     });
 
-    new mapboxgl.Marker()
-      .setLngLat([120.296464, 22.653975])
-      .addTo(map);
+    map.on('load', () => {
+      new mapboxgl.Marker()
+        .setLngLat([120.296464, 22.653975])
+        .addTo(map);
+    });
   },
 };
 </script>
