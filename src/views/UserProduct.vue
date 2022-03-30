@@ -2,7 +2,7 @@
   <div class="userProduct">
     <cartDropdown ref="cartDropdown"></cartDropdown>
     <main class="py-5">
-      <nav class="rounded mt-5">
+      <nav class="rounded mt-md-5">
         <div class="container">
           <ol class="breadcrumb text-dark">
             <li class="breadcrumb-item">
@@ -23,7 +23,7 @@
         </div>
       </nav>
 
-      <section class="pb-5 container">
+      <section class="pb-md-5 container">
         <div class="row row-cols-1 row-cols-md-2 gy-4 gy-md-0 gx-md-4 gx-lg-5">
           <div class="col">
             <div class="ratio ratio-4x3">

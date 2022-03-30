@@ -23,7 +23,8 @@
                     <div class="btn-group w-100 mb-1" role="group"
                       aria-label="Upload image button group">
                       <button type="button" class="btn"
-                        :class="imgBtn.main === 'upload' ? 'btn-secondary' : 'btn-outline-secondary'"
+                        :class="
+                        imgBtn.main === 'upload' ? 'btn-secondary' : 'btn-outline-secondary'"
                         @click="imgBtn.main = 'upload'">上傳圖片</button>
                       <button type="button" class="btn"
                         :class="imgBtn.main === 'url' ? 'btn-secondary' : 'btn-outline-secondary'"
