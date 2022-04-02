@@ -21,9 +21,9 @@
                     <td>
                       <div class="input-group">
                         <input type="text" class="form-control" v-model="data.user.name"
-                          :readonly="!editStatus.name" />
+                          :readonly="isEditing !== 'name'" />
                         <button type="button" class="btn btn-outline-secondary"
-                          @click="editStatus.name = !editStatus.name">
+                          @click="isEditing = 'name'">
                           編輯</button>
                       </div>
                     </td>
@@ -33,9 +33,9 @@
                     <td>
                       <div class="input-group">
                         <input type="tel" class="form-control" v-model="data.user.tel"
-                          :readonly="!editStatus.tel" />
+                          :readonly="isEditing !== 'tel'" />
                         <button class="btn btn-outline-secondary" type="button"
-                          @click="editStatus.tel = !editStatus.tel">
+                          @click="isEditing = 'tel'">
                           編輯</button>
                       </div>
                     </td>
@@ -45,9 +45,9 @@
                     <td>
                       <div class="input-group">
                         <input class="form-control" type="text" v-model="data.user.address"
-                        :readonly="!editStatus.address" />
+                        :readonly="isEditing !== 'address'" />
                         <button class="btn btn-outline-secondary" type="button"
-                          @click="editStatus.address = !editStatus.address">編輯</button>
+                          @click="isEditing = 'address'">編輯</button>
                       </div>
                     </td>
                   </tr>
@@ -146,11 +146,7 @@ export default {
     return {
       modal: {},
       data: this.order,
-      editStatus: {
-        name: false,
-        tel: false,
-        address: false,
-      },
+      isEditing: '',
       isBtnLoading: false,
       timeOptions: {
         year: 'numeric',
@@ -171,11 +167,7 @@ export default {
   watch: {
     order() {
       this.data = this.order;
-      this.editStatus = {
-        name: false,
-        tel: false,
-        address: false,
-      };
+      this.isEditing = '';
     },
   },
   props: ['order'],
