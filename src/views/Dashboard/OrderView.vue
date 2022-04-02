@@ -83,7 +83,7 @@
 
     <pagination :pages="paginationData" @page="getOrders"></pagination>
 
-    <orderModal ref="orderModalOuter" :order="modalTemp"></orderModal>
+    <orderModal ref="orderModalOuter" @updateOrder="updateOrder" :order="modalTemp"></orderModal>
 
     <delModal ref="delModalOuter"
       :item="modalTemp" view="order" @update="getOrders">
@@ -204,6 +204,7 @@ export default {
           this.$emit('loadingStatus', false);
           pushToastMessage('admin', res.data.success, '訂單更新');
           this.getOrders();
+          this.$refs.orderModalOuter.hideModal();
         }).catch((err) => {
           this.$emit('loadingStatus', false);
           pushToastMessage('admin', err.response.data.success, '訂單更新');

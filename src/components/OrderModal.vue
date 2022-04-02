@@ -15,18 +15,41 @@
             <div class="col-12 col-md-4">
               <h4>客戶資料</h4>
               <table class="table">
-                <tbody>
+                <tbody class="align-middle">
                   <tr>
                     <th scope="row" width="100">姓名</th>
-                    <td>{{ data.user?.name }}</td>
+                    <td>
+                      <div class="input-group">
+                        <input type="text" class="form-control" v-model="data.user.name"
+                          :readonly="!editStatus.name" />
+                        <button type="button" class="btn btn-outline-secondary"
+                          @click="editStatus.name = !editStatus.name">
+                          編輯</button>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row">聯絡電話</th>
-                    <td>{{ data.user?.tel }}</td>
+                    <td>
+                      <div class="input-group">
+                        <input type="tel" class="form-control" v-model="data.user.tel"
+                          :readonly="!editStatus.tel" />
+                        <button class="btn btn-outline-secondary" type="button"
+                          @click="editStatus.tel = !editStatus.tel">
+                          編輯</button>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row">地址</th>
-                    <td>{{ data.user?.address }}</td>
+                    <td>
+                      <div class="input-group">
+                        <input class="form-control" type="text" v-model="data.user.address"
+                        :readonly="!editStatus.address" />
+                        <button class="btn btn-outline-secondary" type="button"
+                          @click="editStatus.address = !editStatus.address">編輯</button>
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -48,13 +71,25 @@
                   <tr>
                     <th scope="row">付款狀態</th>
                     <td :class="data.is_paid ? 'text-success' : 'text-muted'">
-                      {{ data.is_paid ? '已付款' : '未付款'}}
+                      <div class="form-check form-switch">
+                        <input class="form-check-input rounded-pill" type="checkbox" role="switch"
+                          :id="`is_paid${data.id}`" v-model="data.is_paid" />
+                        <label class="form-check-label" :for="`is_paid${data.id}`">
+                          {{ data.is_paid ? '已付款' : '未付款' }}
+                        </label>
+                      </div>
                     </td>
                   </tr>
                   <tr>
                     <th scope="row">交貨狀態</th>
                     <td :class="data.is_delivered ? 'text-success' : 'text-muted'">
-                      {{ data.is_delivered ? '已送達' : '未送達'}}
+                      <div class="form-check form-switch">
+                        <input class="form-check-input rounded-pill" type="checkbox" role="switch"
+                          :id="`is_delivered${data.id}`" v-model="data.is_delivered" />
+                        <label class="form-check-label" :for="`is_delivered${data.id}`">
+                          {{ data.is_delivered ? '已送達' : '未送達' }}
+                        </label>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -93,8 +128,10 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary px-4"
+          <button type="button" class="btn btn-outline-secondary px-4"
             data-bs-dismiss="modal">關閉</button>
+          <button class="btn btn-primary px-4" type="button"
+            @click="updateOrder">確認</button>
         </div>
       </div>
     </div>
@@ -109,6 +146,11 @@ export default {
     return {
       modal: {},
       data: this.order,
+      editStatus: {
+        name: false,
+        tel: false,
+        address: false,
+      },
       isBtnLoading: false,
       timeOptions: {
         year: 'numeric',
@@ -127,17 +169,25 @@ export default {
     };
   },
   watch: {
-    order: {
-      handler(newVal) {
-        this.data = newVal;
-      },
-      deep: true,
+    order() {
+      this.data = this.order;
+      this.editStatus = {
+        name: false,
+        tel: false,
+        address: false,
+      };
     },
   },
   props: ['order'],
   methods: {
     showModal() {
       this.modal.show();
+    },
+    hideModal() {
+      this.modal.hide();
+    },
+    updateOrder() {
+      this.$emit('update-order', this.data);
     },
   },
   mounted() {
