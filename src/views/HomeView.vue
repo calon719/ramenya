@@ -187,19 +187,24 @@ export default {
         });
     },
     subscription() {
-      this.isBtnLoading = true;
       const regex = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
       const check = regex.test(this.email);
       if (check) {
-        setTimeout(() => {
-          pushToastMessage('user', true, '訂閱');
-          this.isBtnLoading = false;
-        }, 500);
+        const api = 'https://script.google.com/macros/s/AKfycbxiwYSXVg5WJV2-XI6sYS1J-8uy8orWc3gmkLReW1A9oZ9ebjBBDlKjQGEqy05tXlUn_Q/exec';
+        const params = { email: this.email };
+
+        this.isBtnLoading = true;
+        this.$http.post(api, null, { params })
+          .then((res) => {
+            pushToastMessage('user', res.data.success, '訂閱');
+            this.email = '';
+            this.isBtnLoading = false;
+          }).catch(() => {
+            pushToastMessage('user', false, '訂閱');
+            this.isBtnLoading = false;
+          });
       } else {
-        setTimeout(() => {
-          pushToastMessage('user', false, '訂閱');
-          this.isBtnLoading = false;
-        }, 500);
+        pushToastMessage('user', false, '格式不正確，訂閱');
       }
     },
   },

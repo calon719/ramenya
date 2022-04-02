@@ -32,7 +32,8 @@
                 </label>
                 <Field id="name" class="form-control" type="text"
                   name="姓名" placeholder="請輸入姓名"
-                  rules="required" :class="{ 'is-invalid': errors['姓名'] }" />
+                  rules="required" :class="{ 'is-invalid': errors['姓名'] }"
+                  v-model="userData.name"/>
                 <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
               </div>
               <div class="mb-3">
@@ -42,7 +43,8 @@
                 </label>
                 <Field id="email" class="form-control" type="email"
                   name="Email" placeholder="請輸入 Email"
-                  rules="required|email" :class="{ 'is-invalid': errors['Email'] }" />
+                  rules="required|email" :class="{ 'is-invalid': errors['Email'] }"
+                  v-model="userData.email"/>
                 <ErrorMessage name="Email" class="invalid-feedback"></ErrorMessage>
               </div>
               <div class="mb-3">
@@ -51,7 +53,7 @@
                 <Field as="textarea" class="p-3 form-control"
                   name="留言" id="message" style="height: 250px;"
                   rules="required" :class="{ 'is-invalid': errors['留言'] }"
-                  placeholder="請輸入留言"></Field>
+                  placeholder="請輸入留言" v-model="userData.content" />
                 <ErrorMessage name="留言" class="invalid-feedback"></ErrorMessage>
               </div>
               <div class="text-end">
@@ -79,16 +81,28 @@ export default {
   data() {
     return {
       isBtnLoading: false,
+      userData: {
+        name: '',
+        email: '',
+        content: '',
+      },
     };
   },
   methods: {
     sendMessage() {
+      const api = 'https://script.google.com/macros/s/AKfycbxMZ9w89hf7woH8j0fNa2VBBOa45Yrytkmj3RyKgfLoGVqYBRs7WjPFADIH1rptGPac/exec';
+      const params = this.userData;
+
       this.isBtnLoading = true;
-      setTimeout(() => {
-        this.isBtnLoading = false;
-        this.$refs.form.resetForm();
-        pushToastMessage('user', true, '送出留言');
-      }, 500);
+      this.$http.post(api, null, { params })
+        .then((res) => {
+          pushToastMessage('user', res.data, '送出留言');
+          this.isBtnLoading = false;
+          this.$refs.form.resetForm();
+        }).catch(() => {
+          pushToastMessage('user', false, '送出留言');
+          this.isBtnLoading = false;
+        });
     },
   },
   components: {

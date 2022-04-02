@@ -1,4 +1,12 @@
 # 開發中小紀錄
+## 技術
+- Vue 3
+- Vue Cli
+- Vue Router
+- Google APPs Script
+
+<br>
+
 ## 使用的 plugin
 - Bootstrapa 5
 - Axios
