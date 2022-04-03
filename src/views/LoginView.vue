@@ -76,13 +76,11 @@
       </div>
     </footer>
 
-    <loading :isLoading="isLoading"></loading>
+    <loadingComponent :isLoading="isLoading"></loadingComponent>
   </div>
 </template>
 
 <script>
-import loading from '@/components/LoadingComponent.vue';
-
 export default {
   data() {
     return {
@@ -135,9 +133,6 @@ export default {
   mounted() {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)rakuwaya\s*=\s*([^;]*).*$)|^.*$/, '$1');
     this.checkLogin(token);
-  },
-  components: {
-    loading,
   },
 };
 </script>

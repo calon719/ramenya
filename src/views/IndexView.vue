@@ -30,7 +30,8 @@
       </div>
     </nav>
 
-    <router-view v-if="needLoading" @loadingStatus="changeLoadingStatus" />
+    <router-view v-if="loadingPage.some((page) => $route.name === page)"
+      @loadingStatus="changeLoadingStatus" />
     <router-view v-else />
 
     <footer class="bg-dark py-4">
@@ -55,13 +56,12 @@
       </div>
     </footer>
 
-    <loading :isLoading="isLoading"></loading>
+    <loadingComponent :isLoading="isLoading"></loadingComponent>
   </div>
 </template>
 
 <script>
 import { Collapse } from 'bootstrap';
-import loading from '@/components/LoadingComponent.vue';
 
 export default {
   data() {
@@ -80,12 +80,6 @@ export default {
   },
   watch: {
     $route() {
-      const pageCheck = this.loadingPage.some((page) => this.$route.name === page);
-      if (pageCheck) {
-        this.needLoading = true;
-      } else {
-        this.needLoading = false;
-      }
       this.navbar.hide();
     },
   },
@@ -95,17 +89,9 @@ export default {
     },
   },
   mounted() {
-    const pageCheck = this.loadingPage.some((page) => this.$route.name === page);
-    if (pageCheck) {
-      this.needLoading = true;
-    }
-
     this.navbar = new Collapse(this.$refs.navbar, {
       toggle: false,
     });
-  },
-  components: {
-    loading,
   },
 };
 </script>

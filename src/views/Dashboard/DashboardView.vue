@@ -41,14 +41,13 @@
       <router-view @loadingStatus="changeLoadingStatus" v-if="isLogin" />
     </div>
 
-    <loading :isLoading="isLoading"></loading>
+    <loadingComponent :isLoading="isLoading"></loadingComponent>
   </div>
 </template>
 
 <script>
 import { Collapse } from 'bootstrap';
 import sweetAlert from 'sweetalert2';
-import loading from '@/components/LoadingComponent.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -116,9 +115,6 @@ export default {
 
     this.$http.defaults.headers.common.Authorization = token;
     this.checkLogin(token);
-  },
-  components: {
-    loading,
   },
 };
 </script>
