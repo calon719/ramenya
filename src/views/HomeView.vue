@@ -114,7 +114,7 @@
             </label>
             <div class="input-group">
               <input type="email" class="form-control" placeholder="輸入 Email 訂閱我們"
-                v-model="email" />
+                v-model.trim="email" />
               <button class="btn btn-primary" type="submit"
                 :disabled="isBtnLoading">
                 <div class="spinner-border spinner-border-sm"

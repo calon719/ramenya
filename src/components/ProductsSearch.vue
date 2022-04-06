@@ -93,7 +93,7 @@ export default {
           this.products = res.data.products;
         }).catch((err) => {
           const msg = err.response.data.message;
-          this.$swal.fire({
+          this.$swal({
             icon: 'error',
             text: msg,
           });
