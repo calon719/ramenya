@@ -75,10 +75,10 @@
                 <p class="d-none d-xl-block">{{ product.description }}</p>
                 <p class="text-truncate d-xl-none w-100">{{ product.description }}</p>
                 <p class="fs-3 fw-bold">
-                  NTD {{ product.price }}
-                  <span class="fs-6 text-muted fw-normal">
+                  <span class="fs-6 text-muted fw-normal me-2">
                     <del>NTD {{ product.origin_price }}</del>
                   </span>
+                  NTD {{ product.price }}
                 </p>
                 <ul class="list-unstyled d-flex flex-wrap justify-content-center mb-0">
                   <li>
