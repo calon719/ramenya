@@ -4,17 +4,15 @@
       <h2 class="page-banner-title fs-1">訂單資訊</h2>
     </header>
 
-    <router-view v-if="$route.name === 'UserOrderConfirm'"
-      @loadingStatus="toggleLoading"></router-view>
-    <router-view v-else></router-view>
+    <routerView v-if="$route.name === 'UserOrderConfirm'"
+      @loadingStatus="toggleLoading"></routerView>
+    <routerView v-else></routerView>
 
-    <loading :isLoading="isLoading"></loading>
+    <LoadingComponent :isLoading="isLoading"></LoadingComponent>
   </div>
 </template>
 
 <script>
-import loading from '@/components/LoadingComponent.vue';
-
 export default {
   data() {
     return {
@@ -25,9 +23,6 @@ export default {
     toggleLoading(status) {
       this.isLoading = status;
     },
-  },
-  components: {
-    loading,
   },
 };
 </script>

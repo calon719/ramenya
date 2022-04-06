@@ -3,9 +3,9 @@
     <nav
       class="navbar navbar-expand-md navbar-light bg-primary sticky-top">
       <div class="container">
-        <router-link class="navbar-brand custom-navbar-brand" to="/">
+        <routerLink class="navbar-brand custom-navbar-brand" to="/">
           <h1 class="logo">拉麵屋</h1>
-        </router-link>
+        </routerLink>
         <button class="navbar-toggler ms-auto"
           type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarNavAltMarkup"
@@ -16,31 +16,31 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup" ref="navbar">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <router-link class="nav-link"
-                :to="{ path: '/products', query: { category: '拉麵' } }">美味菜單</router-link>
+              <routerLink class="nav-link"
+                :to="{ path: '/products', query: { category: '拉麵' } }">美味菜單</routerLink>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/anniversary">優惠活動</router-link>
+              <routerLink class="nav-link" to="/anniversary">優惠活動</routerLink>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/contact">聯絡我們</router-link>
+              <routerLink class="nav-link" to="/contact">聯絡我們</routerLink>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <router-view v-if="loadingPage.some((page) => $route.name === page)"
+    <routerView v-if="loadingPage.some((page) => $route.name === page)"
       @loadingStatus="changeLoadingStatus" />
-    <router-view v-else />
+    <routerView v-else />
 
     <footer class="bg-dark py-4">
       <div class="container">
         <ul class="list-unstyled d-flex justify-content-center mb-0 fs-5">
           <li>
-            <router-link class="text-white d-block px-2 py-1" to="/login">
+            <routerLink class="text-white d-block px-2 py-1" to="/login">
               <i class="bi bi-wrench-adjustable-circle-fill"></i>
-            </router-link>
+            </routerLink>
           </li>
           <li>
             <a class="text-white d-block px-2 py-1" href="https://github.com/calon719/ramenya" target="_blank">
@@ -56,7 +56,7 @@
       </div>
     </footer>
 
-    <loadingComponent :isLoading="isLoading"></loadingComponent>
+    <LoadingComponent :isLoading="isLoading"></LoadingComponent>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <cartDropdown ref="cartDropdown"></cartDropdown>
+    <CartDropdown ref="cartDropdown"></CartDropdown>
     <header class="banner">
       <div class="banner-content">
         <span class="fs-3">不去日本也能享受</span>
@@ -24,7 +24,7 @@
           <br>
           現在進入到活動頁面參加活動，就有機會得到優惠碼
         </p>
-        <router-link class="btn btn-primary" to="/anniversary">進入活動頁面</router-link>
+        <routerLink class="btn btn-primary" to="/anniversary">進入活動頁面</routerLink>
       </section>
 
       <section class="feature bg-light py-5">
@@ -134,7 +134,6 @@
 
 <script>
 import sweetAlert from 'sweetalert2';
-import cartDropdown from '@/components/CartDropdown.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -226,9 +225,6 @@ export default {
         }
       });
     }
-  },
-  components: {
-    cartDropdown,
   },
 };
 </script>

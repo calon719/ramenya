@@ -71,13 +71,13 @@
       </table>
     </div>
 
-    <pagination :pages="paginationData" @page="getProducts"></pagination>
+    <PaginationComponent :pages="paginationData" @page="getProducts"></PaginationComponent>
 
-    <productModal ref="productModalOuter"
+    <ProductModal ref="productModalOuter"
       :product="modalTemp" :status="methodStatus"
-      @update="getProducts"></productModal>
+      @update="getProducts"></ProductModal>
 
-    <delModal ref="delModalOuter"
+    <DelModal ref="delModalOuter"
       :item="modalTemp"
       view="product"
       @update="getProducts">
@@ -88,15 +88,15 @@
           </strong>
         </p>
       </template>
-    </delModal>
+    </DelModal>
   </div>
 </template>
 
 <script>
 import sweetAlert from 'sweetalert2';
-import pagination from '@/components/PaginationComponent.vue';
-import productModal from '@/components/EditProductModal.vue';
-import delModal from '@/components/DelModal.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
+import ProductModal from '@/components/EditProductModal.vue';
+import DelModal from '@/components/DelModal.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -192,9 +192,9 @@ export default {
     this.getProducts();
   },
   components: {
-    pagination,
-    productModal,
-    delModal,
+    PaginationComponent,
+    ProductModal,
+    DelModal,
   },
 };
 </script>

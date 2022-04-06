@@ -25,7 +25,7 @@
                   name="姓名" placeholder="請輸入姓名"
                   rules="required" v-model="userData.user.name"
                   :class="{ 'is-invalid': errors['姓名'] }" />
-                <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
+                <ErrorMessage name="姓名" class="invalid-feedback" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="tel">
@@ -37,7 +37,7 @@
                   rules="required|numeric|min:9|max:10"
                   v-model="userData.user.tel"
                   :class="{ 'is-invalid': errors['電話'] }" />
-                <ErrorMessage name="電話" class="invalid-feedback"></ErrorMessage>
+                <ErrorMessage name="電話" class="invalid-feedback" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="email">
@@ -48,7 +48,7 @@
                   name="Email" placeholder="請輸入 Email"
                   rules="required|email" v-model="userData.user.email"
                   :class="{ 'is-invalid': errors['Email'] }" />
-                <ErrorMessage name="Email" class="invalid-feedback"></ErrorMessage>
+                <ErrorMessage name="Email" class="invalid-feedback" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="address">
@@ -59,7 +59,7 @@
                   name="地址" placeholder="請輸入地址"
                   rules="required" v-model="userData.user.address"
                   :class="{ 'is-invalid': errors['地址'] }" />
-                <ErrorMessage name="地址" class="invalid-feedback"></ErrorMessage>
+                <ErrorMessage name="地址" class="invalid-feedback" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="message">留言</label>

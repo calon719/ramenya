@@ -3,7 +3,8 @@
 </template>
 
 <script>
-/* global mapboxgl */
+import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from 'mapbox-gl';
 
 export default {
   mounted() {
@@ -17,9 +18,9 @@ export default {
     });
 
     map.on('load', () => {
-      new mapboxgl.Marker()
-        .setLngLat([120.296464, 22.653975])
-        .addTo(map);
+      new mapboxgl.Marker({
+        color: '#ed0000',
+      }).setLngLat([120.296464, 22.653975]).addTo(map);
     });
   },
 };

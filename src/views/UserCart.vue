@@ -23,11 +23,11 @@
             <br>
             購物車目前沒任何商品喔！
           </p>
-          <router-link :to="{ path: '/products', query: { category: '拉麵' } }"
+          <routerLink :to="{ path: '/products', query: { category: '拉麵' } }"
             class="btn btn-primary btn-lg mb-5">
             <i class="bi bi-arrow-right"></i>
             去逛逛
-          </router-link>
+          </routerLink>
         </div>
 
         <div v-else>
@@ -149,11 +149,11 @@
               </p>
             </div>
             <div class="col-5 col-md-3 col-lg-2 ms-md-4 me-auto">
-              <router-link :to="{ path: '/products', query: { category: '拉麵' } }"
+              <routerLink :to="{ path: '/products', query: { category: '拉麵' } }"
                 class="btn btn-outline-secondary w-100">
                 <i class="bi bi-arrow-left"></i>
                 還想逛逛
-              </router-link>
+              </routerLink>
             </div>
             <div class="col-5 col-md-3 col-lg-2">
               <a href="#" class="btn btn-primary link-hover w-100"

@@ -62,16 +62,16 @@
       </table>
     </div>
 
-    <pagination :pages="paginationData" @page="getCoupons"></pagination>
+    <PaginationComponent :pages="paginationData" @page="getCoupons"></PaginationComponent>
 
-    <couponModal
+    <CouponModal
       :methodStatus="methodStatus"
       :coupon="modalTemp"
       @update="getCoupons"
       ref="couponModalOuter">
-    </couponModal>
+    </CouponModal>
 
-    <delModal
+    <DelModal
       view="coupon"
       :item="modalTemp"
       @update="getCoupons"
@@ -84,15 +84,15 @@
           </strong>
         </p>
       </template>
-    </delModal>
+    </DelModal>
   </div>
 </template>
 
 <script>
 import sweetAlert from 'sweetalert2';
-import pagination from '@/components/PaginationComponent.vue';
-import couponModal from '@/components/CouponModal.vue';
-import delModal from '@/components/DelModal.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
+import CouponModal from '@/components/CouponModal.vue';
+import DelModal from '@/components/DelModal.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -196,9 +196,9 @@ export default {
     this.getCoupons();
   },
   components: {
-    pagination,
-    couponModal,
-    delModal,
+    PaginationComponent,
+    CouponModal,
+    DelModal,
   },
 };
 </script>

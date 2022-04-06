@@ -1,43 +1,53 @@
 <template>
   <div class="userProducts">
-    <cartDropdown ref="cartDropdown"></cartDropdown>
+    <CartDropdown ref="cartDropdown"></CartDropdown>
     <header class="page-banner">
       <h2 class="page-banner-title fs-1">美味菜單</h2>
     </header>
 
     <main class="container py-5">
-      <nav class="rounded">
-        <ol class="breadcrumb text-dark">
-          <li class="breadcrumb-item">
-            <router-link to="/" class="breadcrumb-link">首頁</router-link>
-          </li>
-          <li class="breadcrumb-item">美味菜單</li>
-          <li class="breadcrumb-item">{{ isSearching ? '搜尋結果' : selectedCategory }}</li>
-        </ol>
-      </nav>
+      <div class="row justify-content-between align-items-center">
+        <div class="col">
+          <nav>
+            <ol class="breadcrumb text-dark">
+              <li class="breadcrumb-item">
+                <routerLink to="/" class="breadcrumb-link">首頁</routerLink>
+              </li>
+              <li class="breadcrumb-item">美味菜單</li>
+              <li class="breadcrumb-item">{{ isSearching ? '搜尋結果' : selectedCategory }}</li>
+            </ol>
+          </nav>
+        </div>
 
-      <productsSearch :addCartLoading="addCartLoading" :status="isSearching"
-        @addCart="addCart" @goProduct="goProduct" @isSearching="toggleProducts"></productsSearch>
+        <div class="col-12 col-md-6 col-lg-4 position-relative">
+          <input class="searchInput form-control border-secondary mb-3" type="search"
+            placeholder="請輸入要查詢的關鍵字" v-model.trim="keyWord" />
+        </div>
+      </div>
+
+      <ProductsSearch :addCartLoading="addCartLoading" :status="isSearching" :keyWord="keyWord"
+        @addCart="addCart" @goProduct="goProduct" @isSearching="toggleProducts">
+      </ProductsSearch>
 
       <div v-show="!isSearching">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <router-link class="nav-link"
+            <routerLink class="nav-link"
               :to="{ path: '/products', query: { category: '拉麵' } }"
               :active-class="$route.query.category === '拉麵' ? 'active' : ''"
-            >拉麵</router-link>
+            >拉麵</routerLink>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link"
+            <routerLink class="nav-link"
               :to="{ path: '/products', query: { category: '配菜' } }"
               :active-class="$route.query.category === '配菜' ? 'active' : ''"
-            >配菜</router-link>
+            >配菜</routerLink>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link"
+            <routerLink class="nav-link"
               :to="{ path: '/products', query: { category: '飲品' } }"
               :active-class="$route.query.category === '飲品' ? 'active' : ''"
-            >飲品</router-link>
+            >飲品</routerLink>
           </li>
         </ul>
 
@@ -85,7 +95,7 @@
               </div>
             </div>
           </div>
-          <pagination :pages="paginationData" @page="getProducts"></pagination>
+          <PaginationComponent :pages="paginationData" @page="getProducts"></PaginationComponent>
         </div>
       </div>
     </main>
@@ -94,10 +104,9 @@
 
 <script>
 import sweetAlert from 'sweetalert2';
-import pagination from '@/components/PaginationComponent.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
-import cartDropdown from '@/components/CartDropdown.vue';
-import productsSearch from '@/components/ProductsSearch.vue';
+import ProductsSearch from '@/components/ProductsSearch.vue';
 
 export default {
   data() {
@@ -107,6 +116,7 @@ export default {
       cartData: [],
       paginationData: {},
       selectedCategory: '',
+      keyWord: '',
       addCartLoading: {
         id: '',
         isLoading: false,
@@ -169,9 +179,8 @@ export default {
     this.getProducts();
   },
   components: {
-    cartDropdown,
-    pagination,
-    productsSearch,
+    PaginationComponent,
+    ProductsSearch,
   },
 };
 </script>

@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <router-view/>
-    <toastMessage></toastMessage>
+    <routerView />
+    <ToastMessage />
   </div>
 </template>
 
 <script>
-import toastMessage from '@/components/ToastMessage.vue';
+import ToastMessage from '@/components/ToastMessage.vue';
 import emitter from '@/utils/emitter';
 
 export default {
@@ -14,7 +14,7 @@ export default {
     emitter,
   },
   components: {
-    toastMessage,
+    ToastMessage,
   },
 };
 </script>

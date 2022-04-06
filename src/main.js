@@ -12,14 +12,15 @@ import {
   Field, Form, ErrorMessage, defineRule, configure,
 } from 'vee-validate';
 import {
-  required, email, min, max, min_value, max_value, numeric,
+  required, email, min, max, min_value as minValue, max_value as maxValue, numeric,
 } from '@vee-validate/rules';
 import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 // plugin end
 
 import './assets/stylesheet/all.scss';
-import loadingComponent from '@/components/LoadingComponent.vue';
+import CartDropdown from './components/CartDropdown.vue';
+import LoadingComponent from './components/LoadingComponent.vue';
 import App from './App.vue';
 import router from './router';
 
@@ -31,8 +32,8 @@ defineRule('required', required);
 defineRule('email', email);
 defineRule('min', min);
 defineRule('max', max);
-defineRule('min_value', min_value);
-defineRule('max_value', max_value);
+defineRule('minValue', minValue);
+defineRule('maxValue', maxValue);
 defineRule('numeric', numeric);
 
 configure({
@@ -49,7 +50,8 @@ const app = createApp(App);
 app.component('Form', Form);
 app.component('Field', Field);
 app.component('ErrorMessage', ErrorMessage);
-app.component('loadingComponent', loadingComponent);
+app.component('LoadingComponent', LoadingComponent);
+app.component('CartDropdown', CartDropdown);
 
 app.use(VueAxios, axios);
 app.use(router);

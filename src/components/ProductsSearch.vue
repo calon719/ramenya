@@ -1,12 +1,5 @@
 <template>
   <div class="productsSearch">
-    <div class="row justify-content-end">
-      <div class="col-12 col-md-6 col-lg-4 position-relative">
-        <input class="form-control border-secondary mb-3" type="search"
-          placeholder="請輸入要查詢的關鍵字" v-model.trim="string" />
-      </div>
-    </div>
-
     <div class="productsSearch-result search-footer-bottom" v-show="status">
       <h3 class="pb-1 border-bottom">
         搜尋結果
@@ -57,7 +50,7 @@
             </div>
           </div>
         </div>
-        <pagination :pages="paginationData" @page="changePage"></pagination>
+        <PaginationComponent :pages="paginationData" @page="changePage"></PaginationComponent>
       </div>
 
       <div class="productSearch-noResult mt-3" v-show="!hasResult">
@@ -69,14 +62,13 @@
 
 <script>
 import sweetAlert from 'sweetalert2';
-import pagination from '@/components/PaginationComponent.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
 
 export default {
   data() {
     return {
       apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       products: [],
-      string: '',
       result: [],
       filteredResult: [],
       paginationData: {
@@ -88,10 +80,10 @@ export default {
       hasResult: false,
     };
   },
-  props: ['addCartLoading', 'status'],
+  props: ['addCartLoading', 'status', 'keyWord'],
   watch: {
-    string() {
-      this.matchString();
+    keyWord() {
+      this.matchKeyWord();
     },
   },
   methods: {
@@ -107,13 +99,13 @@ export default {
           });
         });
     },
-    matchString() {
-      if (this.string === '') {
+    matchKeyWord() {
+      if (this.keyWord === '') {
         this.filteredResult.splice(0);
         this.$emit('isSearching', false);
       } else {
         this.$emit('isSearching', true);
-        const strArr = this.string.split(' ');
+        const strArr = this.keyWord.split(' ');
         const productsArr = [];
 
         strArr.forEach((str) => {
@@ -148,20 +140,7 @@ export default {
     this.getProducts();
   },
   components: {
-    pagination,
+    PaginationComponent,
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.productsSearch {
-  .form-control {
-    opacity: .4;
-    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/calon/1648623925555.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=C84iSjEV53TeTT0m8AnATbwbIA3OH6B41kkCTRCb9H2PKgY6AQO0o24QhKDLHi7nZuFcx1NIsSNadomVcjQaS4iauemXgWvn2%2BsalICFNWmKBYrhBSLFL0DqQU3X3Z2sBqy6A5cajeTtIgBdJNHbmyxTbmsNBL90ICG0eiEyKt65ARxyTKuH7UxbUdOVLbmY2mOEw8UinAJdPocVeyw8JTEY6Z6sWRhsVGKK65oovw9gFd5u38fnPIJkwzBnlDkXkV1ADn2nYgd%2Bw5plrQbgnIiGd9IGU%2BlTlX%2Brczida%2BrEIZiEsDX2%2B17o%2FLM8ghbsYMF%2FI4s3BTx2PDdtWrs%2B1A%3D%3D');
-    background-repeat: no-repeat;
-    background-position: center left .5rem;
-    background-size: 20px;
-    padding-left: 2.25rem;
-  }
-}
-</style>

@@ -77,7 +77,7 @@
         </div>
 
         <div class="text-center">
-          <router-link class="btn btn-secondary" to="/">返回首頁</router-link>
+          <routerLink class="btn btn-secondary" to="/">返回首頁</routerLink>
         </div>
       </div>
     </main>

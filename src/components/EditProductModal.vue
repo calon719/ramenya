@@ -120,7 +120,7 @@
                       name="標題" placeholder="請輸入產品標題"
                       rules="required" v-model="item.title"
                       :class="{ 'is-invalid': errors['標題'] }" />
-                    <ErrorMessage name="標題" class="invalid-feedback"></ErrorMessage>
+                    <ErrorMessage name="標題" class="invalid-feedback" />
                   </div>
                   <div class="col-md-6 mb-3">
                     <label class="form-label" for="category">
@@ -133,7 +133,7 @@
                       rules="required"
                       :class="{ 'is-invalid': errors['分類'] }"
                       v-model="item.category" />
-                    <ErrorMessage name="分類" class="invalid-feedback"></ErrorMessage>
+                    <ErrorMessage name="分類" class="invalid-feedback" />
                   </div>
                   <div class="col-md-6 mb-3">
                     <label class="form-label" for="unit">
@@ -146,7 +146,7 @@
                       rules="required"
                       :class="{ 'is-invalid': errors['單位'] }"
                       v-model="item.unit" />
-                    <ErrorMessage name="單位" class="invalid-feedback"></ErrorMessage>
+                    <ErrorMessage name="單位" class="invalid-feedback" />
                   </div>
                   <div class="col-md-6 mb-3">
                     <label class="form-label" for="originPrice">
@@ -156,10 +156,10 @@
                     <Field id="originPrice" class="form-control"
                       type="number" min="0" placeholder="請輸入產品原價"
                       name="原價"
-                      rules="required|min_value:0"
+                      rules="required|minValue:0"
                       :class="{ 'is-invalid': errors['原價'] }"
                       v-model.number="item.origin_price" />
-                    <ErrorMessage name="原價" class="invalid-feedback"></ErrorMessage>
+                    <ErrorMessage name="原價" class="invalid-feedback" />
                   </div>
                   <div class="col-md-6 mb-3">
                     <label class="form-label" for="price">
@@ -169,10 +169,10 @@
                     <Field id="price" class="form-control"
                       type="number" min="0" placeholder="請輸入產品售價"
                       name="售價"
-                      rules="required|min_value:0"
+                      rules="required|minValue:0"
                       :class="{ 'is-invalid': errors['售價'] }"
                       v-model.number="item.price" />
-                    <ErrorMessage name="售價" class="invalid-feedback"></ErrorMessage>
+                    <ErrorMessage name="售價" class="invalid-feedback" />
                   </div>
                 </div>
                 <hr>

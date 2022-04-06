@@ -81,11 +81,11 @@
       </table>
     </div>
 
-    <pagination :pages="paginationData" @page="getOrders"></pagination>
+    <PaginationComponent :pages="paginationData" @page="getOrders"></PaginationComponent>
 
-    <orderModal ref="orderModalOuter" @updateOrder="updateOrder" :order="modalTemp"></orderModal>
+    <OrderModal ref="orderModalOuter" @updateOrder="updateOrder" :order="modalTemp"></orderModal>
 
-    <delModal ref="delModalOuter"
+    <DelModal ref="delModalOuter"
       :item="modalTemp" view="order" @update="getOrders">
       <template #modal-text>
         <table class="table">
@@ -136,15 +136,15 @@
           </tbody>
         </table>
       </template>
-    </delModal>
+    </DelModal>
   </div>
 </template>
 
 <script>
 import sweetAlert from 'sweetalert2';
-import pagination from '@/components/PaginationComponent.vue';
-import delModal from '@/components/DelModal.vue';
-import orderModal from '@/components/OrderModal.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
+import DelModal from '@/components/DelModal.vue';
+import OrderModal from '@/components/OrderModal.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -215,9 +215,9 @@ export default {
     this.getOrders();
   },
   components: {
-    pagination,
-    delModal,
-    orderModal,
+    PaginationComponent,
+    DelModal,
+    OrderModal,
   },
 };
 </script>

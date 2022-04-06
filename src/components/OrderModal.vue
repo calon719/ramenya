@@ -13,42 +13,32 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-12 col-md-4">
-              <h4>客戶資料</h4>
+              <div class="d-flex align-items-center justify-content-between">
+                <h4 class="mb-0">客戶資料</h4>
+                <button class="btn btn-outline-secondary" type="button"
+                  @click="isEditing = !isEditing">{{ isEditing ? '編輯' : '完成' }}</button>
+              </div>
               <table class="table">
                 <tbody class="align-middle">
                   <tr>
                     <th scope="row" width="100">姓名</th>
                     <td>
-                      <div class="input-group">
-                        <input type="text" class="form-control" v-model="data.user.name"
-                          :readonly="isEditing !== 'name'" />
-                        <button type="button" class="btn btn-outline-secondary"
-                          @click="isEditing = 'name'">
-                          編輯</button>
-                      </div>
+                      <input type="text" class="form-control" v-model="data.user.name"
+                        :readonly="!isEditing" />
                     </td>
                   </tr>
                   <tr>
                     <th scope="row">聯絡電話</th>
                     <td>
-                      <div class="input-group">
-                        <input type="tel" class="form-control" v-model="data.user.tel"
-                          :readonly="isEditing !== 'tel'" />
-                        <button class="btn btn-outline-secondary" type="button"
-                          @click="isEditing = 'tel'">
-                          編輯</button>
-                      </div>
+                      <input type="tel" class="form-control" v-model="data.user.tel"
+                        :readonly="!isEditing" />
                     </td>
                   </tr>
                   <tr>
                     <th scope="row">地址</th>
                     <td>
-                      <div class="input-group">
-                        <input class="form-control" type="text" v-model="data.user.address"
-                        :readonly="isEditing !== 'address'" />
-                        <button class="btn btn-outline-secondary" type="button"
-                          @click="isEditing = 'address'">編輯</button>
-                      </div>
+                      <input class="form-control" type="text" v-model="data.user.address"
+                        :readonly="!isEditing" />
                     </td>
                   </tr>
                 </tbody>
@@ -146,7 +136,7 @@ export default {
     return {
       modal: {},
       data: this.order,
-      isEditing: '',
+      isEditing: false,
       isBtnLoading: false,
       timeOptions: {
         year: 'numeric',
@@ -167,7 +157,7 @@ export default {
   watch: {
     order() {
       this.data = this.order;
-      this.isEditing = '';
+      this.isEditing = false;
     },
   },
   props: ['order'],

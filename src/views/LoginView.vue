@@ -3,10 +3,10 @@
     <div class="bg-secondary bg-opacity-10">
       <div class="container py-3">
         <div class="d-flex justify-content-end">
-          <router-link to="/" class="text-secondary text-decoration-none mb-3">
+          <routerLink to="/" class="text-secondary text-decoration-none mb-3">
             <i class="bi bi-house-fill"></i>
             返回前台
-          </router-link>
+          </routerLink>
         </div>
 
         <div class="row justify-content-center align-items-center login-footer-bottom">
@@ -21,7 +21,7 @@
                     rules="required|email" class="form-control"
                     :class="{ 'is-invalid': errors['Email'] }"
                     v-model="user.username" />
-                  <ErrorMessage name="Email" class="invalid-feedback"></ErrorMessage>
+                  <ErrorMessage name="Email" class="invalid-feedback" />
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label">密碼</label>
@@ -31,7 +31,7 @@
                     :class="{ 'is-invalid': errors['密碼'] }"
                     v-model="user.password"
                     autocomplete />
-                  <ErrorMessage name="密碼" class="invalid-feedback"></ErrorMessage>
+                  <ErrorMessage name="密碼" class="invalid-feedback" />
                 </div>
                 <div class="text-end">
                   <button type="submit"
@@ -58,9 +58,9 @@
       <div class="container">
         <ul class="list-unstyled d-flex justify-content-center mb-0 fs-5">
           <li>
-            <router-link class="text-white d-block px-2 py-1" to="/login">
+            <routerLink class="text-white d-block px-2 py-1" to="/login">
               <i class="bi bi-wrench-adjustable-circle-fill"></i>
-            </router-link>
+            </routerLink>
           </li>
           <li>
             <a class="text-white d-block px-2 py-1" href="https://github.com/calon719/ramenya" target="_blank">
@@ -76,7 +76,7 @@
       </div>
     </footer>
 
-    <loadingComponent :isLoading="isLoading"></loadingComponent>
+    <LoadingComponent :isLoading="isLoading"></LoadingComponent>
   </div>
 </template>
 

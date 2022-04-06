@@ -1,22 +1,22 @@
 <template>
   <div class="userProduct">
-    <cartDropdown ref="cartDropdown"></cartDropdown>
+    <CartDropdown ref="cartDropdown"></CartDropdown>
     <main class="py-5">
       <nav class="mt-md-5">
         <div class="container">
           <ol class="breadcrumb text-dark">
             <li class="breadcrumb-item">
-              <router-link to="/" class="breadcrumb-link">首頁</router-link>
+              <routerLink to="/" class="breadcrumb-link">首頁</routerLink>
             </li>
             <li class="breadcrumb-item">
-              <router-link :to="{ path: '/products', query: { category: '拉麵' } }"
-                class="breadcrumb-link">美味菜單</router-link>
+              <routerLink :to="{ path: '/products', query: { category: '拉麵' } }"
+                class="breadcrumb-link">美味菜單</routerLink>
             </li>
             <li class="breadcrumb-item">
-              <router-link class="breadcrumb-link"
+              <routerLink class="breadcrumb-link"
                 :to="{ path: '/products', query: { category: product.category } }">
                 {{ product.category }}
-              </router-link>
+              </routerLink>
             </li>
             <li class="breadcrumb-item">{{ product.title }}</li>
           </ol>
@@ -81,17 +81,17 @@
             <div class="row justify-content-end g-4"
               :class="{'invisible': !isAddedCart}">
               <div class="col-5 me-auto me-md-0">
-                <router-link class="w-100 btn btn-outline-dark"
+                <routerLink class="w-100 btn btn-outline-dark"
                   :to="{ path: '/products', query: { category: product.category } }">
                   <i class="bi bi-arrow-left"></i>
                   繼續購物
-                </router-link>
+                </routerLink>
               </div>
               <div class="col-5">
-                <router-link class="w-100 btn btn-danger" to="/cart">
+                <routerLink class="w-100 btn btn-danger" to="/cart">
                   結帳去
                   <i class="bi bi-arrow-right"></i>
-                </router-link>
+                </routerLink>
               </div>
             </div>
           </div>
@@ -176,7 +176,6 @@
 <script>
 import sweetAlert from 'sweetalert2';
 import pushToastMessage from '@/utils/pushToastMessage';
-import cartDropdown from '@/components/CartDropdown.vue';
 
 export default {
   data() {
@@ -336,9 +335,6 @@ export default {
     this.getProduct();
     this.getProducts();
     this.getCart();
-  },
-  components: {
-    cartDropdown,
   },
 };
 </script>

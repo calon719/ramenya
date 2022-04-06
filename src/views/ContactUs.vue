@@ -1,6 +1,6 @@
 <template>
   <div class="contact footer-bottom">
-    <cartDropdown></cartDropdown>
+    <CartDropdown></CartDropdown>
     <header class="page-banner">
       <h2 class="page-banner-title fs-1">聯絡我們</h2>
     </header>
@@ -15,7 +15,7 @@
           </ul>
         </div>
         <div class="col-12 col-md-6 col-lg-7 order-1 order-md-2 h-100 overflow-hidden">
-          <mapComponent class="w-100"></mapComponent>
+          <MapComponent class="w-100"></MapComponent>
         </div>
       </div>
 
@@ -34,7 +34,7 @@
                   name="姓名" placeholder="請輸入姓名"
                   rules="required" :class="{ 'is-invalid': errors['姓名'] }"
                   v-model="userData.name"/>
-                <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
+                <ErrorMessage name="姓名" class="invalid-feedback" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="email">
@@ -45,7 +45,7 @@
                   name="Email" placeholder="請輸入 Email"
                   rules="required|email" :class="{ 'is-invalid': errors['Email'] }"
                   v-model="userData.email"/>
-                <ErrorMessage name="Email" class="invalid-feedback"></ErrorMessage>
+                <ErrorMessage name="Email" class="invalid-feedback" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="message">留言</label>
@@ -54,7 +54,7 @@
                   name="留言" id="message" style="height: 250px;"
                   rules="required" :class="{ 'is-invalid': errors['留言'] }"
                   placeholder="請輸入留言" v-model="userData.content" />
-                <ErrorMessage name="留言" class="invalid-feedback"></ErrorMessage>
+                <ErrorMessage name="留言" class="invalid-feedback" />
               </div>
               <div class="text-end">
                 <button class="btn btn-primary px-4" type="button"
@@ -73,9 +73,8 @@
 </template>
 
 <script>
-import cartDropdown from '@/components/CartDropdown.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
-import mapComponent from '@/components/MapComponent.vue';
+import MapComponent from '@/components/MapComponent.vue';
 
 export default {
   data() {
@@ -106,10 +105,7 @@ export default {
     },
   },
   components: {
-    cartDropdown,
-    mapComponent,
-  },
-  mounted() {
+    MapComponent,
   },
 };
 </script>

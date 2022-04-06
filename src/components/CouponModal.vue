@@ -25,7 +25,7 @@
                   name="標題" placeholder="請輸入優惠券標題"
                   rules="required" v-model="data.title"
                   :class="{ 'is-invalid': errors['標題'] }" />
-                <ErrorMessage name="標題" class="invalid-feedback"></ErrorMessage>
+                <ErrorMessage name="標題" class="invalid-feedback" />
               </div>
               <div class="col-12 col-md-5">
                 <label class="form-label" for="title">
@@ -59,9 +59,9 @@
                 </label>
                 <Field id="percent" class="form-control" type="number" min="0"
                   name="折扣" placeholder="以 % 為單位，ex. 8 折就輸入 80"
-                  rules="required|min_value:0|max_value:100|numeric" v-model.number="data.percent"
+                  rules="required|minValue:0|maxValue:100|numeric" v-model.number="data.percent"
                   :class="{ 'is-invalid': errors['折扣'] }" />
-                <ErrorMessage name="折扣" class="invalid-feedback"></ErrorMessage>
+                <ErrorMessage name="折扣" class="invalid-feedback" />
               </div>
             </div>
             <div class="d-flex justify-content-end">
