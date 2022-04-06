@@ -129,7 +129,7 @@
         <h3 class="mb-3 mb-md-4">您可能也感興趣⋯⋯</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 gy-5">
           <div class="col" v-for="product in filteredProducts" :key="product.id">
-            <div class="card card-custom position-relative">
+            <div class="card card-custom position-relative h-100">
               <a class="card-coverLink" href="#" @click.prevent="getProduct(product.id)"></a>
               <div v-show="product.tag" class="card-tag"
                 :class="product.tag === 1 ? 'bg-danger' : 'bg-success'">
@@ -144,26 +144,30 @@
               </div>
               <div class="card-body">
                 <h3 class="card-title fs-4">{{ product.title }}</h3>
-                <div class="d-flex">
-                  <p v-show="!product.origin_price" class="fs-5">
-                    NTD {{ product.price }}
-                  </p>
-                  <p v-show="product.origin_price" class="fs-5">
-                    <small>
-                      <del class="text-muted">NTD {{ product.origin_price }}</del>
-                    </small>
-                    NTD {{ product.price }}
-                  </p>
-                  <button type="button" class="card-cartBtn btn btn-lg btn-primary rounded"
-                    :disabled="isBtnLoading && itemId === product.id"
-                    @click="addCart(product.id)">
-                    <div class="spinner-border spinner-border-sm" role="status"
-                      v-if="isBtnLoading && itemId === product.id"></div>
-                    <span v-else>
-                      <i class="bi bi-cart-fill"></i>
-                    </span>
-                  </button>
+                <div class="row">
+                  <div class="col-9">
+                    <p v-if="!product.origin_price" class="fs-5">
+                      NTD {{ product.price }}
+                    </p>
+                    <div class="d-flex align-items-center flex-wrap" v-else>
+                      <small class="me-2">
+                        <del class="text-muted">NTD {{ product.origin_price }}</del>
+                      </small>
+                      <p class="fs-5 mb-0">
+                        NTD {{ product.price }}
+                      </p>
+                    </div>
+                  </div>
                 </div>
+                <button type="button" class="card-cartBtn btn btn-lg btn-primary rounded"
+                  :disabled="isBtnLoading && itemId === product.id"
+                  @click="addCart(product.id)">
+                  <div class="spinner-border spinner-border-sm" role="status"
+                    v-if="isBtnLoading && itemId === product.id"></div>
+                  <span v-else>
+                    <i class="bi bi-cart-fill"></i>
+                  </span>
+                </button>
               </div>
             </div>
           </div>
