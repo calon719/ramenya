@@ -6,7 +6,7 @@
     </header>
 
     <div class="content container">
-      <p class="content-text fs-4">慶祝拉麵屋一週年，只要在活動期間參加幸運大轉盤活動，
+      <p class="content-text text-center fs-4">慶祝拉麵屋一週年，只要在活動期間參加幸運大轉盤活動，
         就有機會抽中最高打 5 折優惠券，快來試試你的好手氣吧！</p>
       <div class="row g-3 g-md-5 justify-content-center">
         <div class="col-12 col-md-7 d-flex justify-content-center order-2 order-md-1">
