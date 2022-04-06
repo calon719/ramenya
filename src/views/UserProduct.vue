@@ -1,6 +1,6 @@
 <template>
   <div class="userProduct">
-    <CartDropdown ref="cartDropdown"></CartDropdown>
+    <CartDropdown ref="cartDropdown" />
     <main class="py-5">
       <nav class="mt-md-5">
         <div class="container">
@@ -9,7 +9,7 @@
               <routerLink to="/" class="breadcrumb-link">首頁</routerLink>
             </li>
             <li class="breadcrumb-item">
-              <routerLink :to="{ path: '/products', query: { category: '拉麵' } }"
+              <routerLink :to="{ path: '/products', query: { category: '全部' } }"
                 class="breadcrumb-link">美味菜單</routerLink>
             </li>
             <li class="breadcrumb-item">
@@ -38,14 +38,14 @@
             <p class="text-danger"
               :class="{'d-none': !isAlcohol}">※ 未滿十八歲者，禁止飲酒</p>
             <div class="d-flex justify-content-end align-items-center">
+              <span class="text-muted me-2"
+                v-show="product.origin_price">
+                <del>NTD {{ product.origin_price }}</del>
+              </span>
               <h3 class="text-end">
                 <span v-show="product.origin_price">特價</span>
                 NTD {{ product.price }}
               </h3>
-              <small class="text-muted"
-                v-show="product.origin_price">
-                <del>NTD {{ product.origin_price }}</del>
-              </small>
             </div>
             <small class="text-danger mb-1" v-if="num < 1">
               <i class="bi bi-exclamation-circle me-1"></i>數量不可以小於 1
@@ -174,7 +174,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -210,7 +209,7 @@ export default {
           this.isAlcohol = product.is_alcohol;
         }).catch((err) => {
           const msg = err.response.data.message;
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: msg,
           });
@@ -226,7 +225,7 @@ export default {
         }).catch((err) => {
           this.$emit('loadingStatus', false);
           const msg = err.response.data.message;
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: msg,
           });
@@ -238,7 +237,7 @@ export default {
           this.cart = res.data.data.carts;
         }).catch((err) => {
           const msg = err.response.data.message;
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: msg,
           });

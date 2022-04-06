@@ -1,26 +1,26 @@
 <template>
   <div class="userProducts">
-    <CartDropdown ref="cartDropdown"></CartDropdown>
+    <CartDropdown ref="cartDropdown" />
     <header class="page-banner">
       <h2 class="page-banner-title fs-1">美味菜單</h2>
     </header>
 
     <main class="container py-5">
-      <div class="row justify-content-between align-items-center">
+      <div class="row justify-content-between align-items-center mb-4">
         <div class="col">
           <nav>
-            <ol class="breadcrumb text-dark">
+            <ol class="breadcrumb text-dark mb-md-0">
               <li class="breadcrumb-item">
                 <routerLink to="/" class="breadcrumb-link">首頁</routerLink>
               </li>
               <li class="breadcrumb-item">美味菜單</li>
-              <li class="breadcrumb-item">{{ isSearching ? '搜尋結果' : selectedCategory }}</li>
+              <li class="breadcrumb-item">{{ isSearching ? '搜尋結果' : $route.query.category }}</li>
             </ol>
           </nav>
         </div>
 
         <div class="col-12 col-md-6 col-lg-4 position-relative">
-          <input class="searchInput form-control border-secondary mb-3" type="search"
+          <input class="searchInput form-control border-secondary" type="search"
             placeholder="請輸入要查詢的關鍵字" v-model.trim="keyWord" />
         </div>
       </div>
@@ -31,6 +31,12 @@
 
       <div v-show="!isSearching">
         <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <routerLink class="nav-link"
+              :to="{ path: '/products', query: { category: '全部' } }"
+              :active-class="$route.query.category === '全部' ? 'active' : ''"
+            >全部</routerLink>
+          </li>
           <li class="nav-item">
             <routerLink class="nav-link"
               :to="{ path: '/products', query: { category: '拉麵' } }"
@@ -51,7 +57,7 @@
           </li>
         </ul>
 
-        <div class="bg-white py-5 px-3 px-sm-5">
+        <div class="py-5 px-3 px-lg-5">
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mb-5">
             <div class="col" v-for="product in productsData" :key="product.id">
               <div class="card card-custom position-relative">
@@ -76,7 +82,7 @@
                       NTD {{ product.price }}
                     </p>
                     <p v-show="product.origin_price" class="fs-5">
-                      <small>
+                      <small class="me-1">
                         <del class="text-muted">NTD {{ product.origin_price }}</del>
                       </small>
                       NTD {{ product.price }}
@@ -95,7 +101,8 @@
               </div>
             </div>
           </div>
-          <PaginationComponent :pages="paginationData" @page="getProducts"></PaginationComponent>
+          <PaginationComponent v-if="paginationData.total_pages !== 1"
+            :pages="paginationData" @page="getProducts" />
         </div>
       </div>
     </main>
@@ -103,7 +110,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import pushToastMessage from '@/utils/pushToastMessage';
 import ProductsSearch from '@/components/ProductsSearch.vue';
@@ -113,9 +119,7 @@ export default {
     return {
       apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       productsData: [],
-      cartData: [],
       paginationData: {},
-      selectedCategory: '',
       keyWord: '',
       addCartLoading: {
         id: '',
@@ -132,17 +136,28 @@ export default {
   methods: {
     getProducts(page = 1) {
       const { category } = this.$route.query;
-      this.selectedCategory = category;
+      let api = `${this.apiBase}/products?page=${page}`;
+
+      if (category !== '全部') {
+        api = `${this.apiBase}/products?page=${page}&category=${category}`;
+      }
+
       this.$emit('loadingStatus', true);
-      const api = `${this.apiBase}/products?page=${page}&category=${this.selectedCategory}`;
       this.$http.get(api)
         .then((res) => {
-          this.productsData = res.data.products;
-          this.paginationData = res.data.pagination;
+          const { products, pagination } = res.data;
+          const data = products.sort((a, b) => {
+            const str1 = a.category.split('');
+            const str2 = b.category.split('');
+            return str1[0].localeCompare(str2[0]);
+          });
+
+          this.productsData = data;
+          this.paginationData = pagination;
           this.$emit('loadingStatus', false);
         }).catch((err) => {
           const msg = err.response.data.message;
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: msg,
           });

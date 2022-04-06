@@ -27,7 +27,7 @@
               <td class="py-4 text-center text-muted">
                 購物車內沒東西
                 <br>
-                <routerLink :to="{ path: '/products', query: { category: '拉麵' } }"
+                <routerLink :to="{ path: '/products', query: { category: '全部' } }"
                   class="btn btn-primary mt-2">去逛逛</routerLink>
               </td>
             </tr>
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -94,7 +93,7 @@ export default {
         }).catch((err) => {
           this.isBtnLoading = false;
           const msg = err.response.data.message;
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: msg,
           });

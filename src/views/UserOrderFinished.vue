@@ -2,6 +2,17 @@
   <div class="userOrderFinished">
     <main class="main-footer-bottom py-5">
       <div class="container bg-white mb-5 py-4">
+        <div class="row justify-content-center mb-5">
+          <div class="col-12 col-md-8 col-lg-7">
+            <ul class="multi-steps">
+              <li>確認品項</li>
+              <li>填寫資料</li>
+              <li>確認資料</li>
+              <li class="active">完成訂單</li>
+            </ul>
+          </div>
+        </div>
+
         <h3 class="fs-1 text-center mb-5">
           <i class="bi bi-check-circle text-success"></i>
           交易成功
@@ -85,8 +96,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
-
 export default {
   data() {
     return {
@@ -107,7 +116,7 @@ export default {
           if (order) {
             this.orderData = order;
           } else {
-            sweetAlert.fire({
+            this.$swal({
               icon: 'error',
               text: '訂單編號好像出錯囉！',
             });
@@ -116,7 +125,7 @@ export default {
         }).catch((err) => {
           this.$emit('loadingStatus', false);
           const msg = err.response.data.message;
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: msg,
           });

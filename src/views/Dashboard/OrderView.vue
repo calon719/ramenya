@@ -81,9 +81,9 @@
       </table>
     </div>
 
-    <PaginationComponent :pages="paginationData" @page="getOrders"></PaginationComponent>
+    <PaginationComponent :pages="paginationData" @page="getOrders" />
 
-    <OrderModal ref="orderModalOuter" @updateOrder="updateOrder" :order="modalTemp"></orderModal>
+    <OrderModal ref="orderModalOuter" @updateOrder="updateOrder" :order="modalTemp" />
 
     <DelModal ref="delModalOuter"
       :item="modalTemp" view="order" @update="getOrders">
@@ -141,7 +141,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import DelModal from '@/components/DelModal.vue';
 import OrderModal from '@/components/OrderModal.vue';
@@ -181,7 +180,7 @@ export default {
           this.$emit('loadingStatus', false);
         }).catch((err) => {
           this.$emit('loadingStatus', false);
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: err.data.response.message,
           });

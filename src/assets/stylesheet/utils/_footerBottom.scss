@@ -8,7 +8,7 @@
   min-height: calc(100vh - 134px - 41px - 2rem);
 }
 .search-footer-bottom {
-  min-height: calc(100vh - 134px - 150px - 246px);
+  min-height: calc(100vh - 134px - 150px - 254px);
 }
 
 @include media-breakpoint-up(md) {
@@ -16,6 +16,6 @@
     min-height: calc(100vh - 134px - 56px - 200px);
   }
   .search-footer-bottom {
-    min-height: calc(100vh - 134px - 200px - 246px);
+    min-height: calc(100vh - 134px - 200px - 214px);
   }
 }

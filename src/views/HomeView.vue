@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <CartDropdown ref="cartDropdown"></CartDropdown>
+    <CartDropdown ref="cartDropdown" />
     <header class="banner">
       <div class="banner-content">
         <span class="fs-3">不去日本也能享受</span>
@@ -20,11 +20,9 @@
           一週年慶祝活動
         </h3>
         <p class="fs-5 text-center text-muted">
-          慶祝拉麵屋一週年，
-          <br>
-          現在進入到活動頁面參加活動，就有機會得到優惠碼
+          慶祝拉麵屋一週年，現在進入到活動頁面參加活動，就有機會得到優惠碼！
         </p>
-        <routerLink class="btn btn-primary" to="/anniversary">進入活動頁面</routerLink>
+        <routerLink class="btn btn-primary btn-lg" to="/anniversary">進入活動頁面</routerLink>
       </section>
 
       <section class="feature bg-light py-5">
@@ -32,7 +30,7 @@
           <div class="row g-3 g-md-5 align-items-center mb-5">
             <div class="col-12 col-md-7">
               <div class="ratio ratio-16x9 overflow-hidden">
-                <img class="img-cover" src="https://storage.googleapis.com/vue-course-api.appspot.com/calon/1648536455912.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=oZD2EKQe9FLaN7jCpzKVAnzUPsdErduCcouVdUl%2BLwdFo4QzrqbK1Go1cCXExV4LlR24iXByNSw7InOKaqLQh%2BN3ghe9G7tnZsitQ70cMWTr0FCRTdX2R%2FmWG5fDOhKajwCLlpL6kzqAwDmfTyowEKkpV%2FmxxbhrcaZKICHRZZjoxvwghrRSUG%2FaBeLDvR9c%2Fnsywc27cHFSvYpspUnFMmsRpkapPeHYLe0%2BarI8byl%2FWbgJyFCiLJrKVZ6Th%2FvGO%2BGnlQsJ542XI7XS0DMlrO7iUfGQqOPC3FItZ7l0BV3Rvqhv23%2F45i54Xt7r%2FhlfTYpo76JNTvnTCHCwRfCjwA%3D%3D" alt="日本師父">
+                <img class="img-cover" src="https://storage.googleapis.com/vue-course-api.appspot.com/calon/1649256094389.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=SxtEeMjz%2BaOsibhB9TRddCERB2VsIHmIzYpmEPO%2F6QieHnQ%2B9B4E0hSqpLzVd2Jq%2Bc%2Fu1Ifl8hy8MCbkwQUV7Zz4b7r8hpcVCNF7ahlHw%2FpMI%2FCsm1XBBvRY7Og9PnqnoxwMQNzClY2nr%2FAd51X1QQgttozYpyV6dS%2BNq4usWzxivDB53j%2FzJjWKbvKorEPzzP7t12RaKJ0CF43epQAcAcWhF2L4f667kvxLRvn2fO%2Ffe2Zg2Sn%2BP2qXS2NN9n8khAaPzQcDDjl7jg8nZder%2Bxd1ZCtdZykZR3o72SJ21O75GpP7c7A5viXA1v3Q9tr396MKREAxu51lNypzge2IwQ%3D%3D" alt="日本師父">
               </div>
             </div>
             <div class="col-12 col-md-5" data-aos="fade-top">
@@ -54,7 +52,7 @@
             </div>
             <div class="col-12 col-md-7 order-1 order-md-2">
               <div class="ratio ratio-16x9 overflow-hidden">
-                <img class="img-cover" src="https://storage.googleapis.com/vue-course-api.appspot.com/calon/1648536459795.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=GQpnkdievyq05Ji%2BI3l4hZrQVwiwweUkqzSHntt9tkUd6OLWngqoc1EkDAiBbks4QVcRh41rxcW4QwNP9g4dbL0RPReUKKjSwlRt%2FPOmgNMCFSE3CFDX9AskmVNJQOr%2FICkP7RVc8yLEfcOXPAFH4%2BqNmHEvjY10wYwQjATpvfbzBBQGGjWOcOgg0vAQnSHZ%2Bk0W7MbCvBBj679QQ%2BTPBDup36vqmZroOrNZ8PFN3n4GVSarROjJuCpNPHB2pah4aReORqe28U29G1jYfPFFp6x6DHbv1oxV10FkWYjZhxrmeOEc%2FFPAOteVuaKGzFJzW4mr4VLB%2BJC74svjkD8Shg%3D%3D" alt="手工麵條">
+                <img class="img-cover" src="https://storage.googleapis.com/vue-course-api.appspot.com/calon/1649256102531.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=WxrjM8qqtZS91EeHirK5euIthuZ44w9h4hmjnAShdRYyRXuPrQ427sWZXhzaRqsOgNclleKANcoJ4TLA5ct9bQphhtmSW8COapeQuLSqCLqo79Sno9qLKyYHZyX%2BxwCLAr1H81HyLky4W6J%2FFRPQ8v5KK2TwpB4av3Z3frMjq6%2F38%2FlIpVONShFIrGIpfx4QjtVjoq3o93twwtO25kh7CXxvWUCpoZZLjCkT%2FoH%2BauF4o000dXGW7PzqLF%2BT%2FsSNEQI2D8DBBMbiN1fGKQUHNtgz26HIOgeuRVzsxW53unHmvtnFQb4caZ0esmBlayTcZlEQfJ06wluTVRdp40dx5w%3D%3D" alt="手工麵條">
               </div>
             </div>
           </div>
@@ -133,7 +131,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -159,7 +156,7 @@ export default {
         }).catch((err) => {
           this.$emit('loadingStatus', false);
           const msg = err.response.data.message;
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: msg,
           });

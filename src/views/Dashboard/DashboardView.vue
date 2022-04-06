@@ -41,13 +41,12 @@
       <routerView @loadingStatus="changeLoadingStatus" v-if="isLogin" />
     </div>
 
-    <loadingComponent :isLoading="isLoading"></loadingComponent>
+    <LoadingComponent :isLoading="isLoading" />
   </div>
 </template>
 
 <script>
 import { Collapse } from 'bootstrap';
-import sweetAlert from 'sweetalert2';
 import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
@@ -75,7 +74,7 @@ export default {
             this.isLoading = false;
           }).catch((err) => {
             this.isLogin = err.response.data.success;
-            sweetAlert.fire({
+            this.$swal({
               icon: 'error',
               text: err.response.data.message,
             });
@@ -85,7 +84,7 @@ export default {
             this.isLoading = false;
           });
       } else {
-        sweetAlert.fire({
+        this.$swal({
           icon: 'error',
           title: '請登入帳號',
         });

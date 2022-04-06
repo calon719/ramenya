@@ -8,7 +8,7 @@
       <div class="container bg-white mb-5 py-5 px-md-4">
         <div class="row justify-content-center">
           <div class="col-12 col-md-8 col-lg-7">
-            <ul class="multi-steps steps-one">
+            <ul class="multi-steps">
               <li class="active">確認品項</li>
               <li>填寫資料</li>
               <li>確認資料</li>
@@ -23,7 +23,7 @@
             <br>
             購物車目前沒任何商品喔！
           </p>
-          <routerLink :to="{ path: '/products', query: { category: '拉麵' } }"
+          <routerLink :to="{ path: '/products', query: { category: '全部' } }"
             class="btn btn-primary btn-lg mb-5">
             <i class="bi bi-arrow-right"></i>
             去逛逛
@@ -149,7 +149,7 @@
               </p>
             </div>
             <div class="col-5 col-md-3 col-lg-2 ms-md-4 me-auto">
-              <routerLink :to="{ path: '/products', query: { category: '拉麵' } }"
+              <routerLink :to="{ path: '/products', query: { category: '全部' } }"
                 class="btn btn-outline-secondary w-100">
                 <i class="bi bi-arrow-left"></i>
                 還想逛逛
@@ -171,7 +171,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
 import pushToastMessage from '@/utils/pushToastMessage';
 import emitter from '@/utils/emitter';
 
@@ -233,7 +232,7 @@ export default {
           this.isBtnLoading = false;
           this.$emit('loadingStatus', false);
           const msg = err.response.data.message;
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: msg,
           });

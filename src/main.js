@@ -7,7 +7,6 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import 'vue-loading-overlay/dist/vue-loading.css';
 import {
   Field, Form, ErrorMessage, defineRule, configure,
 } from 'vee-validate';
@@ -16,6 +15,8 @@ import {
 } from '@vee-validate/rules';
 import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 // plugin end
 
 import './assets/stylesheet/all.scss';
@@ -55,4 +56,6 @@ app.component('CartDropdown', CartDropdown);
 
 app.use(VueAxios, axios);
 app.use(router);
+app.use(VueSweetalert2);
+
 app.mount('#app');

@@ -4,7 +4,7 @@
       <div class="container bg-white mb-5 py-5 px-md-5">
         <div class="row justify-content-center mb-5">
           <div class="col-12 col-md-8 col-lg-7">
-            <ul class="multi-steps steps-one">
+            <ul class="multi-steps">
               <li>確認品項</li>
               <li>填寫資料</li>
               <li class="active">確認資料</li>
@@ -110,8 +110,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
-
 export default {
   data() {
     return {
@@ -141,7 +139,7 @@ export default {
       const userData = localStorage.getItem('orderData');
       const cartData = JSON.parse(localStorage.getItem('carts'));
       if (!cartData?.carts?.length) {
-        sweetAlert.fire({
+        this.$swal({
           icon: 'error',
           text: '購物車沒有商品！',
         });
@@ -149,7 +147,7 @@ export default {
           name: 'UserCart',
         });
       } else if (!userData) {
-        sweetAlert.fire({
+        this.$swal({
           icon: 'error',
           text: '尚未填寫購買資訊！',
         });

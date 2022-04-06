@@ -6,7 +6,7 @@
         <span class="fs-6 text-muted">總共 {{ result.length }} 筆結果</span>
       </h3>
 
-      <div class="mt-5" v-show="hasResult">
+      <div class="py-5 px-3 px-lg-5" v-show="hasResult">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mb-5">
           <div class="col" v-for="product in filteredResult" :key="product.id">
             <div class="card card-custom position-relative">
@@ -50,7 +50,8 @@
             </div>
           </div>
         </div>
-        <PaginationComponent :pages="paginationData" @page="changePage"></PaginationComponent>
+        <PaginationComponent v-if="paginationData.total_pages !== 1"
+          :pages="paginationData" @page="changePage" />
       </div>
 
       <div class="productSearch-noResult mt-3" v-show="!hasResult">
@@ -61,7 +62,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 
 export default {
@@ -93,7 +93,7 @@ export default {
           this.products = res.data.products;
         }).catch((err) => {
           const msg = err.response.data.message;
-          sweetAlert.fire({
+          this.$swal.fire({
             icon: 'error',
             text: msg,
           });

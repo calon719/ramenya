@@ -17,7 +17,7 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <routerLink class="nav-link"
-                :to="{ path: '/products', query: { category: '拉麵' } }">美味菜單</routerLink>
+                :to="{ path: '/products', query: { category: '全部' } }">美味菜單</routerLink>
             </li>
             <li class="nav-item">
               <routerLink class="nav-link" to="/anniversary">優惠活動</routerLink>
@@ -56,7 +56,7 @@
       </div>
     </footer>
 
-    <LoadingComponent :isLoading="isLoading"></LoadingComponent>
+    <LoadingComponent :isLoading="isLoading" />
   </div>
 </template>
 

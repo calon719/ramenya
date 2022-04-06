@@ -76,7 +76,7 @@
       </div>
     </footer>
 
-    <LoadingComponent :isLoading="isLoading"></LoadingComponent>
+    <LoadingComponent :isLoading="isLoading" />
   </div>
 </template>
 

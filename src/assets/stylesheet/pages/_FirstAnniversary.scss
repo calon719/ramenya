@@ -4,16 +4,18 @@
     justify-content: center;
     align-items: center;
     height: 150px;
-    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/calon/1648536305582.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=A36rMM2Tz6YeR17v6rvqBX2w3pG3ZHE7dTffZ1qfIiKNoew7i4VwOepmh9L2lv%2FM12wT55rKyix0dNn2cSeXBCxd8OU87NIFFrZQx8vrNza0w1iSMnvL4TpYOVl0yE76vUkGyOd%2BtiocmnyzwJ3Tb1l6H0GgokHvBF4TP3FhQfXcaITgQfwT0%2BLeHFynREBXsKmjs8C429n2GrVcPGAKWDWVQpFEM%2BEVINcoA%2FYPP4st%2BUEN6mD4YPsLqcUq4fI0FLW68JHk9KZ1aou8iuXS%2Fwcv8TkopLCff7OoaYfVWg5IHUouZm9949bV29MkCC5cPL66cd2t5K0IAsqQKJDBzw%3D%3D');
+    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/calon/1649256109289.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=FBA3%2Bo8JYeRWd1A%2FLnJCNAaSK7pbjtpik%2F%2Fkq3UTnMVxtVbGnf1hnmRdZMW4bKAWn%2FvfeLgwlUUnr%2FpIaIvIpS4F424EXQD4e2pFaWjsaECg01%2BcRObIc4kVWNpvPfkz7PSkxoFsV7b5Js1iXvhA4FL03SUbyuO%2FzBdMrLyLgBShyqQgoxeftW7H77wcNpAow5JZTWjZSPKEeyt1aAvTuHmV8x2bTEJVNnZfrmGuq22NrW18jzrY8F05ruvjGxXOdDxkiSnwzJgW0akGec5eykyMAUePVeNYZzPLkxQsXOeqW44cLWUWmlVdCIlwatITpdX3orcCjeWkfvEtBVBisQ%3D%3D');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+
     &-title {
       color: $white;
       position: relative;
       font-weight: $font-weight-bold;
       letter-spacing: .5rem;
       padding-bottom: .25rem;
+
       &::after {
         content: '';
         position: absolute;
@@ -26,27 +28,32 @@
       }
     }
   }
+
   .content {
     padding-top: 4rem;
     padding-bottom: 4rem;
+
     &-text {
       margin: 0 auto 0 auto;
-      text-indent: 2.5rem;
     }
   }
+
   @include media-breakpoint-up(md) {
     .banner {
       height: 200px;
     }
+
     .content {
       padding-top: 6rem;
       padding-bottom: 6rem;
+
       &-text {
         width: 80%;
         margin-bottom: 4rem;
       }
     }
   }
+
   @include media-breakpoint-up(lg) {
     &-text {
       width: 60%;

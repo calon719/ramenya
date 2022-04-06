@@ -62,14 +62,13 @@
       </table>
     </div>
 
-    <PaginationComponent :pages="paginationData" @page="getCoupons"></PaginationComponent>
+    <PaginationComponent :pages="paginationData" @page="getCoupons" />
 
     <CouponModal
       :methodStatus="methodStatus"
       :coupon="modalTemp"
       @update="getCoupons"
-      ref="couponModalOuter">
-    </CouponModal>
+      ref="couponModalOuter" />
 
     <DelModal
       view="coupon"
@@ -89,7 +88,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import CouponModal from '@/components/CouponModal.vue';
 import DelModal from '@/components/DelModal.vue';
@@ -127,7 +125,7 @@ export default {
           this.$emit('loadingStatus', false);
           this.checkExpiredCoupone();
         }).catch((err) => {
-          sweetAlert.fire({
+          this.$swal({
             icon: 'warning',
             text: err.response.data.message,
           });
@@ -169,7 +167,7 @@ export default {
           this.getCoupons();
           this.$emit('loadingStatus', false);
         }).catch((err) => {
-          sweetAlert.fire({
+          this.$swal({
             icon: 'error',
             text: err.data.response.message,
           });
@@ -185,7 +183,7 @@ export default {
 
       const len = expiredCoupons.length;
       if (len) {
-        sweetAlert.fire({
+        this.$swal({
           icon: 'warning',
           text: `有 ${len} 筆啟用中的優惠券過期囉！`,
         });

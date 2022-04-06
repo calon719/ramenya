@@ -1,6 +1,6 @@
 <template>
   <div class="anniversary footer-bottom">
-    <CartDropdown @cartData="getCarts"></CartDropdown>
+    <CartDropdown @cartData="getCarts" />
     <header class="banner">
       <h2 class="banner-title fs-1">歡慶一週年</h2>
     </header>
@@ -10,7 +10,7 @@
         就有機會抽中最高打 5 折優惠券，快來試試你的好手氣吧！</p>
       <div class="row g-3 g-md-5 justify-content-center">
         <div class="col-12 col-md-7 d-flex justify-content-center order-2 order-md-1">
-          <LuckyWheel @get-prize="getPrize"></LuckyWheel>
+          <LuckyWheel @get-prize="getPrize" />
         </div>
         <div class="col-12 col-md-5 order-1 order-md-2">
           <p class="fs-4 mt-5 me-3">你所抽中的獎項是：
@@ -27,7 +27,7 @@
             <routerLink v-if="carts.length"
               to="/cart" class="btn btn-primary">馬上使用</routerLink>
             <routerLink v-else
-              :to="{ path: '/products', query: { category: '拉麵' } }"
+              :to="{ path: '/products', query: { category: '全部' } }"
               class="btn btn-primary">馬上購物</routerLink>
           </div>
         </div>

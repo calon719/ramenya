@@ -5,10 +5,10 @@
     </header>
 
     <routerView v-if="$route.name === 'UserOrderConfirm'"
-      @loadingStatus="toggleLoading"></routerView>
-    <routerView v-else></routerView>
+      @loadingStatus="toggleLoading" />
+    <routerView v-else />
 
-    <LoadingComponent :isLoading="isLoading"></LoadingComponent>
+    <LoadingComponent :isLoading="isLoading" />
   </div>
 </template>
 

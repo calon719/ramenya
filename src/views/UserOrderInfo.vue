@@ -16,10 +16,14 @@
         <Form ref="form" v-slot="{ errors, meta }" @submit="goOrderConfirm">
           <div class="row justify-content-center mb-5">
             <div class="col-12 col-md-10 col-lg-8">
+              <small class="text-muted">
+                <span class="text-danger">*</span>
+                為必填資料
+              </small>
               <div class="mb-3">
                 <label class="form-label" for="name">
                   姓名
-                  <span class="badge bg-danger ms-1">必要</span>
+                  <span class="text-danger">*</span>
                 </label>
                 <Field id="name" class="form-control" type="text"
                   name="姓名" placeholder="請輸入姓名"
@@ -30,7 +34,7 @@
               <div class="mb-3">
                 <label class="form-label" for="tel">
                   電話
-                  <span class="badge bg-danger ms-1">必要</span>
+                  <span class="text-danger">*</span>
                 </label>
                 <Field id="tel" class="form-control" type="tel"
                   name="電話" placeholder="請輸入電話，室內電話請省略 - ，ex. 012345678"
@@ -42,7 +46,7 @@
               <div class="mb-3">
                 <label class="form-label" for="email">
                   Email
-                  <span class="badge bg-danger ms-1">必要</span>
+                  <span class="text-danger">*</span>
                 </label>
                 <Field id="email" class="form-control" type="email"
                   name="Email" placeholder="請輸入 Email"
@@ -53,7 +57,7 @@
               <div class="mb-3">
                 <label class="form-label" for="address">
                   地址
-                  <span class="badge bg-danger ms-1">必要</span>
+                  <span class="text-danger">*</span>
                 </label>
                 <Field id="address" class="form-control" type="text"
                   name="地址" placeholder="請輸入地址"
@@ -91,8 +95,6 @@
 </template>
 
 <script>
-import sweetAlert from 'sweetalert2';
-
 export default {
   data() {
     return {
@@ -106,7 +108,7 @@ export default {
     checkCart() {
       const cartData = JSON.parse(localStorage.getItem('carts'));
       if (!cartData || !cartData.carts?.length) {
-        sweetAlert.fire({
+        this.$swal({
           icon: 'error',
           text: '購物車沒有商品！',
         });
