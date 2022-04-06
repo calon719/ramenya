@@ -181,7 +181,6 @@ export default {
       cartData: [],
       deliveryFee: 30,
       couponCode: '',
-      amount: 0,
       itemId: '',
       isBtnLoading: false,
       couponRes: {
@@ -196,13 +195,13 @@ export default {
   },
   computed: {
     finalTotal() {
-      let total = this.amount || this.cartData.final_total;
+      let total = this.cartData.final_total;
       total += this.deliveryFee;
       return Math.ceil(total).toLocaleString();
     },
     discountAmount() {
       const { total } = this.cartData;
-      let discount = this.amount || this.cartData.final_total;
+      let discount = this.cartData.final_total;
       discount = Math.ceil(discount);
       discount = total - discount;
 
@@ -218,8 +217,9 @@ export default {
         .then((res) => {
           this.cartData = res.data.data;
 
-          const { coupon } = this.cartData.carts[0];
-          if (coupon) {
+          const couponCheck = this.cartData.carts[0]?.coupon;
+          if (couponCheck) {
+            const { coupon } = this.cartData.carts[0];
             this.couponRes.msg = `已套用優惠券:${coupon.code}`;
             this.couponRes.isErr = false;
             this.couponRes.className['text-danger'] = false;
@@ -231,7 +231,9 @@ export default {
         }).catch((err) => {
           this.isBtnLoading = false;
           this.$emit('loadingStatus', false);
+
           const msg = err.response.data.message;
+
           this.$swal({
             icon: 'error',
             text: msg,
@@ -297,7 +299,6 @@ export default {
           this.couponRes.isErr = !success;
           this.couponRes.className['text-danger'] = !success;
           this.couponRes.className['text-success'] = success;
-          this.amount = Math.ceil(res.data.data.final_total);
           this.isBtnLoading = false;
           localStorage.removeItem('coupon');
           this.getCart();
