@@ -50,7 +50,8 @@
           </div>
           <div class="col-12 col-md-6">
             <h3 class="text-center">建議回饋</h3>
-            <Form ref="form" v-slot="{ errors, meta }">
+            <Form ref="form" v-slot="{ errors, meta }"
+              @submit="sendMessage">
               <p class="mb-4 text-center text-muted">如果有任何建議與回饋，歡迎寄信給我們知道！</p>
               <small class="mb-2 text-muted">
                 <span class="text-danger">*</span>
@@ -90,8 +91,8 @@
                 <ErrorMessage name="留言" class="invalid-feedback" />
               </div>
               <div class="text-end">
-                <button class="btn btn-primary px-4" type="button"
-                  :disabled="!meta.valid || isBtnLoading" @click="sendMessage">
+                <button class="btn btn-primary px-4" type="submit"
+                  :disabled="!meta.valid || isBtnLoading">
                   <div class="spinner-border spinner-border-sm"
                     v-if="isBtnLoading"></div>
                   <span v-else>送出</span>
@@ -122,7 +123,7 @@ export default {
   },
   methods: {
     sendMessage() {
-      const api = 'https://script.google.com/macros/s/AKfycbxMZ9w89hf7woH8j0fNa2VBBOa45Yrytkmj3RyKgfLoGVqYBRs7WjPFADIH1rptGPac/exec';
+      const api = `https://script.google.com/macros/s/${process.env.VUE_APP_GOOGLE_SHEET_CONTACT}/exec`;
       const params = this.userData;
 
       this.isBtnLoading = true;

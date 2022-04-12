@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <routerView />
+    <RouterView />
     <ToastMessage />
   </div>
 </template>

@@ -4,9 +4,9 @@
       <h2 class="page-banner-title fs-1">訂單資訊</h2>
     </header>
 
-    <routerView v-if="$route.name === 'UserOrderConfirm'"
+    <RouterView v-if="$route.name === 'UserOrderConfirm'"
       @loadingStatus="toggleLoading" />
-    <routerView v-else />
+    <RouterView v-else />
 
     <LoadingComponent :isLoading="isLoading" />
   </div>

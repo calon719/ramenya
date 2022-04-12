@@ -10,7 +10,7 @@
       <div class="d-flex justify-content-center">
         <a href="#" class="btn btn-outline-white btn-lg me-5"
           @click.prevent="goBack">回上一頁</a>
-        <routerLink to="/" class="btn btn-outline-white btn-lg">回首頁</routerLink>
+        <RouterLink to="/" class="btn btn-outline-white btn-lg">回首頁</RouterLink>
       </div>
     </div>
   </div>

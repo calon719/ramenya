@@ -7,7 +7,7 @@
           交易失敗！
         </h3>
         <p class="fs-5">請稍後再重新嘗試</p>
-        <routerLink class="btn btn-secondary" to="/">返回首頁</routerLink>
+        <RouterLink class="btn btn-secondary" to="/">返回首頁</RouterLink>
       </div>
     </div>
   </main>

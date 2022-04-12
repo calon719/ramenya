@@ -11,7 +11,7 @@
           <nav>
             <ol class="breadcrumb text-dark mb-md-0">
               <li class="breadcrumb-item">
-                <routerLink to="/" class="breadcrumb-link">首頁</routerLink>
+                <RouterLink to="/" class="breadcrumb-link">首頁</RouterLink>
               </li>
               <li class="breadcrumb-item">美味菜單</li>
               <li class="breadcrumb-item">{{ isSearching ? '搜尋結果' : $route.query.category }}</li>
@@ -32,16 +32,16 @@
       <div v-show="!isSearching">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <routerLink class="nav-link"
+            <RouterLink class="nav-link"
               :to="{ path: '/products', query: { category: '全部' } }"
               :active-class="$route.query.category === '全部' ? 'active' : ''"
-            >全部</routerLink>
+            >全部</RouterLink>
           </li>
           <li class="nav-item">
-            <routerLink class="nav-link"
+            <RouterLink class="nav-link"
               :to="{ path: '/products', query: { category: '拉麵' } }"
               :active-class="$route.query.category === '拉麵' ? 'active' : ''"
-            >拉麵</routerLink>
+            >拉麵</RouterLink>
           </li>
           <li class="nav-item">
             <routerLink class="nav-link"
@@ -50,10 +50,10 @@
             >配菜</routerLink>
           </li>
           <li class="nav-item">
-            <routerLink class="nav-link"
+            <RouterLink class="nav-link"
               :to="{ path: '/products', query: { category: '飲品' } }"
               :active-class="$route.query.category === '飲品' ? 'active' : ''"
-            >飲品</routerLink>
+            >飲品</RouterLink>
           </li>
         </ul>
 

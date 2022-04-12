@@ -22,7 +22,7 @@
         <p class="fs-5 text-center text-muted">
           慶祝拉麵屋一週年，現在進入到活動頁面參加活動，就有機會得到優惠碼！
         </p>
-        <routerLink class="btn btn-primary btn-lg" to="/anniversary">進入活動頁面</routerLink>
+        <RouterLink class="btn btn-primary btn-lg" to="/anniversary">進入活動頁面</RouterLink>
       </section>
 
       <section class="feature bg-light py-5">
@@ -186,7 +186,7 @@ export default {
       const regex = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
       const check = regex.test(this.email);
       if (check) {
-        const api = 'https://script.google.com/macros/s/AKfycbxiwYSXVg5WJV2-XI6sYS1J-8uy8orWc3gmkLReW1A9oZ9ebjBBDlKjQGEqy05tXlUn_Q/exec';
+        const api = `https://script.google.com/macros/s/${process.env.VUE_APP_GOOGLE_SHEET_SUBS}/exec`;
         const params = { email: this.email };
 
         this.isBtnLoading = true;

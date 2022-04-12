@@ -3,9 +3,9 @@
     <nav
       class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
       <div class="container">
-        <routerLink class="custom-navbar-brand navbar-brand" to="/">
+        <RouterLink class="custom-navbar-brand navbar-brand" to="/">
           <h1 class="logo">拉麵屋</h1>
-        </routerLink>
+        </RouterLink>
         <button class="navbar-toggler ms-auto"
           type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarNavAltMarkup">
@@ -15,13 +15,13 @@
           ref="navbar">
           <ul class="navbar-nav w-100">
             <li class="nav-item">
-              <routerLink class="nav-link" to="/admin/products">產品</routerLink>
+              <RouterLink class="nav-link" to="/admin/products">產品</RouterLink>
             </li>
             <li class="nav-item">
-              <routerLink class="nav-link" to="/admin/coupons">優惠券</routerLink>
+              <RouterLink class="nav-link" to="/admin/coupons">優惠券</RouterLink>
             </li>
             <li class="nav-item">
-              <routerLink class="nav-link" to="/admin/orders">訂單</routerLink>
+              <RouterLink class="nav-link" to="/admin/orders">訂單</RouterLink>
             </li>
             <li class="nav-item">
               <a class="nav-link" @click.prevent="logout" href="#">登出</a>
@@ -38,7 +38,7 @@
     </nav>
 
     <div class="container py-5">
-      <routerView @loadingStatus="changeLoadingStatus" v-if="isLogin" />
+      <RouterView @loadingStatus="changeLoadingStatus" v-if="isLogin" />
     </div>
 
     <LoadingComponent :isLoading="isLoading" />

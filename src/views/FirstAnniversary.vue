@@ -24,11 +24,11 @@
           </p>
           <div class="mt-auto text-nowrap mb-4 text-center text-md-start"
             :class="{ 'invisible': !prize.split('').length }">
-            <routerLink v-if="carts.length"
-              to="/cart" class="btn btn-primary">馬上使用</routerLink>
-            <routerLink v-else
+            <RouterLink v-if="carts.length"
+              to="/cart" class="btn btn-primary">馬上使用</RouterLink>
+            <RouterLink v-else
               :to="{ path: '/products', query: { category: '全部' } }"
-              class="btn btn-primary">馬上購物</routerLink>
+              class="btn btn-primary">馬上購物</RouterLink>
           </div>
         </div>
       </div>

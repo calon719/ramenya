@@ -88,7 +88,7 @@
         </div>
 
         <div class="text-center">
-          <routerLink class="btn btn-secondary" to="/">返回首頁</routerLink>
+          <RouterLink class="btn btn-secondary" to="/">返回首頁</RouterLink>
         </div>
       </div>
     </main>

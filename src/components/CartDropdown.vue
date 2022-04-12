@@ -27,8 +27,8 @@
               <td class="py-4 text-center text-muted">
                 購物車內沒東西
                 <br>
-                <routerLink :to="{ path: '/products', query: { category: '全部' } }"
-                  class="btn btn-primary mt-2">去逛逛</routerLink>
+                <RouterLink :to="{ path: '/products', query: { category: '全部' } }"
+                  class="btn btn-primary mt-2">去逛逛</RouterLink>
               </td>
             </tr>
 
@@ -57,7 +57,7 @@
           <tfoot v-show="cart.length">
             <tr>
               <td colspan="3">
-                <routerLink to="/cart" class="btn btn-primary w-100">去結帳</routerLink>
+                <RouterLink to="/cart" class="btn btn-primary w-100">去結帳</RouterLink>
               </td>
             </tr>
           </tfoot>

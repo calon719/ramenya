@@ -3,10 +3,10 @@
     <div class="bg-secondary bg-opacity-10">
       <div class="container py-3">
         <div class="d-flex justify-content-end">
-          <routerLink to="/" class="text-secondary text-decoration-none mb-3">
+          <RouterLink to="/" class="text-secondary text-decoration-none mb-3">
             <i class="bi bi-house-fill"></i>
             返回前台
-          </routerLink>
+          </RouterLink>
         </div>
 
         <div class="row justify-content-center align-items-center login-footer-bottom">
@@ -58,9 +58,9 @@
       <div class="container">
         <ul class="list-unstyled d-flex justify-content-center mb-0 fs-5">
           <li>
-            <routerLink class="text-white d-block px-2 py-1" to="/login">
+            <RouterLink class="text-white d-block px-2 py-1" to="/login">
               <i class="bi bi-wrench-adjustable-circle-fill"></i>
-            </routerLink>
+            </RouterLink>
           </li>
           <li>
             <a class="text-white d-block px-2 py-1" href="https://github.com/calon719/ramenya" target="_blank">

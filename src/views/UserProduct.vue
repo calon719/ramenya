@@ -6,17 +6,17 @@
         <div class="container">
           <ol class="breadcrumb text-dark">
             <li class="breadcrumb-item">
-              <routerLink to="/" class="breadcrumb-link">首頁</routerLink>
+              <RouterLink to="/" class="breadcrumb-link">首頁</RouterLink>
             </li>
             <li class="breadcrumb-item">
-              <routerLink :to="{ path: '/products', query: { category: '全部' } }"
-                class="breadcrumb-link">美味菜單</routerLink>
+              <RouterLink :to="{ path: '/products', query: { category: '全部' } }"
+                class="breadcrumb-link">美味菜單</RouterLink>
             </li>
             <li class="breadcrumb-item">
-              <routerLink class="breadcrumb-link"
+              <RouterLink class="breadcrumb-link"
                 :to="{ path: '/products', query: { category: product.category } }">
                 {{ product.category }}
-              </routerLink>
+              </RouterLink>
             </li>
             <li class="breadcrumb-item">{{ product.title }}</li>
           </ol>
@@ -81,17 +81,17 @@
             <div class="row justify-content-end g-4"
               :class="{'invisible': !isAddedCart}">
               <div class="col-5 me-auto me-md-0">
-                <routerLink class="w-100 btn btn-outline-dark"
+                <RouterLink class="w-100 btn btn-outline-dark"
                   :to="{ path: '/products', query: { category: product.category } }">
                   <i class="bi bi-arrow-left"></i>
                   繼續購物
-                </routerLink>
+                </RouterLink>
               </div>
               <div class="col-5">
-                <routerLink class="w-100 btn btn-danger" to="/cart">
+                <RouterLink class="w-100 btn btn-danger" to="/cart">
                   結帳去
                   <i class="bi bi-arrow-right"></i>
-                </routerLink>
+                </RouterLink>
               </div>
             </div>
           </div>

@@ -2,9 +2,9 @@
   <nav class="d-flex justify-content-center" aria-label="Page navigation">
     <ul class="pagination">
       <li class="page-item"
-        :class="{'disabled' : !pages?.has_pre}"
-        @click.prevent="changePrePage(pages.current_page - 1)">
-        <a class="page-link" href="#" aria-label="Previous">
+        :class="{'disabled' : !pages?.has_pre}">
+        <a class="page-link" href="#"
+          @click.prevent="changePrePage(pages.current_page - 1)">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
@@ -17,9 +17,9 @@
         >{{ page }}</a>
       </li>
       <li class="page-item"
-        :class="{'disabled': !pages?.has_next}"
-        @click.prevent="changeNextPage(pages.current_page + 1)">
-        <a class="page-link" href="#" aria-label="Next">
+        :class="{'disabled': !pages?.has_next}">
+        <a class="page-link" href="#"
+          @click.prevent="changeNextPage(pages.current_page + 1)">
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
