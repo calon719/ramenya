@@ -111,7 +111,8 @@ export default {
     coupon: {
       handler(newVal) {
         this.data = newVal;
-        this.formatDate = newVal.due_date * 1000;
+        this.formatDate = String(newVal.due_date).length === 10
+          ? newVal.due_date * 1000 : newVal.due_date;
       },
       deep: true,
     },
@@ -126,13 +127,11 @@ export default {
       this.data.due_date = this.formatDate;
       let method = '';
       let url = `${this.apiBase}/admin/coupon`;
-      let timestamp = '';
 
       // 判斷是不是 Unix 格式
       const dateLen = this.data.due_date.toString().length;
       if (dateLen !== 10) {
-        timestamp = this.data.due_date.getTime();
-        this.data.due_date = Math.floor(timestamp / 1000);
+        this.data.due_date = Math.floor(this.data.due_date / 1000);
       }
 
       switch (this.status) {

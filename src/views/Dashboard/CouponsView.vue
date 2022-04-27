@@ -141,7 +141,7 @@ export default {
       switch (status) {
         case 'add':
           this.modalTemp = {
-            due_date: new Date(),
+            due_date: new Date().getTime(),
             is_enabled: 0,
           };
           this.$refs.couponModalOuter.showModal();
