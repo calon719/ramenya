@@ -27,10 +27,10 @@
               <a class="nav-link" @click.prevent="logout" href="#">登出</a>
             </li>
             <li class="nav-item ms-md-auto">
-              <a class="nav-link d-flex align-items-center" href="/">
+              <RouterLink class="nav-link d-flex align-items-center" to="/">
                 <i class="bi bi-house-fill me-1"></i>
                 返回前台
-              </a>
+              </RouterLink>
             </li>
           </ul>
         </div>
