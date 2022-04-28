@@ -48,7 +48,7 @@
                 </p>
               </td>
               <td class="text-end" @click="delCart(item.id)">
-                <div v-if="$store.state.btnLoadingItems.includes(`cartDropdown-del-${item.id}`)"
+                <div v-if="checkBtnLoading(`cartDropdown-del-${item.id}`)"
                   class="spinner-border spinner-border-sm"></div>
                 <button v-else type="button" class="btn-close"></button>
               </td>
@@ -74,6 +74,7 @@ export default {
       dropdown: {},
     };
   },
+  inject: ['checkBtnLoading'],
   computed: {
     cartList() {
       return this.$store.state.cartList.carts || [];

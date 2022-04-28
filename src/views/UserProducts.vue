@@ -25,8 +25,8 @@
         </div>
       </div>
 
-      <ProductsSearch :addCartLoading="addCartLoading" :status="isSearching" :keyWord="keyWord"
-        @addCart="addCart" @goProduct="goProduct" @isSearching="toggleProducts">
+      <ProductsSearch :status="isSearching" :keyWord="keyWord"
+        @addCart="addCart" @goProduct="toProduct" @isSearching="toggleProducts">
       </ProductsSearch>
 
       <div v-show="!isSearching">
@@ -59,11 +59,11 @@
 
         <div class="py-5 px-3 px-lg-5">
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mb-5">
-            <div class="col" v-for="product in productsData" :key="product.id">
+            <div class="col" v-for="product in currentProducts" :key="product.id">
               <div class="card card-custom position-relative">
                 <a class="card-coverLink" href="#"
-                  :class="{'cursor-default': addCartLoading.isLoading}"
-                  @click.prevent="goProduct(product.id)"></a>
+                  :class="{'cursor-default': checkBtnLoading(`products-addCart-${product.id}`)}"
+                  @click.prevent="toProduct(product.id)"></a>
                 <div v-show="product.tag" class="card-tag"
                   :class="product.tag === 1 ? 'bg-danger' : 'bg-success'">
                   {{ product.tag === 1 ? '人氣精選' : '新品上市' }}
@@ -88,10 +88,10 @@
                       NTD {{ product.price }}
                     </p>
                     <button type="button" class="card-cartBtn btn btn-lg btn-primary rounded"
-                      :disabled="addCartLoading.isLoading && addCartLoading.id === product.id"
+                      :disabled="checkBtnLoading(`products-addCart-${product.id}`)"
                       @click="addCart(product.id)">
                       <div class="spinner-border spinner-border-sm" role="status"
-                        v-if="addCartLoading.isLoading && addCartLoading.id === product.id"></div>
+                        v-if="checkBtnLoading(`products-addCart-${product.id}`)"></div>
                       <span v-else>
                         <i class="bi bi-cart-fill"></i>
                       </span>
@@ -102,7 +102,7 @@
             </div>
           </div>
           <PaginationComponent v-if="paginationData.total_pages !== 1"
-            :pages="paginationData" @page="getProducts" />
+            :pages="paginationData" @page="changePage" />
         </div>
       </div>
     </main>
@@ -111,78 +111,88 @@
 
 <script>
 import PaginationComponent from '@/components/PaginationComponent.vue';
-import pushToastMessage from '@/utils/pushToastMessage';
 import ProductsSearch from '@/components/ProductsSearch.vue';
 
 export default {
   data() {
     return {
       apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
-      productsData: [],
-      paginationData: {},
-      keyWord: '',
-      addCartLoading: {
-        id: '',
-        isLoading: false,
+      currentProducts: [],
+      paginationData: {
+        total_pages: 1,
+        current_page: 1,
+        has_pre: false,
+        has_next: false,
       },
+      keyWord: '',
       isSearching: false,
     };
   },
-  watch: {
-    $route() {
-      this.getProducts();
-    },
-  },
-  methods: {
-    getProducts(page = 1) {
+  inject: ['checkBtnLoading'],
+  computed: {
+    filteredProductsList() {
       const { category } = this.$route.query;
-      let api = `${this.apiBase}/products?page=${page}`;
-
-      if (category !== '全部') {
-        api = `${this.apiBase}/products?page=${page}&category=${category}`;
-      }
-
-      this.$emit('loadingStatus', true);
-      this.$http.get(api)
-        .then((res) => {
-          const { products, pagination } = res.data;
-          const data = products.sort((a, b) => {
+      const { productsList } = this.$store.state;
+      let data = [];
+      switch (category) {
+        case '拉麵':
+          data = productsList.filter((product) => product.category === '拉麵');
+          break;
+        case '配菜':
+          data = productsList.filter((product) => product.category === '配菜');
+          break;
+        case '飲品':
+          data = productsList.filter((product) => product.category === '飲品');
+          break;
+        default:
+          data = this.$store.state.productsList;
+          data.sort((a, b) => {
+            // 取開頭自排序
             const str1 = a.category.split('');
             const str2 = b.category.split('');
             return str1[0].localeCompare(str2[0]);
           });
-
-          this.productsData = data;
-          this.paginationData = pagination;
-          this.$emit('loadingStatus', false);
-        }).catch((err) => {
-          const msg = err.response.data.message;
-          this.$swal({
-            icon: 'error',
-            text: msg,
-          });
-          this.$emit('loadingStatus', false);
-        });
+          break;
+      }
+      return data;
+    },
+  },
+  watch: {
+    filteredProductsList() {
+      this.setPagination();
+    },
+  },
+  methods: {
+    setPagination() {
+      this.paginationData.total_pages = Math.ceil(this.filteredProductsList.length / 9);
+      this.paginationData.has_pre = this.paginationData.current_page > 1;
+      const hasNext = this.paginationData.current_page < this.paginationData.total_pages;
+      this.paginationData.has_next = hasNext;
+      this.changePage();
+    },
+    changePage(page = 1) {
+      this.paginationData.current_page = page;
+      const startIndex = (page - 1) * 9;
+      const endIndex = page * 10 - 1;
+      this.currentProducts = this.filteredProductsList.slice(startIndex, endIndex);
+      this.paginationData.has_pre = this.paginationData.current_page > 1;
+      const hasNext = this.paginationData.current_page < this.paginationData.total_pages;
+      this.paginationData.has_next = hasNext;
     },
     addCart(id) {
       const data = {
-        product_id: id,
-        qty: 1,
+        data: {
+          product_id: id,
+          qty: 1,
+        },
+        prefix: 'products-addCart',
       };
-      this.addCartLoading.id = id;
-      this.addCartLoading.isLoading = true;
-      this.$http.post(`${this.apiBase}/cart`, { data })
-        .then((res) => {
-          pushToastMessage('user', res.data.success, '加入購物車');
-          this.addCartLoading.isLoading = false;
-          this.$refs.cartDropdown.getCart();
-        }).catch(() => {
-          pushToastMessage('user', false, '加入購物車');
-          this.addCartLoading.isLoading = false;
-        });
+
+      this.$store.commit('addBtnLoadingItem', `products-addCart-${id}`);
+      this.$store.dispatch('addCart', data);
     },
-    goProduct(id) {
-      if (!this.addCartLoading.isLoading) {
+    toProduct(id) {
+      if (!this.$store.state.btnLoadingItems.length) {
         this.$router.push(`/product/${id}`);
       }
     },
@@ -190,12 +200,12 @@ export default {
       this.isSearching = status;
     },
   },
-  created() {
-    this.getProducts();
-  },
   components: {
     PaginationComponent,
     ProductsSearch,
+  },
+  created() {
+    this.setPagination();
   },
 };
 </script>

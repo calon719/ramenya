@@ -18,12 +18,6 @@ export default createStore({
     checkFetch(state) {
       return state.productsList.length === 0 && state.cartList.length === 0;
     },
-    filteredProduct(state) {
-      return state;
-    },
-    randomProducts(state) {
-      return state;
-    },
   },
   mutations: {
     setProductsList(state, playload) {
@@ -77,7 +71,7 @@ export default createStore({
       )
         .then((res) => res.json());
 
-      commit('delBtnLoadingItem', `${prefix}-${data.prodcut_id}`);
+      commit('delBtnLoadingItem', `${prefix}-${data.product_id}`);
       if (json.success) {
         pushToastMessage('user', json.success, '加入購物車');
         dispatch('fetchCartList');
