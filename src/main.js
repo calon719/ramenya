@@ -24,6 +24,7 @@ import CartDropdown from './components/CartDropdown.vue';
 import LoadingComponent from './components/LoadingComponent.vue';
 import App from './App.vue';
 import router from './router';
+import store from './store';
 
 // plugin init start
 AOS.init();
@@ -54,8 +55,9 @@ app.component('ErrorMessage', ErrorMessage);
 app.component('LoadingComponent', LoadingComponent);
 app.component('CartDropdown', CartDropdown);
 
-app.use(VueAxios, axios);
 app.use(router);
+app.use(store);
+app.use(VueAxios, axios);
 app.use(VueSweetalert2);
 
 app.mount('#app');

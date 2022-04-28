@@ -30,9 +30,7 @@
       </div>
     </nav>
 
-    <RouterView v-if="loadingPage.some((page) => $route.name === page)"
-      @loadingStatus="changeLoadingStatus" />
-    <RouterView v-else />
+    <RouterView />
 
     <footer class="bg-dark py-4">
       <div class="container">
@@ -55,12 +53,11 @@
         </p>
       </div>
     </footer>
-
-    <LoadingComponent :isLoading="isLoading" />
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { Collapse } from 'bootstrap';
 
 export default {
@@ -87,6 +84,14 @@ export default {
     changeLoadingStatus(status) {
       this.isLoading = status;
     },
+    ...mapActions([
+      'fetchProductsList',
+      'fetchCartList',
+    ]),
+  },
+  created() {
+    this.fetchCartList();
+    this.fetchProductsList();
   },
   mounted() {
     this.navbar = new Collapse(this.$refs.navbar, {

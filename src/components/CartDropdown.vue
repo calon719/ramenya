@@ -4,7 +4,7 @@
       data-bs-auto-close="outside"
       data-bs-toggle="dropdown">
       <span class="cart-badge badge rounded-pill bg-danger">
-        {{ cart.length ? cart.length : 0 }}
+        {{ cartList.length ? cartList.length : 0 }}
       </span>
       <i class="bi bi-basket-fill"></i>
     </button>
@@ -12,7 +12,7 @@
     <div class="dropdown-menu rounded">
       <div class="overflow-auto" style="max-height: 400px;">
         <table class="table table-borderless mb-0"
-          :class="{'table-striped': cart.length}"
+          :class="{'table-striped': cartList.length}"
           style="width: 300px">
           <thead>
             <tr>
@@ -23,7 +23,7 @@
             </tr>
           </thead>
           <tbody class="align-middle">
-            <tr v-show="!cart.length">
+            <tr v-show="!cartList.length">
               <td class="py-4 text-center text-muted">
                 購物車內沒東西
                 <br>
@@ -32,8 +32,8 @@
               </td>
             </tr>
 
-            <tr v-show="cart.length"
-              v-for="item in cart" :key="`cart-link-${item.id}`">
+            <tr v-show="cartList.length"
+              v-for="item in cartList" :key="`cart-link-${item.id}`">
               <td style="height: 50px">
                 <div class="ratio ratio-1x1 overflow-hidden" style="width: 70px">
                   <img class="img-cover" :src="item.product.imageUrl" :alt="item.product.title">
@@ -47,14 +47,14 @@
                   {{ item.qty }}
                 </p>
               </td>
-              <td class="text-end" @click="deleteProduct(item.id)">
-                <div v-if="isBtnLoading && itemId === item.id"
+              <td class="text-end" @click="delCart(item.id)">
+                <div v-if="$store.state.btnLoadingItems.includes(`cartDropdown-del-${item.id}`)"
                   class="spinner-border spinner-border-sm"></div>
                 <button v-else type="button" class="btn-close"></button>
               </td>
             </tr>
           </tbody>
-          <tfoot v-show="cart.length">
+          <tfoot v-show="cartList.length">
             <tr>
               <td colspan="3">
                 <RouterLink to="/cart" class="btn btn-primary w-100">去結帳</RouterLink>
@@ -68,52 +68,22 @@
 </template>
 
 <script>
-import pushToastMessage from '@/utils/pushToastMessage';
-
 export default {
   data() {
     return {
-      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       dropdown: {},
-      cart: [],
-      itemId: '',
-      isBtnLoading: false,
     };
   },
-  methods: {
-    getCart() {
-      this.$http.get(`${this.apiBase}/cart`)
-        .then((res) => {
-          this.cart = res.data.data.carts;
-
-          if (this.$route.name === 'Anniversary') {
-            this.$emit('cartData', this.cart);
-          }
-          this.isLoading = false;
-        }).catch((err) => {
-          this.isBtnLoading = false;
-          const msg = err.response.data.message;
-          this.$swal({
-            icon: 'error',
-            text: msg,
-          });
-        });
-    },
-    deleteProduct(id) {
-      this.isBtnLoading = true;
-      this.itemId = id;
-      this.$http.delete(`${this.apiBase}/cart/${id}`)
-        .then((res) => {
-          pushToastMessage('user', res.data.success, '刪除商品');
-          this.getCart();
-        }).catch((err) => {
-          this.isBtnLoading = false;
-          pushToastMessage('user', err.response.data.success, '刪除商品');
-        });
+  computed: {
+    cartList() {
+      return this.$store.state.cartList.carts || [];
     },
   },
-  created() {
-    this.getCart();
+  methods: {
+    delCart(id) {
+      this.$store.commit('addBtnLoadingItem', `cartDropdown-del-${id}`);
+      this.$store.dispatch('delCart', { id, prefix: 'cartDropdown-del' });
+    },
   },
 };
 </script>

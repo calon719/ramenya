@@ -59,11 +59,11 @@
         </div>
       </section>
 
-      <section class="newArrial py-5">
+      <section class="newArrivals py-5">
         <div class="container p-md-5">
-          <h3 class="newArrial-title fs-1 text-center">新品上市</h3>
+          <h3 class="newArrivals-title fs-1 text-center">新品上市</h3>
           <div class="product row row-cols-1 row-cols-md-2"
-            v-for="product in newArrials" :key="`new_${product.id}`">
+            v-for="product in newArrivals" :key="`new_${product.id}`">
             <div class="col position-relative product-img-back">
               <div class="img-front ratio ratio-4x3 overflow-hidden">
                 <img class="img-cover" :src="product.imageUrl" :alt="product.title">
@@ -89,7 +89,7 @@
                     </a>
                   </li>
                   <li>
-                    <div v-if="addCartLoading.isLoading && addCartLoading.id === product.id"
+                    <div v-if="checkBtnLoading(`home-addCart-${product.id}`)"
                       class="py-1">
                       <div class="spinner-border spinner-border-sm" role="status"></div>
                     </div>
@@ -136,51 +136,30 @@ import pushToastMessage from '@/utils/pushToastMessage';
 export default {
   data() {
     return {
-      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
-      newArrials: [],
       email: '',
-      addCartLoading: {
-        id: '',
-      },
       isBtnLoading: false,
     };
   },
-  methods: {
-    getProducts() {
-      this.$emit('loadingStatus', true);
-      this.$http.get(`${this.apiBase}/products/all`)
-        .then((res) => {
-          const data = res.data.products;
-          this.newArrials = data.filter((product) => product.tag === 2);
-          this.$emit('loadingStatus', false);
-        }).catch((err) => {
-          this.$emit('loadingStatus', false);
-          const msg = err.response.data.message;
-          this.$swal({
-            icon: 'error',
-            text: msg,
-          });
-        });
+  computed: {
+    newArrivals() {
+      return this.$store.state.productsList.filter((product) => product.tag === 2);
     },
+  },
+  inject: ['checkBtnLoading'],
+  methods: {
     goProduct(id) {
       this.$router.push(`/product/${id}`);
     },
     addCart(id) {
       const data = {
-        product_id: id,
-        qty: 1,
+        data: {
+          product_id: id,
+          qty: 1,
+        },
+        prefix: 'home-addCart',
       };
-      this.addCartLoading.id = id;
-      this.addCartLoading.isLoading = true;
-      this.$http.post(`${this.apiBase}/cart`, { data })
-        .then((res) => {
-          pushToastMessage('user', res.data.success, '加入購物車');
-          this.addCartLoading.isLoading = false;
-          this.$refs.cartDropdown.getCart();
-        }).catch(() => {
-          pushToastMessage('user', false, '加入購物車');
-          this.addCartLoading.isLoading = false;
-        });
+      this.$store.commit('addBtnLoadingItem', `home-addCart-${id}`);
+      this.$store.dispatch('addCart', data);
     },
     subscription() {
       const regex = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
@@ -205,8 +184,6 @@ export default {
     },
   },
   mounted() {
-    this.getProducts();
-
     // 底部 .subscription 視差滾動
     if (this.$route.name === 'Home') {
       window.addEventListener('scroll', () => {
@@ -222,6 +199,9 @@ export default {
         }
       });
     }
+  },
+  unmouted() {
+    window.removeEventListener('scroll');
   },
 };
 </script>
