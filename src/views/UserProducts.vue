@@ -14,22 +14,21 @@
                 <RouterLink to="/" class="breadcrumb-link">首頁</RouterLink>
               </li>
               <li class="breadcrumb-item">美味菜單</li>
-              <li class="breadcrumb-item">{{ isSearching ? '搜尋結果' : $route.query.category }}</li>
+              <li class="breadcrumb-item">
+                {{ searchKeyWord.length ? '搜尋結果' : $route.query.category }}
+              </li>
             </ol>
           </nav>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-4 position-relative">
-          <input class="searchInput form-control border-secondary" type="search"
-            placeholder="請輸入要查詢的關鍵字" v-model.trim="keyWord" />
-        </div>
+        <div class="search col-12 col-md-6 col-lg-4 position-relative"></div>
       </div>
 
-      <ProductsSearch :status="isSearching" :keyWord="keyWord"
-        @addCart="addCart" @goProduct="toProduct" @isSearching="toggleProducts">
+      <ProductsSearch v-if="isMounted"
+        @addCart="addCart" @goProduct="toProduct">
       </ProductsSearch>
 
-      <div v-show="!isSearching">
+      <div v-show="!searchKeyWord">
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <RouterLink class="nav-link"
@@ -116,7 +115,6 @@ import ProductsSearch from '@/components/ProductsSearch.vue';
 export default {
   data() {
     return {
-      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       currentProducts: [],
       paginationData: {
         total_pages: 1,
@@ -124,8 +122,7 @@ export default {
         has_pre: false,
         has_next: false,
       },
-      keyWord: '',
-      isSearching: false,
+      isMounted: false,
     };
   },
   inject: ['checkBtnLoading'],
@@ -147,7 +144,7 @@ export default {
         default:
           data = this.$store.state.productsList;
           data.sort((a, b) => {
-            // 取開頭自排序
+            // 取 category 開頭字排序
             const str1 = a.category.split('');
             const str2 = b.category.split('');
             return str1[0].localeCompare(str2[0]);
@@ -155,6 +152,9 @@ export default {
           break;
       }
       return data;
+    },
+    searchKeyWord() {
+      return this.$store.state.searchKeyWord;
     },
   },
   watch: {
@@ -178,6 +178,10 @@ export default {
       this.paginationData.has_pre = this.paginationData.current_page > 1;
       const hasNext = this.paginationData.current_page < this.paginationData.total_pages;
       this.paginationData.has_next = hasNext;
+      window.scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
     },
     addCart(id) {
       const data = {
@@ -196,9 +200,6 @@ export default {
         this.$router.push(`/product/${id}`);
       }
     },
-    toggleProducts(status) {
-      this.isSearching = status;
-    },
   },
   components: {
     PaginationComponent,
@@ -206,6 +207,9 @@ export default {
   },
   created() {
     this.setPagination();
+  },
+  mounted() {
+    this.isMounted = true;
   },
 };
 </script>

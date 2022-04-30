@@ -13,6 +13,7 @@ export default createStore({
     cartList: [],
     btnLoadingItems: [],
     isLoading: false,
+    searchKeyWord: '',
   },
   getters: {
     checkFetch(state) {
@@ -25,6 +26,9 @@ export default createStore({
     },
     setCartList(state, playload) {
       state.cartList = playload;
+    },
+    inputSearchKeyWord(state, playload) {
+      state.searchKeyWord = playload;
     },
     toggleLoading(state, playload) {
       state.isLoading = playload;

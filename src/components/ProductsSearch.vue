@@ -1,17 +1,23 @@
 <template>
   <div class="productsSearch">
-    <div class="productsSearch-result search-footer-bottom" v-show="status">
+    <Teleport to=".search">
+      <input class="searchInput form-control border-secondary" type="search"
+        placeholder="請輸入要查詢的關鍵字"
+        v-model.trim="keyWord" />
+    </Teleport>
+
+    <div class="productsSearch-result search-footer-bottom" v-show="keyWord.length">
       <h3 class="pb-1 border-bottom">
         搜尋結果
         <span class="fs-6 text-muted">總共 {{ result.length }} 筆結果</span>
       </h3>
 
-      <div class="py-5 px-3 px-lg-5" v-show="hasResult">
+      <div class="py-5 px-3 px-lg-5" v-show="result.length">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-3 gy-4 mb-5">
-          <div class="col" v-for="product in filteredResult" :key="product.id">
+          <div class="col" v-for="product in currentResult" :key="product.id">
             <div class="card card-custom position-relative">
               <a class="card-coverLink" href="#"
-                :class="{'cursor-default': addCartLoading.isLoading}"
+                :class="{'cursor-default': checkBtnLoading(`products-search-${product.id}`)}"
                 @click.prevent="$emit('goProduct', product.id)"></a>
               <div v-show="product.tag" class="card-tag"
                 :class="product.tag === 1 ? 'bg-danger' : 'bg-success'">
@@ -37,10 +43,10 @@
                     NTD {{ product.price }}
                   </p>
                   <button type="button" class="card-cartBtn btn btn-lg btn-primary rounded"
-                    :disabled="addCartLoading.isLoading && addCartLoading.id === product.id"
+                    :disabled="checkBtnLoading(`products-search-${product.id}`)"
                     @click="$emit('addCart', product.id)">
                     <div class="spinner-border spinner-border-sm" role="status"
-                      v-if="addCartLoading.isLoading && addCartLoading.id === product.id"></div>
+                      v-if="checkBtnLoading(`products-search-${product.id}`)"></div>
                     <span v-else>
                       <i class="bi bi-cart-fill"></i>
                     </span>
@@ -54,7 +60,7 @@
           :pages="paginationData" @page="changePage" />
       </div>
 
-      <div class="productSearch-noResult mt-3" v-show="!hasResult">
+      <div class="productSearch-noResult mt-3" v-show="!result.length">
         <p>沒有符合的商品，請重新搜尋。</p>
       </div>
     </div>
@@ -67,44 +73,35 @@ import PaginationComponent from '@/components/PaginationComponent.vue';
 export default {
   data() {
     return {
-      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
-      products: [],
+      keyWord: '',
       result: [],
-      filteredResult: [],
+      currentResult: [],
       paginationData: {
         total_pages: 1,
         current_page: 1,
         has_pre: false,
         has_next: false,
       },
-      hasResult: false,
     };
   },
-  props: ['addCartLoading', 'status', 'keyWord'],
+  inject: ['checkBtnLoading'],
+  computed: {
+    products() {
+      return this.$store.state.productsList;
+    },
+  },
   watch: {
     keyWord() {
       this.matchKeyWord();
+      this.$store.commit('inputSearchKeyWord', this.keyWord);
     },
   },
   methods: {
-    getProducts() {
-      this.$http.get(`${this.apiBase}/products/all`)
-        .then((res) => {
-          this.products = res.data.products;
-        }).catch((err) => {
-          const msg = err.response.data.message;
-          this.$swal({
-            icon: 'error',
-            text: msg,
-          });
-        });
-    },
     matchKeyWord() {
       if (this.keyWord === '') {
-        this.filteredResult.splice(0);
-        this.$emit('isSearching', false);
+        this.result = [];
+        this.currentResult = [];
       } else {
-        this.$emit('isSearching', true);
         const strArr = this.keyWord.split(' ');
         const productsArr = [];
 
@@ -117,11 +114,10 @@ export default {
         });
         this.result = [...new Set(productsArr)];
         this.changePage();
-        this.hasResult = this.result.length;
       }
     },
     changePage(page = 1) {
-      const total = Math.ceil(this.result.length / 10) || 1;
+      const total = Math.ceil(this.result.length / 9) || 1;
 
       this.paginationData.current_page = page;
       this.paginationData.total_pages = total;
@@ -129,15 +125,33 @@ export default {
       this.paginationData.has_next = page < total;
 
       this.filterProduct(page);
+      window.scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
     },
     filterProduct(page) {
-      const startIndex = (page - 1) * 10;
-      const endIndex = page * 10 - 1;
-      this.filteredResult = this.result.filter((item, i) => i >= startIndex && i <= endIndex);
+      const startIndex = (page - 1) * 9;
+      const endIndex = page * 9;
+      this.currentResult = this.result.slice(startIndex, endIndex);
     },
-  },
-  created() {
-    this.getProducts();
+    addCart(id) {
+      const data = {
+        data: {
+          product_id: id,
+          qty: 1,
+        },
+        prefix: 'products-search',
+      };
+
+      this.$store.commit('addBtnLoadingItem', `products-search-${id}`);
+      this.$store.dispatch('addCart', data);
+    },
+    toProduct(id) {
+      if (!this.$store.state.btnLoadingItems.length) {
+        this.$router.push(`/product/${id}`);
+      }
+    },
   },
   components: {
     PaginationComponent,
