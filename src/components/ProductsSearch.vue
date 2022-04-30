@@ -44,7 +44,7 @@
                   </p>
                   <button type="button" class="card-cartBtn btn btn-lg btn-primary rounded"
                     :disabled="checkBtnLoading(`products-search-${product.id}`)"
-                    @click="$emit('addCart', product.id)">
+                    @click="addCart(product.id)">
                     <div class="spinner-border spinner-border-sm" role="status"
                       v-if="checkBtnLoading(`products-search-${product.id}`)"></div>
                     <span v-else>
@@ -155,6 +155,10 @@ export default {
   },
   components: {
     PaginationComponent,
+  },
+  unmounted() {
+    console.log('hi');
+    this.$store.commit('inputSearchKeyWord', '');
   },
 };
 </script>

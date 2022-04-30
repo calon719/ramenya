@@ -24,9 +24,7 @@
         <div class="search col-12 col-md-6 col-lg-4 position-relative"></div>
       </div>
 
-      <ProductsSearch v-if="isMounted"
-        @addCart="addCart" @goProduct="toProduct">
-      </ProductsSearch>
+      <ProductsSearch v-if="isMounted" @goProduct="toProduct" />
 
       <div v-show="!searchKeyWord">
         <ul class="nav nav-tabs">
@@ -171,6 +169,7 @@ export default {
       this.changePage();
     },
     changePage(page = 1) {
+      console.log('hi');
       this.paginationData.current_page = page;
       const startIndex = (page - 1) * 9;
       const endIndex = page * 10 - 1;
