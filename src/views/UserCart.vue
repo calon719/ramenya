@@ -72,16 +72,16 @@
                     </div>
                     <div v-else class="input-group">
                       <button class="btn btn-custom" type="button" :disabled="item.qty <= 1"
-                        @click="updateCart(item.id, item.product_id, (item.qty - 1))">
+                        @click="updateCart('decrement', item)">
                         <span class="material-icons-outlined">
                           remove_circle
                         </span>
                       </button>
                       <input class="form-control text-end" type="number" min="1"
                         v-model.number="item.qty"
-                        @change="updateCart(item.id, item.product_id, item.qty)"/>
+                        @change="updateCart('update', item)"/>
                       <button class="btn  btn-custom" type="button"
-                        @click="updateCart(item.id, item.product_id, (item.qty + 1))">
+                        @click="updateCart('increment', item)">
                         <span class="material-icons-outlined">
                           add_circle
                         </span>
@@ -95,10 +95,10 @@
                 </ul>
               </li>
               <li class="col-2 col-sm-1 text-center">
-                <div v-if="isBtnLoading && itemId === item.id"
+                <div v-if="checkBtnLoading(`cart-delCart-${item.id}`)"
                   class="spinner-border spinner-border-sm"></div>
                 <button v-else
-                  type="button" class="btn-close" @click="deleteProduct(item.id)"></button>
+                  type="button" class="btn-close" @click="delProduct(item.id)"></button>
               </li>
             </ul>
           </div>
@@ -156,12 +156,11 @@
               </RouterLink>
             </div>
             <div class="col-5 col-md-3 col-lg-2">
-              <a href="#" class="btn btn-primary link-hover w-100"
-                :class="cartData.total >= 300 ? '' : 'disabled'"
-                @click.prevent="goToInfo">
+              <RouterLink to="/order/info" class="btn btn-primary link-hover w-100"
+                :class="cartData.total >= 300 ? '' : 'disabled'">
                 我要結帳
                 <i class="bi bi-arrow-right"></i>
-              </a>
+              </RouterLink>
             </div>
           </div>
         </div>
@@ -171,14 +170,9 @@
 </template>
 
 <script>
-import pushToastMessage from '@/utils/pushToastMessage';
-import emitter from '@/utils/emitter';
-
 export default {
   data() {
     return {
-      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
-      cartData: [],
       deliveryFee: 30,
       couponCode: '',
       itemId: '',
@@ -193,7 +187,11 @@ export default {
       },
     };
   },
+  inject: ['checkBtnLoading'],
   computed: {
+    cartData() {
+      return this.$store.state.cartList;
+    },
     finalTotal() {
       let total = this.cartData.final_total;
       total += this.deliveryFee;
@@ -208,83 +206,55 @@ export default {
       return discount.toLocaleString();
     },
   },
+  watch: {
+    cartData: {
+      handler() {
+        this.checkCoupon();
+      },
+      deep: true,
+    },
+  },
   methods: {
-    getCart() {
-      if (this.cartData.length === 0) {
-        this.$emit('loadingStatus', true);
-      }
-      this.$http.get(`${this.apiBase}/cart`)
-        .then((res) => {
-          this.cartData = res.data.data;
-
-          const couponCheck = this.cartData.carts[0]?.coupon;
-          if (couponCheck) {
-            const { coupon } = this.cartData.carts[0];
-            this.couponRes.msg = `已套用優惠券:${coupon.code}`;
-            this.couponRes.isErr = false;
-            this.couponRes.className['text-danger'] = false;
-            this.couponRes.className['text-success'] = true;
-          }
-
-          this.isBtnLoading = false;
-          this.$emit('loadingStatus', false);
-        }).catch((err) => {
-          this.isBtnLoading = false;
-          this.$emit('loadingStatus', false);
-
-          const msg = err.response.data.message;
-
-          this.$swal({
-            icon: 'error',
-            text: msg,
-          });
-        });
-    },
-    updateCart(cartId, productId, qty) {
-      const check = qty.toString().match(/\d$/);
-      if (qty > 0 && check) {
-        this.itemId = productId;
+    updateCart(status, product) {
+      const check = product.qty.toString().match(/\d$/);
+      if (product.qty > 0 && check) {
         const data = {
-          product_id: productId,
-          qty,
+          product_id: product.product_id,
+          qty: product.qty,
         };
-        this.isBtnLoading = true;
-        this.$http.put(`${this.apiBase}/cart/${cartId}`, { data })
-          .then((res) => {
-            pushToastMessage('user', res.data.success, '更新購物車');
-            emitter.emit('updateCart');
-            this.getCart();
-          }).catch((err) => {
-            this.isBtnLoading = false;
-            pushToastMessage('user', err.response.data.success, '更新購物車');
-          });
+        switch (status) {
+          case 'increment':
+            data.qty += 1;
+            break;
+          case 'decrement':
+            data.qty -= 1;
+            break;
+          default:
+            break;
+        }
+
+        this.$store.commit('addBtnLoadingItem', `cart-updateCart-${product.product_id}`);
+        this.$store.dispatch(
+          'putCart',
+          {
+            data,
+            id: product.id,
+            prefix: 'cart-updateCart',
+          },
+        );
       }
     },
-    deleteProduct(id) {
-      this.itemId = id;
-      this.isBtnLoading = true;
-      this.$http.delete(`${this.apiBase}/cart/${id}`)
-        .then((res) => {
-          pushToastMessage('user', res.data.success, '刪除商品');
-          emitter.emit('updateCart');
-          this.getCart();
-        }).catch((err) => {
-          this.isBtnLoading = false;
-          pushToastMessage('user', err.response.data.success, '刪除商品');
-        });
+    delProduct(id) {
+      const data = {
+        id,
+        prefix: 'cart-delCart',
+      };
+      this.$store.commit('addBtnLoadingItem', `${data.prefix}-${id}`);
+      this.$store.dispatch('delCart', data);
     },
     clearCart() {
-      this.$emit('loadingStatus', true);
-      this.$http.delete(`${this.apiBase}/carts`)
-        .then((res) => {
-          pushToastMessage('user', res.data.success, '清空購物車');
-          this.getCart();
-          emitter.emit('updateCart');
-          this.$emit('loadingStatus', false);
-        }).catch((err) => {
-          pushToastMessage('user', err.response.data.success, '清空購物車');
-          this.$emit('loadingStatus', false);
-        });
+      this.$store.commit('toggleLoading', true);
+      this.$store.dispatch('clearCart');
     },
     matchCoupon() {
       const data = {
@@ -292,7 +262,8 @@ export default {
       };
       this.itemId = 'coupon';
       this.isBtnLoading = true;
-      this.$http.post(`${this.apiBase}/coupon`, { data })
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/coupon`;
+      this.$http.post(api, { data })
         .then((res) => {
           const { success, message } = res.data;
           this.couponRes.msg = message;
@@ -301,7 +272,7 @@ export default {
           this.couponRes.className['text-success'] = success;
           this.isBtnLoading = false;
           localStorage.removeItem('coupon');
-          this.getCart();
+          this.$store.dispatch('fetchCartList');
         }).catch((err) => {
           const { success } = err.response.data;
           this.isBtnLoading = false;
@@ -313,26 +284,29 @@ export default {
           this.couponCode = '';
         });
     },
-    goToInfo() {
-      const data = JSON.stringify(this.cartData);
-      localStorage.setItem('carts', data);
-      this.$router.push({
-        name: 'UserOrderInfo',
-      });
+    checkCoupon() {
+      const checkCart = this.cartData?.carts;
+      if (checkCart) {
+        const couponCheck = this.cartData?.carts[0]?.coupon;
+        if (couponCheck) {
+          const { coupon } = this.cartData.carts[0];
+          this.couponRes.msg = `已套用優惠券:${coupon.code}`;
+          this.couponRes.isErr = false;
+          this.couponRes.className['text-danger'] = false;
+          this.couponRes.className['text-success'] = true;
+        }
+      }
+    },
+    getCoupon() {
+      const coupon = localStorage.getItem('coupon');
+      if (coupon) {
+        this.couponCode = coupon;
+      }
     },
   },
   created() {
-    this.getCart();
-
-    const coupon = localStorage.getItem('coupon');
-    if (coupon) {
-      this.couponCode = coupon;
-    }
-
-    const localData = localStorage.getItem('carts');
-    if (localData) {
-      localStorage.removeItem('carts');
-    }
+    this.getCoupon();
+    this.checkCoupon();
   },
 };
 </script>

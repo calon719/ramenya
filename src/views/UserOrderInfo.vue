@@ -95,6 +95,8 @@
 </template>
 
 <script>
+import showErrMsg from '@/utils/showErrMsg';
+
 export default {
   data() {
     return {
@@ -104,38 +106,29 @@ export default {
       },
     };
   },
+  computed: {
+    cartData() {
+      return this.$store.state.cartList.carts;
+    },
+  },
   methods: {
-    checkCart() {
-      const cartData = JSON.parse(localStorage.getItem('carts'));
-      if (!cartData || !cartData.carts?.length) {
-        this.$swal({
-          icon: 'error',
-          text: '購物車沒有商品！',
-        });
+    goOrderConfirm() {
+      if (!this.cartData?.length) {
+        showErrMsg('購物車沒有商品！');
         this.$router.replace({
           name: 'UserCart',
         });
+      } else {
+        const data = JSON.stringify(this.userData);
+        sessionStorage.setItem('orderData', data);
+        this.$router.push({
+          name: 'UserOrderConfirm',
+        });
       }
-    },
-    goOrderConfirm() {
-      const data = JSON.stringify(this.userData);
-
-      const check = localStorage.getItem('orderData');
-      if (check) {
-        localStorage.removeItem('orderData');
-      }
-
-      localStorage.setItem('orderData', data);
-      this.$router.push({
-        name: 'UserOrderConfirm',
-      });
     },
     backPrePage() {
       this.$router.go(-1);
     },
-  },
-  created() {
-    this.checkCart();
   },
 };
 </script>

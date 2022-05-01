@@ -96,10 +96,11 @@
 </template>
 
 <script>
+import showErrMsg from '@/utils/showErrMsg';
+
 export default {
   data() {
     return {
-      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       orderData: {
         user: {},
       },
@@ -107,28 +108,23 @@ export default {
   },
   methods: {
     getOrder() {
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`;
       const { id } = this.$route.params;
-      this.$emit('loadingStatus', true);
-      this.$http.get(`${this.apiBase}/order/${id}`)
+      this.$store.commit('toggleLoading', true);
+      this.$http.get(`${api}/order/${id}`)
         .then((res) => {
-          this.$emit('loadingStatus', false);
+          this.$store.commit('toggleLoading', false);
           const { order } = res.data;
           if (order) {
             this.orderData = order;
           } else {
-            this.$swal({
-              icon: 'error',
-              text: '訂單編號好像出錯囉！',
-            });
+            showErrMsg('訂單編號好像出錯囉！');
             this.$router.replace('/');
           }
         }).catch((err) => {
-          this.$emit('loadingStatus', false);
+          this.$store.commit('toggleLoading', false);
           const msg = err.response.data.message;
-          this.$swal({
-            icon: 'error',
-            text: msg,
-          });
+          showErrMsg(msg);
         });
     },
   },
@@ -136,8 +132,7 @@ export default {
     this.getOrder();
   },
   mounted() {
-    localStorage.removeItem('carts');
-    localStorage.removeItem('orderData');
+    sessionStorage.removeItem('orderData');
   },
 };
 </script>

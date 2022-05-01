@@ -14,11 +14,11 @@
             </li>
             <li class="breadcrumb-item">
               <RouterLink class="breadcrumb-link"
-                :to="{ path: '/products', query: { category: product.category } }">
-                {{ product.category }}
+                :to="{ path: '/products', query: { category: product?.category } }">
+                {{ product?.category }}
               </RouterLink>
             </li>
-            <li class="breadcrumb-item">{{ product.title }}</li>
+            <li class="breadcrumb-item">{{ product?.title }}</li>
           </ol>
         </div>
       </nav>
@@ -27,40 +27,40 @@
         <div class="row row-cols-1 row-cols-md-2 gy-4 gy-md-0 gx-md-4 gx-lg-5">
           <div class="col">
             <div class="ratio ratio-4x3">
-              <img class="img-cover" :src="product.imageUrl" :alt="product.title">
+              <img class="img-cover" :src="product?.imageUrl" :alt="product?.title">
             </div>
           </div>
           <div class="col">
-            <h2 class="border-bottom border-3 pb-2 mb-3">{{ product.title }}</h2>
-            <p class="text-muted lh-lg">{{ product.description }}</p>
+            <h2 class="border-bottom border-3 pb-2 mb-3">{{ product?.title }}</h2>
+            <p class="text-muted lh-lg">{{ product?.description }}</p>
             <hr>
-            <p class="text-muted">產品原料：{{ product.content }}</p>
+            <p class="text-muted">產品原料：{{ product?.content }}</p>
             <p class="text-danger"
-              :class="{'d-none': !isAlcohol}">※ 未滿十八歲者，禁止飲酒</p>
+              :class="{'d-none': !product?.is_alcohol}">※ 未滿十八歲者，禁止飲酒</p>
             <div class="d-flex justify-content-end align-items-center">
               <span class="text-muted me-2"
-                v-show="product.origin_price">
-                <del>NTD {{ product.origin_price }}</del>
+                v-show="product?.origin_price">
+                <del>NTD {{ product?.origin_price }}</del>
               </span>
               <h3 class="text-end">
-                <span v-show="product.origin_price">特價</span>
-                NTD {{ product.price }}
+                <span v-show="product?.origin_price">特價</span>
+                NTD {{ product?.price }}
               </h3>
             </div>
-            <small class="text-danger mb-1" v-if="num < 1">
+            <small class="text-danger mb-1" v-if="qty < 1">
               <i class="bi bi-exclamation-circle me-1"></i>數量不可以小於 1
             </small>
             <div class="row gy-3 mb-3">
               <div class="col-12 col-sm-7">
                 <div class="input-group">
-                  <button class="btn btn-dark" type="button" :disabled="num <= 1"
-                    @click="num -= 1">
+                  <button class="btn btn-dark" type="button" :disabled="qty <= 1"
+                    @click="qty -= 1">
                     <i class="bi bi-dash"></i>
                   </button>
                   <input class="form-control text-end" type="number" min="1"
-                    v-model.number="num" />
+                    v-model.number="qty" />
                   <button class="btn btn-dark" type="button"
-                    @click="num += 1">
+                    @click="qty += 1">
                     <i class="bi bi-plus"></i>
                   </button>
                 </div>
@@ -68,10 +68,10 @@
               <div class="col-12 col-sm-5">
                 <button class="w-100 btn btn-primary" type="button"
                   @click="addCart(product.id)"
-                  :disabled="(itemId === product.id && isBtnLoading) || num < 1">
+                  :disabled="checkBtnLoading(`product-addCart-${product?.id}`) || qty < 1">
                   <div class="spinner-border spinner-border-sm text-light"
-                    v-show="isBtnLoading && itemId === product.id"></div>
-                  <span v-show="!isBtnLoading">
+                    v-show="checkBtnLoading(`product-addCart-${product?.id}`)"></div>
+                  <span v-show="!checkBtnLoading(`product-addCart-${product?.id}`)">
                     <i class="bi bi-cart-fill"></i>
                     加入購物車
                   </span>
@@ -82,7 +82,7 @@
               :class="{'invisible': !isAddedCart}">
               <div class="col-5 me-auto me-md-0">
                 <RouterLink class="w-100 btn btn-outline-dark"
-                  :to="{ path: '/products', query: { category: product.category } }">
+                  :to="{ path: '/products', query: { category: product?.category } }">
                   <i class="bi bi-arrow-left"></i>
                   繼續購物
                 </RouterLink>
@@ -128,9 +128,9 @@
       <section class="container my-3 py-5">
         <h3 class="mb-3 mb-md-4">您可能也感興趣⋯⋯</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 gy-5">
-          <div class="col" v-for="product in filteredProducts" :key="product.id">
+          <div class="col" v-for="product in recommendProducts" :key="product.id">
             <div class="card card-custom position-relative h-100">
-              <a class="card-coverLink" href="#" @click.prevent="getProduct(product.id)"></a>
+              <RouterLink :to="`/product/${product.id}`" class="card-coverLink" />
               <div v-show="product.tag" class="card-tag"
                 :class="product.tag === 1 ? 'bg-danger' : 'bg-success'">
                 {{ product.tag === 1 ? '人氣精選' : '新品上市' }}
@@ -160,10 +160,10 @@
                   </div>
                 </div>
                 <button type="button" class="card-cartBtn btn btn-lg btn-primary rounded"
-                  :disabled="isBtnLoading && itemId === product.id"
+                  :disabled="checkBtnLoading(`product-addCart-${product.id}`)"
                   @click="addCart(product.id)">
                   <div class="spinner-border spinner-border-sm" role="status"
-                    v-if="isBtnLoading && itemId === product.id"></div>
+                    v-if="checkBtnLoading(`product-addCart-${product.id}`)"></div>
                   <span v-else>
                     <i class="bi bi-cart-fill"></i>
                   </span>
@@ -178,166 +178,104 @@
 </template>
 
 <script>
-import pushToastMessage from '@/utils/pushToastMessage';
+import { mapState } from 'vuex';
 
 export default {
   data() {
     return {
-      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       product: {},
-      products: [],
-      filteredProducts: [],
-      cart: [],
-      num: 1,
-      isBtnLoading: false,
-      itemId: '',
+      recommendProducts: [],
+      qty: 1,
+      productId: '',
       isAddedCart: false,
-      isAlcohol: false,
     };
   },
+  inject: ['checkBtnLoading'],
+  computed: mapState({
+    products: 'productsList',
+    cart: (state) => state.cartList.carts,
+    isBtnLoading: 'isBtnLoading',
+  }),
+  watch: {
+    products() {
+      this.getProduct();
+    },
+    $route() {
+      const { name } = this.$route;
+      if (name === 'UserProduct') {
+        this.productId = this.$route.params.id;
+        this.checkCart();
+        this.getProduct();
+      }
+    },
+    cart: {
+      handler() {
+        this.checkCart();
+      },
+      deep: true,
+    },
+  },
   methods: {
-    getProduct(id = this.$route.params.id) {
-      this.$emit('loadingStatus', true);
-      this.$http.get(`${this.apiBase}/product/${id}`)
-        .then((res) => {
-          const { product } = res.data;
-          this.product = product;
-
-          if (JSON.stringify(this.product) !== '{}') {
-            this.num = 1;
-            this.isAddedCart = false;
-            this.$router.push(`/product/${id}`);
-          }
-
-          this.getProducts();
-          this.isAlcohol = product.is_alcohol;
-        }).catch((err) => {
-          const msg = err.response.data.message;
-          this.$swal({
-            icon: 'error',
-            text: msg,
-          });
-          this.$emit('loadingStatus', false);
-        });
+    getProduct() {
+      this.product = this.products.find((product) => product.id === this.productId);
+      this.getRecommendProducts();
     },
-    getProducts() {
-      this.$http.get(`${this.apiBase}/products/all`)
-        .then((res) => {
-          this.$emit('loadingStatus', false);
-          this.products = res.data.products;
-          this.filterProducts();
-        }).catch((err) => {
-          this.$emit('loadingStatus', false);
-          const msg = err.response.data.message;
-          this.$swal({
-            icon: 'error',
-            text: msg,
-          });
-        });
-    },
-    getCart() {
-      this.$http.get(`${this.apiBase}/cart`)
-        .then((res) => {
-          this.cart = res.data.data.carts;
-        }).catch((err) => {
-          const msg = err.response.data.message;
-          this.$swal({
-            icon: 'error',
-            text: msg,
-          });
-        });
-    },
-    filterProducts() {
-      this.filteredProducts = JSON.parse(JSON.stringify(this.products));
-      const { id } = this.$route.params;
-      const index = this.filteredProducts.findIndex((product) => product.id === id);
-      this.filteredProducts.splice(index, 1);
+    getRecommendProducts() {
+      const productsList = [...this.products];
+      const index = productsList.findIndex((product) => product.id === this.productId);
+      productsList.splice(index, 1);
 
-      const len = this.filteredProducts.length;
-      const ranNumAry = [];
-
+      const len = productsList.length;
       const times = len >= 4 ? 4 : len;
+      const randomNumArr = [];
+
       for (let i = 0; i < times; i += 1) {
         const ranNum = Math.floor(Math.random() * len);
         // 檢查數字有沒有重複
-        const check = i === 0 || !ranNumAry.some((num) => num === ranNum);
+        const check = i === 0 || !randomNumArr.some((num) => num === ranNum);
         if (check) {
-          ranNumAry.push(ranNum);
+          randomNumArr.push(ranNum);
         } else {
           i -= 1;
         }
       }
-
-      const result = [];
-      ranNumAry.forEach((i) => {
-        this.filteredProducts.forEach((item, j) => {
-          if (i === j) {
-            result.push(item);
-          }
-        });
-      });
-      this.filteredProducts = result;
+      this.recommendProducts = productsList
+        .filter((product, i) => randomNumArr.find((num) => num === i) >= 0);
     },
-    addCart(productId) {
-      const { id } = this.$route.params;
-      this.itemId = productId;
-      let api = `${this.apiBase}/cart`;
-      let method = 'post';
-
-      if (productId === id && this.num >= 1) {
-        let qty = this.num;
-        const product = this.cart.filter((item) => item.product_id === id);
-
-        if (product.length) {
-          method = 'put';
-          api = `${api}/${product[0].id}`;
-          qty = product[0].qty + this.num;
-        }
-
-        const data = {
+    checkCart() {
+      const check = this.cart.some((product) => product.product_id === this.productId);
+      if (check) {
+        this.isAddedCart = true;
+        this.qty = 1;
+      } else {
+        this.isAddedCart = false;
+      }
+    },
+    addCart(id) {
+      const cartProduct = this.cart.find((product) => product.product_id === id);
+      const data = {
+        data: {
           product_id: id,
-          qty,
-        };
-
-        this.isBtnLoading = true;
-        this.$http[method](api, { data })
-          .then((res) => {
-            this.getCart();
-            this.isAddedCart = true;
-            pushToastMessage('user', res.data.success, '加入購物車');
-            this.num = 1;
-            this.$refs.cartDropdown.getCart();
-            this.isBtnLoading = false;
-          }).catch((err) => {
-            pushToastMessage('user', err.response.data.success, '加入購物車');
-            this.isBtnLoading = false;
-          });
-      } else if (productId !== id) {
-        const data = {
-          product_id: productId,
           qty: 1,
-        };
-
-        this.isBtnLoading = true;
-        this.$http[method](api, { data })
-          .then((res) => {
-            this.getCart();
-            this.isAddedCart = true;
-            pushToastMessage('user', res.data.success, '加入購物車');
-            this.num = 1;
-            this.$refs.cartDropdown.getCart();
-            this.isBtnLoading = false;
-          }).catch((err) => {
-            pushToastMessage('user', err.response.data.success, '加入購物車');
-            this.isBtnLoading = false;
-          });
+        },
+        prefix: 'product-addCart',
+      };
+      this.$store.commit('addBtnLoadingItem', `product-addCart-${id}`);
+      if (cartProduct && this.productId === id) {
+        data.data.qty = cartProduct.qty + this.qty;
+        data.id = cartProduct.id;
+        this.$store.dispatch('putCart', data);
+      } else if (this.productId === id) {
+        data.data.qty = this.qty;
+        this.$store.dispatch('addCart', data);
+      } else {
+        this.$store.dispatch('addCart', data);
       }
     },
   },
   created() {
+    this.productId = this.$route.params.id;
     this.getProduct();
-    this.getProducts();
-    this.getCart();
   },
 };
 </script>

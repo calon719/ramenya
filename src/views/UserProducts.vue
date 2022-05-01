@@ -30,25 +30,25 @@
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <RouterLink class="nav-link"
-              :to="{ path: '/products', query: { category: '全部' } }"
+              :to="{ query: { category: '全部' } }"
               :active-class="$route.query.category === '全部' ? 'active' : ''"
             >全部</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link"
-              :to="{ path: '/products', query: { category: '拉麵' } }"
+              :to="{ query: { category: '拉麵' } }"
               :active-class="$route.query.category === '拉麵' ? 'active' : ''"
             >拉麵</RouterLink>
           </li>
           <li class="nav-item">
             <routerLink class="nav-link"
-              :to="{ path: '/products', query: { category: '配菜' } }"
+              :to="{ query: { category: '配菜' } }"
               :active-class="$route.query.category === '配菜' ? 'active' : ''"
             >配菜</routerLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link"
-              :to="{ path: '/products', query: { category: '飲品' } }"
+              :to="{ query: { category: '飲品' } }"
               :active-class="$route.query.category === '飲品' ? 'active' : ''"
             >飲品</RouterLink>
           </li>
@@ -169,7 +169,6 @@ export default {
       this.changePage();
     },
     changePage(page = 1) {
-      console.log('hi');
       this.paginationData.current_page = page;
       const startIndex = (page - 1) * 9;
       const endIndex = page * 10 - 1;

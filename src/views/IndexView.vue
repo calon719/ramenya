@@ -66,13 +66,6 @@ export default {
       navbar: {},
       needLoading: false,
       isLoading: false,
-      loadingPage: [
-        'Home',
-        'UserProducts',
-        'UserProduct',
-        'UserCart',
-        'UserOrderConfirm',
-      ],
     };
   },
   watch: {

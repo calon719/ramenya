@@ -3,26 +3,6 @@
     <header class="page-banner">
       <h2 class="page-banner-title fs-1">訂單資訊</h2>
     </header>
-
-    <RouterView v-if="$route.name === 'UserOrderConfirm'"
-      @loadingStatus="toggleLoading" />
-    <RouterView v-else />
-
-    <LoadingComponent :isLoading="isLoading" />
+    <RouterView />
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      isLoading: false,
-    };
-  },
-  methods: {
-    toggleLoading(status) {
-      this.isLoading = status;
-    },
-  },
-};
-</script>

@@ -157,7 +157,6 @@ export default {
     PaginationComponent,
   },
   unmounted() {
-    console.log('hi');
     this.$store.commit('inputSearchKeyWord', '');
   },
 };

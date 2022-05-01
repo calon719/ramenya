@@ -65,14 +65,13 @@ export default createStore({
     },
     async addCart({ dispatch, commit }, playload) {
       const { data, prefix } = playload;
-      const json = await fetch(
-        `${apiBase}/cart`,
-        {
-          headers,
-          method: 'POST',
-          body: JSON.stringify({ data }),
-        },
-      )
+      const options = {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({ data }),
+      };
+
+      const json = await fetch(`${apiBase}/cart`, options)
         .then((res) => res.json());
 
       commit('delBtnLoadingItem', `${prefix}-${data.product_id}`);
@@ -81,6 +80,24 @@ export default createStore({
         dispatch('fetchCartList');
       } else {
         pushToastMessage('user', json.success, '加入購物車');
+      }
+    },
+    async putCart({ dispatch, commit }, playload) {
+      const { data, id, prefix } = playload;
+      const options = {
+        headers,
+        method: 'PUT',
+        body: JSON.stringify({ data }),
+      };
+      const json = await fetch(`${apiBase}/cart/${id}`, options)
+        .then((res) => res.json());
+
+      commit('delBtnLoadingItem', `${prefix}-${data.product_id}`);
+      if (json.success) {
+        pushToastMessage('user', json.success, '更新購物車');
+        dispatch('fetchCartList');
+      } else {
+        pushToastMessage('user', json.success, '更新購物車');
       }
     },
     async delCart({ dispatch, commit }, playload) {
@@ -99,6 +116,21 @@ export default createStore({
         pushToastMessage('user', json.success, '刪除商品');
       } else {
         pushToastMessage('user', json.success, '刪除商品');
+      }
+    },
+    async clearCart({ dispatch, commit }) {
+      const options = {
+        headers,
+        method: 'DELETE',
+      };
+      const json = await fetch(`${apiBase}/carts`, options)
+        .then((res) => res.json());
+      commit('toggleLoading', false);
+      if (json.success) {
+        pushToastMessage('user', json.success, '清空購物車');
+        dispatch('fetchCartList');
+      } else {
+        pushToastMessage('user', json.success, '清空購物車');
       }
     },
   },

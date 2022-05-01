@@ -1,6 +1,6 @@
 <template>
   <div class="anniversary footer-bottom">
-    <CartDropdown @cartData="getCarts" />
+    <CartDropdown />
     <header class="banner">
       <h2 class="banner-title fs-1">歡慶一週年</h2>
     </header>
@@ -43,10 +43,12 @@ export default {
   data() {
     return {
       prize: '',
-      carts: [],
     };
   },
   computed: {
+    carts() {
+      return this.$store.state.cartList.carts;
+    },
     prizeName() {
       let str = this.prize.split('');
       const len = str.length;

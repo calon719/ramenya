@@ -110,18 +110,21 @@
 </template>
 
 <script>
+import showErrMsg from '@/utils/showErrMsg';
+
 export default {
   data() {
     return {
-      apiBase: `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`,
       userData: {
         user: {},
       },
-      cartData: {},
       deliveryFee: 30,
     };
   },
   computed: {
+    cartData() {
+      return this.$store.state.cartList;
+    },
     finalTotal() {
       let total = Math.ceil(this.cartData.final_total);
       total += this.deliveryFee;
@@ -135,53 +138,46 @@ export default {
     },
   },
   methods: {
-    check() {
-      const userData = localStorage.getItem('orderData');
-      const cartData = JSON.parse(localStorage.getItem('carts'));
-      if (!cartData?.carts?.length) {
-        this.$swal({
-          icon: 'error',
-          text: '購物車沒有商品！',
-        });
-        this.$router.replace({
-          name: 'UserCart',
-        });
-      } else if (!userData) {
-        this.$swal({
-          icon: 'error',
-          text: '尚未填寫購買資訊！',
-        });
+    checkInfo() {
+      const userData = sessionStorage.getItem('orderData');
+      if (!userData) {
+        showErrMsg('尚未填寫購買資訊！');
         this.$router.replace({
           name: 'UserOrderInfo',
         });
       } else {
         this.userData = JSON.parse(userData);
-        this.cartData = cartData;
       }
     },
     sendOrder() {
-      const data = this.userData;
-      this.$emit('loadingStatus', true);
-      this.$http.post(`${this.apiBase}/order`, { data })
-        .then((res) => {
-          const { orderId } = res.data;
-          this.$router.replace(`/order/finished/${orderId}`);
-          this.$emit('loadingStatus', false);
-        }).catch(() => {
-          this.$emit('loadingStatus', false);
-          localStorage.removeItem('orderData');
-          localStorage.removeItem('cartData');
-          this.$router.replace({
-            name: 'UserOrderErr',
+      if (this.cartData?.carts?.length) {
+        const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`;
+        const data = this.userData;
+        this.$store.commit('toggleLoading', true);
+        this.$http.post(`${api}/order`, { data })
+          .then((res) => {
+            const { orderId } = res.data;
+            this.$router.replace(`/order/finished/${orderId}`);
+            this.$store.commit('toggleLoading', false);
+          }).catch(() => {
+            this.$router.replace({
+              name: 'UserOrderErr',
+            });
+            this.$store.commit('toggleLoading', false);
           });
+      } else {
+        showErrMsg('購物車沒有商品！');
+        this.$router.replace({
+          name: 'UserCart',
         });
+      }
     },
     goPrePage() {
       this.$router.go(-1);
     },
   },
-  created() {
-    this.check();
+  mounted() {
+    this.checkInfo();
   },
 };
 </script>
