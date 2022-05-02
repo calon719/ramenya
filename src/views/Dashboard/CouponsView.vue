@@ -91,7 +91,6 @@
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import CouponModal from '@/components/CouponModal.vue';
 import DelModal from '@/components/DelModal.vue';
-import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
   data() {
@@ -110,29 +109,24 @@ export default {
       },
     };
   },
-  provide: {
-    pushToastMessage,
-  },
+  inject: [
+    'showErrMsg',
+    'pushToastMessage',
+  ],
   methods: {
     getCoupons(page = this.paginationData?.current_page || 1) {
       const api = `${this.apiBase}/admin/coupons?page=${page}`;
 
-      this.$emit('loadingStatus', true);
+      this.$store.commit('toggleLoading', true);
       this.$http.get(api)
         .then((res) => {
           this.couponsData = res.data.coupons;
           this.paginationData = res.data.pagination;
-          this.$emit('loadingStatus', false);
+          this.$store.commit('toggleLoading', false);
           this.checkExpiredCoupone();
         }).catch((err) => {
-          this.$swal({
-            icon: 'warning',
-            text: err.response.data.message,
-          });
-          this.$router.replace({
-            name: 'Login',
-          });
-          this.$emit('loadingStatus', false);
+          this.showErrMsg(err.response.data.message);
+          this.$store.commit('toggleLoading', false);
         });
     },
     showModal(status, coupon) {
@@ -160,19 +154,16 @@ export default {
     },
     changeEnable(coupon) {
       const api = `${this.apiBase}/admin/coupon/${coupon.id}`;
-      this.$emit('loadingStatus', true);
+      this.$store.commit('toggleLoading', true);
       this.$http.put(api, { data: coupon })
         .then((res) => {
-          pushToastMessage('admin', res.data.success, '更新優惠券');
+          this.pushToastMessage('admin', res.data.success, '更新優惠券');
           this.getCoupons();
-          this.$emit('loadingStatus', false);
+          this.$store.commit('toggleLoading', false);
         }).catch((err) => {
-          this.$swal({
-            icon: 'error',
-            text: err.data.response.message,
-          });
-          pushToastMessage('admin', err.response.data.success, '更新優惠券');
-          this.$emit('loadingStatus', false);
+          this.showErrMsg(err.data.response.message);
+          this.pushToastMessage('admin', err.response.data.success, '更新優惠券');
+          this.$store.commit('toggleLoading', false);
         });
     },
     checkExpiredCoupone() {

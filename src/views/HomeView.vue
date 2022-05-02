@@ -131,8 +131,6 @@
 </template>
 
 <script>
-import pushToastMessage from '@/utils/pushToastMessage';
-
 export default {
   data() {
     return {
@@ -145,7 +143,10 @@ export default {
       return this.$store.state.productsList.filter((product) => product.tag === 2);
     },
   },
-  inject: ['checkBtnLoading'],
+  inject: [
+    'checkBtnLoading',
+    'pushToastMessage',
+  ],
   methods: {
     goProduct(id) {
       this.$router.push(`/product/${id}`);
@@ -171,15 +172,15 @@ export default {
         this.isBtnLoading = true;
         this.$http.post(api, null, { params })
           .then((res) => {
-            pushToastMessage('user', res.data.success, '訂閱');
+            this.pushToastMessage('user', res.data.success, '訂閱');
             this.email = '';
             this.isBtnLoading = false;
           }).catch(() => {
-            pushToastMessage('user', false, '訂閱');
+            this.pushToastMessage('user', false, '訂閱');
             this.isBtnLoading = false;
           });
       } else {
-        pushToastMessage('user', false, '格式不正確，訂閱');
+        this.pushToastMessage('user', false, '格式不正確，訂閱');
       }
     },
   },

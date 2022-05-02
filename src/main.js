@@ -21,7 +21,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import './assets/stylesheet/all.scss';
 import CartDropdown from './components/CartDropdown.vue';
-import LoadingComponent from './components/LoadingComponent.vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -52,7 +51,6 @@ const app = createApp(App);
 app.component('Form', Form);
 app.component('Field', Field);
 app.component('ErrorMessage', ErrorMessage);
-app.component('LoadingComponent', LoadingComponent);
 app.component('CartDropdown', CartDropdown);
 
 app.use(router);

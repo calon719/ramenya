@@ -144,7 +144,6 @@
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import DelModal from '@/components/DelModal.vue';
 import OrderModal from '@/components/OrderModal.vue';
-import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
   data() {
@@ -169,21 +168,22 @@ export default {
       isBtnLoading: false,
     };
   },
+  inject: [
+    'showErrMsg',
+    'pushToastMessage',
+  ],
   methods: {
     getOrders(page = this.paginationData?.current_page || 1) {
       const api = `${this.apiBase}/admin/orders?page=${page}`;
-      this.$emit('loadingStatus', true);
+      this.$store.commit('toggleLoading', true);
       this.$http.get(api)
         .then((res) => {
           this.ordersData = res.data.orders;
           this.paginationData = res.data.pagination;
-          this.$emit('loadingStatus', false);
+          this.$store.commit('toggleLoading', false);
         }).catch((err) => {
-          this.$emit('loadingStatus', false);
-          this.$swal({
-            icon: 'error',
-            text: err.data.response.message,
-          });
+          this.$store.commit('toggleLoading', false);
+          this.showErrMsg(err.data.response.message);
         });
     },
     showModal(status, order) {
@@ -196,17 +196,17 @@ export default {
       }
     },
     updateOrder(order) {
-      this.$emit('loadingStatus', true);
+      this.$store.commit('toggleLoading', true);
       const api = `${this.apiBase}/admin/order/${order.id}`;
       this.$http.put(api, { data: order })
         .then((res) => {
-          this.$emit('loadingStatus', false);
-          pushToastMessage('admin', res.data.success, '訂單更新');
+          this.$store.commit('toggleLoading', false);
+          this.pushToastMessage('admin', res.data.success, '訂單更新');
           this.getOrders();
           this.$refs.orderModalOuter.hideModal();
         }).catch((err) => {
-          this.$emit('loadingStatus', false);
-          pushToastMessage('admin', err.response.data.success, '訂單更新');
+          this.$store.commit('toggleLoading', false);
+          this.pushToastMessage('admin', err.response.data.success, '訂單更新');
         });
     },
   },

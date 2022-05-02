@@ -75,12 +75,13 @@
         </p>
       </div>
     </footer>
-
-    <LoadingComponent :isLoading="isLoading" />
   </div>
+  <LoadingComponent :isLoading="isLoading" />
 </template>
 
 <script>
+import LoadingComponent from '@/components/LoadingComponent.vue';
+
 export default {
   data() {
     return {
@@ -88,10 +89,14 @@ export default {
         username: '',
         password: '',
       },
-      isLoading: false,
       isBtnLoading: false,
       isErr: false,
     };
+  },
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading || this.$store.getters.checkFetch;
+    },
   },
   methods: {
     login() {
@@ -117,15 +122,14 @@ export default {
     checkLogin(token) {
       if (token) {
         this.$http.defaults.headers.common.Authorization = token;
-        this.isLoading = true;
+        this.$store.commit('toggleLoading', true);
         this.$http.post(`${process.env.VUE_APP_API}/api/user/check`)
           .then(() => {
             this.$router.push({
               name: 'AdminProducts',
             });
-            this.isLoading = false;
           }).catch(() => {
-            this.isLoading = false;
+            this.$store.commit('toggleLoading', false);
           });
       }
     },
@@ -133,6 +137,9 @@ export default {
   mounted() {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)rakuwaya\s*=\s*([^;]*).*$)|^.*$/, '$1');
     this.checkLogin(token);
+  },
+  components: {
+    LoadingComponent,
   },
 };
 </script>

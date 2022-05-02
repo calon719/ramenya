@@ -110,8 +110,6 @@
 </template>
 
 <script>
-import showErrMsg from '@/utils/showErrMsg';
-
 export default {
   data() {
     return {
@@ -121,6 +119,7 @@ export default {
       deliveryFee: 30,
     };
   },
+  inject: ['showErrMsg'],
   computed: {
     cartData() {
       return this.$store.state.cartList;
@@ -141,7 +140,7 @@ export default {
     checkInfo() {
       const userData = sessionStorage.getItem('orderData');
       if (!userData) {
-        showErrMsg('尚未填寫購買資訊！');
+        this.showErrMsg('尚未填寫購買資訊！');
         this.$router.replace({
           name: 'UserOrderInfo',
         });
@@ -166,7 +165,7 @@ export default {
             this.$store.commit('toggleLoading', false);
           });
       } else {
-        showErrMsg('購物車沒有商品！');
+        this.showErrMsg('購物車沒有商品！');
         this.$router.replace({
           name: 'UserCart',
         });

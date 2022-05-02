@@ -96,7 +96,6 @@
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import ProductModal from '@/components/EditProductModal.vue';
 import DelModal from '@/components/DelModal.vue';
-import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
   data() {
@@ -128,24 +127,22 @@ export default {
       },
     };
   },
-  provide: {
-    pushToastMessage,
-  },
+  inject: [
+    'pushToastMessage',
+    'showErrMsg',
+  ],
   methods: {
     getProducts(page = this.paginationData?.current_page ?? 1) {
       const api = `${this.apiBase}/admin/products?page=${page}`;
-      this.$emit('loadingStatus', true);
+      this.$store.commit('toggleLoading', true);
       this.$http.get(api)
         .then((res) => {
           this.productsData = res.data.products;
           this.paginationData = res.data.pagination;
-          this.$emit('loadingStatus', false);
+          this.$store.commit('toggleLoading', false);
         }).catch((err) => {
-          this.$swal({
-            icon: 'error',
-            text: err.data.response.message,
-          });
-          this.$emit('loadingStatus', false);
+          this.showErrMsg(err.data.response.message);
+          this.$store.commit('toggleLoading', false);
         });
     },
     showModal(status, product) {
@@ -175,15 +172,15 @@ export default {
     },
     changeEnable(product) {
       const api = `${this.apiBase}/admin/product/${product.id}`;
-      this.$emit('loadingStatus', true);
+      this.$store.commit('toggleLoading', true);
       this.$http.put(api, { data: product })
         .then((res) => {
           this.getProducts();
-          pushToastMessage('admin', res.data.success, '產品更新');
-          this.$emit('loadingStatus', false);
+          this.pushToastMessage('admin', res.data.success, '產品更新');
+          this.$store.commit('toggleLoading', false);
         }).catch((err) => {
-          pushToastMessage('admin', err.response.data.success, '產品更新');
-          this.$emit('loadingStatus', false);
+          this.pushToastMessage('admin', err.response.data.success, '產品更新');
+          this.$store.commit('toggleLoading', false);
         });
     },
   },

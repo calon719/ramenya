@@ -107,7 +107,6 @@
 </template>
 
 <script>
-import pushToastMessage from '@/utils/pushToastMessage';
 import MapComponent from '@/components/MapComponent.vue';
 
 export default {
@@ -121,6 +120,7 @@ export default {
       },
     };
   },
+  inject: ['pushToastMessage'],
   methods: {
     sendMessage() {
       const api = `https://script.google.com/macros/s/${process.env.VUE_APP_GOOGLE_SHEET_CONTACT}/exec`;
@@ -129,11 +129,11 @@ export default {
       this.isBtnLoading = true;
       this.$http.post(api, null, { params })
         .then((res) => {
-          pushToastMessage('user', res.data, '送出留言');
+          this.pushToastMessage('user', res.data, '送出留言');
           this.isBtnLoading = false;
           this.$refs.form.resetForm();
         }).catch(() => {
-          pushToastMessage('user', false, '送出留言');
+          this.pushToastMessage('user', false, '送出留言');
           this.isBtnLoading = false;
         });
     },

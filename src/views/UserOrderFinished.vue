@@ -96,8 +96,6 @@
 </template>
 
 <script>
-import showErrMsg from '@/utils/showErrMsg';
-
 export default {
   data() {
     return {
@@ -106,6 +104,7 @@ export default {
       },
     };
   },
+  inject: ['showErrMsg'],
   methods: {
     getOrder() {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}`;
@@ -118,13 +117,13 @@ export default {
           if (order) {
             this.orderData = order;
           } else {
-            showErrMsg('訂單編號好像出錯囉！');
+            this.showErrMsg('訂單編號好像出錯囉！');
             this.$router.replace('/');
           }
         }).catch((err) => {
           this.$store.commit('toggleLoading', false);
           const msg = err.response.data.message;
-          showErrMsg(msg);
+          this.showErrMsg(msg);
         });
     },
   },

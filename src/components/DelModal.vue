@@ -37,7 +37,6 @@
 
 <script>
 import modalMixin from '@/mixins/modalMixin';
-import pushToastMessage from '@/utils/pushToastMessage';
 
 export default {
   data() {
@@ -48,6 +47,7 @@ export default {
       isLoading: false,
     };
   },
+  inject: ['pushToastMessage'],
   props: ['item', 'view'],
   watch: {
     item: {
@@ -80,11 +80,11 @@ export default {
       this.isLoading = true;
       this.$http.delete(api)
         .then((res) => {
-          pushToastMessage('admin', res.data.success, msg);
+          this.pushToastMessage('admin', res.data.success, msg);
           this.hideModal();
           this.$emit('update');
         }).catch((err) => {
-          pushToastMessage('admin', err.response.data.success, msg);
+          this.pushToastMessage('admin', err.response.data.success, msg);
         }).then(() => {
           this.isLoading = false;
         });

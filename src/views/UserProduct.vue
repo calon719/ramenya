@@ -240,7 +240,7 @@ export default {
         }
       }
       this.recommendProducts = productsList
-        .filter((product, i) => randomNumArr.find((num) => num === i) >= 0);
+        .filter((product, i) => randomNumArr.some((num) => num === i));
     },
     checkCart() {
       const check = this.cart.some((product) => product.product_id === this.productId);

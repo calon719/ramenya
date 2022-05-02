@@ -3,28 +3,24 @@
     <RouterView />
     <ToastMessage />
   </div>
-  <LoadingComponent :isLoading="isLoading" />
 </template>
 
 <script>
 import ToastMessage from '@/components/ToastMessage.vue';
-import LoadingComponent from '@/components/LoadingComponent.vue';
 import emitter from '@/utils/emitter';
 import checkBtnLoading from '@/utils/checkBtnLoading';
+import pushToastMessage from '@/utils/pushToastMessage';
+import showErrMsg from '@/utils/showErrMsg';
 
 export default {
-  computed: {
-    isLoading() {
-      return this.$store.state.isLoading || this.$store.getters.checkFetch;
-    },
-  },
   provide: {
     emitter,
     checkBtnLoading,
+    showErrMsg,
+    pushToastMessage,
   },
   components: {
     ToastMessage,
-    LoadingComponent,
   },
 };
 </script>

@@ -38,24 +38,31 @@
     </nav>
 
     <div class="container py-5">
-      <RouterView @loadingStatus="changeLoadingStatus" v-if="isLogin" />
+      <RouterView v-if="isLogin" />
     </div>
-
-    <LoadingComponent :isLoading="isLoading" />
   </div>
+    <LoadingComponent :isLoading="isLoading" />
 </template>
 
 <script>
 import { Collapse } from 'bootstrap';
-import pushToastMessage from '@/utils/pushToastMessage';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 
 export default {
   data() {
     return {
       navbar: {},
       isLogin: false,
-      isLoading: false,
     };
+  },
+  inject: [
+    'pushToastMessage',
+    'showErrMsg',
+  ],
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading;
+    },
   },
   watch: {
     $route() {
@@ -65,23 +72,20 @@ export default {
   methods: {
     checkLogin(token) {
       if (token) {
-        this.isLoading = true;
+        this.$store.commit('toggleLoading', true);
         this.$http.post(`${process.env.VUE_APP_API}/api/user/check`)
           .then((res) => {
             const { success } = res.data;
             this.isLogin = success;
-            pushToastMessage('admin', success, '登入');
-            this.isLoading = false;
+            this.pushToastMessage('admin', success, '登入');
+            this.$store.commit('toggleLoading', false);
           }).catch((err) => {
             this.isLogin = err.response.data.success;
-            this.$swal({
-              icon: 'error',
-              text: err.response.data.message,
-            });
+            this.showErrMsg(err.response.data.message);
             this.$router.replace({
               name: 'Login',
             });
-            this.isLoading = false;
+            this.$store.commit('toggleLoading', false);
           });
       } else {
         this.$swal({
@@ -96,13 +100,10 @@ export default {
     },
     logout() {
       document.cookie = `rakuwaya=;expires=${(new Date(0)).toGMTString()}`;
-      pushToastMessage('admin', true, '登出');
+      this.pushToastMessage('admin', true, '登出');
       this.$router.push({
         name: 'Login',
       });
-    },
-    changeLoadingStatus(status) {
-      this.isLoading = status;
     },
   },
   mounted() {
@@ -114,6 +115,9 @@ export default {
 
     this.$http.defaults.headers.common.Authorization = token;
     this.checkLogin(token);
+  },
+  components: {
+    LoadingComponent,
   },
 };
 </script>

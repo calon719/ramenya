@@ -54,19 +54,24 @@
       </div>
     </footer>
   </div>
+    <LoadingComponent :isLoading="isLoading" />
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 import { Collapse } from 'bootstrap';
+import LoadingComponent from '@/components/LoadingComponent.vue';
 
 export default {
   data() {
     return {
       navbar: {},
-      needLoading: false,
-      isLoading: false,
     };
+  },
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading || this.$store.getters.checkFetch;
+    },
   },
   watch: {
     $route() {
@@ -90,6 +95,9 @@ export default {
     this.navbar = new Collapse(this.$refs.navbar, {
       toggle: false,
     });
+  },
+  components: {
+    LoadingComponent,
   },
 };
 </script>

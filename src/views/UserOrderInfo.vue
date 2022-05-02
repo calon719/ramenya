@@ -95,8 +95,6 @@
 </template>
 
 <script>
-import showErrMsg from '@/utils/showErrMsg';
-
 export default {
   data() {
     return {
@@ -106,6 +104,7 @@ export default {
       },
     };
   },
+  inject: ['showErrMsg'],
   computed: {
     cartData() {
       return this.$store.state.cartList.carts;
@@ -114,7 +113,7 @@ export default {
   methods: {
     goOrderConfirm() {
       if (!this.cartData?.length) {
-        showErrMsg('購物車沒有商品！');
+        this.showErrMsg('購物車沒有商品！');
         this.$router.replace({
           name: 'UserCart',
         });
