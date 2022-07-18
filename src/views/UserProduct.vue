@@ -221,26 +221,18 @@ export default {
       this.getRecommendProducts();
     },
     getRecommendProducts() {
+      this.recommendProducts.splice(0);
       const productsList = [...this.products];
       const index = productsList.findIndex((product) => product.id === this.productId);
       productsList.splice(index, 1);
 
-      const len = productsList.length;
-      const times = len >= 4 ? 4 : len;
-      const randomNumArr = [];
-
-      for (let i = 0; i < times; i += 1) {
-        const ranNum = Math.floor(Math.random() * len);
-        // 檢查數字有沒有重複
-        const check = i === 0 || !randomNumArr.some((num) => num === ranNum);
-        if (check) {
-          randomNumArr.push(ranNum);
-        } else {
-          i -= 1;
+      while (this.recommendProducts.length < 4) {
+        const randomNum = Math.floor(Math.random() * productsList.length);
+        const product = productsList[randomNum];
+        if (this.recommendProducts.indexOf(product) === -1) {
+          this.recommendProducts.push(product);
         }
       }
-      this.recommendProducts = productsList
-        .filter((product, i) => randomNumArr.some((num) => num === i));
     },
     checkCart() {
       const check = this.cart.some((product) => product.product_id === this.productId);
